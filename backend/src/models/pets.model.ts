@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import dbClient from "../config/dbClient.config";
 
 interface Pet {
-  id: ObjectId;
+  _id: ObjectId;
   name: string;
   type: string;
   age: number;
@@ -10,17 +10,6 @@ interface Pet {
 }
 
 class PetsModel {
-  async create(pet: Pet) {
-    try {
-      const db = await dbClient.ensureConnection();
-      const newPet = await db.collection("pets").insertOne(pet);
-      return newPet;
-    } catch (err) {
-      console.error("Error creating pet", err);
-      throw new Error("Error creating pet");
-    }
-  }
-
   async getAll() {
     try {
       const db = await dbClient.ensureConnection();
@@ -32,10 +21,10 @@ class PetsModel {
     }
   }
 
-  async findById(id: string) {
+  async findById(id: ObjectId) {
     try {
       const db = await dbClient.ensureConnection();
-      const pet = await db.collection("pets").findOne({ id: id });
+      const pet = await db.collection("pets").findOne({ _id: id });
       return pet;
     } catch (err) {
       console.error("Error finding pet by id", err);
@@ -43,12 +32,23 @@ class PetsModel {
     }
   }
 
-  async update(id: string, pet: Pet) {
+  async create(pet: Pet) {
+    try {
+      const db = await dbClient.ensureConnection();
+      const newPet = await db.collection("pets").insertOne(pet);
+      return newPet;
+    } catch (err) {
+      console.error("Error creating pet", err);
+      throw new Error("Error creating pet");
+    }
+  }
+
+  async update(id: ObjectId, pet: Pet) {
     try {
       const db = await dbClient.ensureConnection();
       const updatedPet = await db
         .collection("pets")
-        .updateOne({ id: id }, { $set: pet });
+        .updateOne({ _id: id }, { $set: pet });
       return updatedPet;
     } catch (err) {
       console.error("Error updating pet", err);
@@ -56,10 +56,10 @@ class PetsModel {
     }
   }
 
-  async delete(id: string) {
+  async delete(id: ObjectId) {
     try {
       const db = await dbClient.ensureConnection();
-      const deletedPet = await db.collection("pets").deleteOne({ id: id });
+      const deletedPet = await db.collection("pets").deleteOne({ _id: id });
       return deletedPet;
     } catch (err) {
       console.error("Error deleting pet", err);
