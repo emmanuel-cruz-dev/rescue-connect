@@ -1,34 +1,31 @@
-import { MongoClient, Db } from "mongodb";
+import mongoose from "mongoose";
 
 class DbClient {
-  client: MongoClient;
-  db: Db | null = null;
-  private connectionPromise: Promise<void>;
+  private connectionPromise: Promise<typeof mongoose>;
 
   constructor() {
-    const queryString =
-      process.env.MONGODB_URI || "mongodb://localhost:27017/pets";
-    this.client = new MongoClient(queryString);
-    this.connectionPromise = this.connectDB();
+    const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/pets";
+
+    this.connectionPromise = mongoose.connect(uri);
   }
 
   async connectDB() {
     try {
-      await this.client.connect();
-      this.db = this.client.db("adoption");
-      console.log("Connected to MongoDB");
-    } catch (err) {
-      console.error("Error connecting to MongoDB", err);
-      throw err;
+      await this.connectionPromise;
+      console.log("✅ MongoDB connected");
+
+      mongoose.connection.on("error", (error) => {
+        console.error("❌ MongoDB connection error", error);
+      });
+    } catch (error) {
+      console.error("❌ MongoDB connection failed", error);
+      process.exit(1);
     }
   }
 
-  async ensureConnection() {
-    await this.connectionPromise;
-    if (!this.db) {
-      throw new Error("Database not initialized");
-    }
-    return this.db;
+  async disconnectDB() {
+    await mongoose.disconnect();
+    console.log("🛑 MongoDB disconnected");
   }
 }
 
