@@ -4,9 +4,9 @@ import petsController from "../controllers/pets.controller";
 const router = express.Router();
 
 router
-  .post("/", petsController.create)
-  .get("/:id", petsController.getById)
   .get("/", petsController.getAll)
+  .get("/:id", petsController.getById)
+  .post("/", petsController.create)
   .put("/:id", petsController.update)
   .delete("/:id", petsController.delete);
 
