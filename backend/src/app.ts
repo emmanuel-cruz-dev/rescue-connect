@@ -1,5 +1,6 @@
 import express from "express";
 import petsRouter from "./routes/pets.routes";
+import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/pets", petsRouter);
+app.use(errorHandler);
 
 export default app;
