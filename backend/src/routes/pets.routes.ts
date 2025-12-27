@@ -1,13 +1,38 @@
-import express from "express";
+import { Router } from "express";
 import petsController from "../controllers/pets.controller";
+import { validate } from "../middlewares/validate.middleware";
+import { authenticate, authorize } from "../middlewares/auth.middleware";
+import {
+  createPetSchema,
+  updatePetSchema,
+  petIdSchema,
+} from "../validators/pet.validator";
 
-const router = express.Router();
+const router = Router();
 
-router
-  .get("/", petsController.getAll)
-  .get("/:id", petsController.getById)
-  .post("/", petsController.create)
-  .put("/:id", petsController.update)
-  .delete("/:id", petsController.delete);
+router.get("/", petsController.getAll);
+router.get("/:id", validate(petIdSchema), petsController.getById);
+
+router.post(
+  "/",
+  authenticate,
+  authorize("admin"),
+  validate(createPetSchema),
+  petsController.create
+);
+router.put(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  validate(updatePetSchema),
+  petsController.update
+);
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  validate(petIdSchema),
+  petsController.delete
+);
 
 export default router;
