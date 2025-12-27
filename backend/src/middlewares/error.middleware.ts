@@ -34,6 +34,48 @@ export const errorHandler = (
     });
   }
 
+  if (err.message === "Email already exists") {
+    return res.status(409).json({
+      status: "error",
+      message: "El email ya está registrado",
+    });
+  }
+
+  if (err.message === "Invalid credentials") {
+    return res.status(401).json({
+      status: "error",
+      message: "Credenciales inválidas",
+    });
+  }
+
+  if (err.message === "Account is deactivated") {
+    return res.status(403).json({
+      status: "error",
+      message: "La cuenta está desactivada",
+    });
+  }
+
+  if (err.message === "User not found") {
+    return res.status(404).json({
+      status: "error",
+      message: "Usuario no encontrado",
+    });
+  }
+
+  if (err.message === "Current password is incorrect") {
+    return res.status(400).json({
+      status: "error",
+      message: "La contraseña actual es incorrecta",
+    });
+  }
+
+  if (err.message === "Token inválido o expirado") {
+    return res.status(401).json({
+      status: "error",
+      message: "Token inválido o expirado",
+    });
+  }
+
   if (err.message === "Pet not found") {
     return res.status(404).json({
       status: "error",
