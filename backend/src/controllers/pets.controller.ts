@@ -1,55 +1,54 @@
-import { Request, Response } from "express";
-import { ObjectId } from "mongodb";
+import { Request, Response, NextFunction } from "express";
 import petsModel from "../models/pets.model";
 
 class PetsController {
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const pets = await petsModel.getAll();
-      res.status(200).json({ status: "ok", pets });
+      res
+        .status(200)
+        .json({ status: "success", data: { pets }, count: pets.length });
     } catch (err) {
-      res.status(500).json({ status: "error" });
+      next(err);
     }
   }
 
-  async getById(req: Request, res: Response) {
+  async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const pet = await petsModel.findById(new ObjectId(id));
-      res.status(200).json({ status: "ok", pet });
+      const pet = await petsModel.findById(id);
+      res.status(200).json({ status: "success", data: { pet } });
     } catch (err) {
-      res.status(500).json({ status: "error" });
+      next(err);
     }
   }
 
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const pet = req.body;
-      const newPet = await petsModel.create(pet);
-      res.status(201).json({ status: "ok", newPet });
+      const newPet = await petsModel.create(req.body);
+      res.status(201).json({ status: "success", data: { newPet } });
     } catch (err) {
-      res.status(500).json({ status: "error" });
+      next(err);
     }
   }
 
-  async update(req: Request, res: Response) {
-    try {
-      const { id } = req.params;
-      const pet = req.body;
-      const updatedPet = await petsModel.update(new ObjectId(id), pet);
-      res.status(200).json({ status: "ok", updatedPet });
-    } catch (err) {
-      res.status(500).json({ status: "error" });
-    }
-  }
-
-  async delete(req: Request, res: Response) {
+  async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const deletedPet = await petsModel.delete(new ObjectId(id));
-      res.status(200).json({ status: "ok", deletedPet });
+      const updatedPet = await petsModel.update(id, req.body);
+      res.status(200).json({ status: "success", data: { updatedPet } });
     } catch (err) {
-      res.status(500).json({ status: "error" });
+      next(err);
+    }
+  }
+
+  async delete(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      await petsModel.delete(id);
+      res.status(200).json({ status: "success" });
+    } catch (err) {
+      next(err);
     }
   }
 }
