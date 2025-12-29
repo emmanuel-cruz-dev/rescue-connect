@@ -83,6 +83,13 @@ export const errorHandler = (
     });
   }
 
+  if (err.message === "Pet already adopted") {
+    return res.status(400).json({
+      status: "error",
+      message: "La mascota ya ha sido adoptada",
+    });
+  }
+
   res.status(500).json({
     status: "error",
     message: "Error interno del servidor",
