@@ -9,6 +9,7 @@ export interface IPet {
   breed: string;
   description?: string;
   adopted: boolean;
+  adoptedBy?: Types.ObjectId;
 }
 
 export interface IPetDocument extends IPet, Document {
