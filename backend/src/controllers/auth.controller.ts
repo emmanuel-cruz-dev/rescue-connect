@@ -207,6 +207,27 @@ class AuthController {
       next(error);
     }
   }
+
+  async getMyPets(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({
+          status: "error",
+          message: "No autenticado",
+        });
+      }
+
+      const pets = await authModel.getMyPets(req.user.userId);
+
+      res.status(200).json({
+        status: "success",
+        data: { pets },
+        count: pets.length,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export default new AuthController();
