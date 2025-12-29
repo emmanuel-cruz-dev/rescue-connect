@@ -22,5 +22,6 @@ router.post(
   authController.changePassword
 );
 router.post("/logout", authenticate, authController.logout);
+router.get("/my-pets", authenticate, authController.getMyPets);
 
 export default router;
