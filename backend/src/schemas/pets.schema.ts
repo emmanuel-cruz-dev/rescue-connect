@@ -39,6 +39,11 @@ const petSchema = new mongoose.Schema<IPetDocument>(
       type: Boolean,
       default: false,
     },
+    adoptedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
   },
   {
     timestamps: true,
