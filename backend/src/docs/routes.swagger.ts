@@ -3,6 +3,7 @@ import {
   LoginBodySchema,
   RegisterBodySchema,
   ChangePasswordBodySchema,
+  UserIdSchema,
 } from "../validators/auth.validator";
 import { PetBodySchema, PetIdSchema } from "../validators/pet.validator";
 
@@ -126,6 +127,20 @@ registry.registerPath({
   },
 });
 
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/auth/my-pets",
+  tags: ["Auth"],
+  summary: "Obtener mis mascotas",
+  description: "Obtiene las mascotas adoptadas por el usuario autenticado",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: { description: "Mascotas obtenidas exitosamente" },
+    401: { description: "No autenticado" },
+    404: { description: "Usuario no encontrado" },
+  },
+});
+
 /* ========= PETS ========= */
 
 registry.registerPath({
@@ -220,6 +235,25 @@ registry.registerPath({
     400: { description: "ID inválido" },
     401: { description: "No autenticado" },
     403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Mascota no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/api/v1/pets/{id}/adopt",
+  tags: ["Pets"],
+  summary: "Adoptar mascota",
+  description:
+    "Permite a un usuario autenticado adoptar una mascota disponible",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: PetIdSchema,
+  },
+  responses: {
+    200: { description: "Mascota adoptada exitosamente" },
+    400: { description: "ID inválido o mascota ya adoptada" },
+    401: { description: "No autenticado" },
     404: { description: "Mascota no encontrada" },
   },
 });
