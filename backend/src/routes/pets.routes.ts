@@ -34,5 +34,11 @@ router.delete(
   validate(petIdSchema),
   petsController.delete
 );
+router.post(
+  "/:id/adopt",
+  authenticate,
+  validate(petIdSchema),
+  petsController.adopt
+);
 
 export default router;
