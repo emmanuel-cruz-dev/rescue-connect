@@ -1,4 +1,5 @@
 import userModel from "../schemas/auth.schema";
+import petModel from "../schemas/pets.schema";
 import { IUser, IUserDocument } from "../types/user.types";
 
 class AuthModel {
@@ -97,6 +98,11 @@ class AuthModel {
     }
 
     return user;
+  }
+
+  async getMyPets(userId: string) {
+    const pets = await petModel.find({ adoptedBy: userId });
+    return pets;
   }
 }
 
