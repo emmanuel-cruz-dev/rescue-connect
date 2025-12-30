@@ -2,12 +2,18 @@ import { Document, Types } from "mongoose";
 
 type PetType = "perro" | "gato" | "conejo" | "ave";
 
+export interface IPetImage {
+  url: string;
+  publicId: string;
+}
+
 export interface IPet {
   name: string;
   type: PetType;
   age: number;
   breed: string;
   description?: string;
+  images?: IPetImage[];
   adopted: boolean;
   adoptedBy?: Types.ObjectId;
 }
