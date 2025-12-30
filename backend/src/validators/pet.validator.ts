@@ -18,6 +18,11 @@ export const PetIdSchema = z.object({
   id: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID inválido"),
 });
 
+export const DeleteImageParamsSchema = z.object({
+  id: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID de mascota inválido"),
+  publicId: z.string().min(1, "Public ID es requerido"),
+});
+
 registry.register("PetBody", PetBodySchema);
 registry.register("PetId", PetIdSchema);
 
@@ -32,4 +37,8 @@ export const updatePetSchema = z.object({
 
 export const petIdSchema = z.object({
   params: PetIdSchema,
+});
+
+export const deleteImageSchema = z.object({
+  params: DeleteImageParamsSchema,
 });
