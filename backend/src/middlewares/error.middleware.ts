@@ -1,8 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { Error as MongooseError } from "mongoose";
 
+interface IError extends Error {
+  code?: string | number;
+}
+
 export const errorHandler = (
-  err: Error,
+  err: IError,
   req: Request,
   res: Response,
   next: NextFunction
@@ -87,6 +91,41 @@ export const errorHandler = (
     return res.status(400).json({
       status: "error",
       message: "La mascota ya ha sido adoptada",
+    });
+  }
+
+  if (err.message === "Formato de imagen no válido. Use JPG, PNG o WEBP") {
+    return res.status(400).json({
+      status: "error",
+      message: "Formato de imagen no válido. Use JPG, PNG o WEBP",
+    });
+  }
+
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(400).json({
+      status: "error",
+      message: "La imagen es demasiado grande. Máximo 5MB",
+    });
+  }
+
+  if (err.message === "No images provided") {
+    return res.status(400).json({
+      status: "error",
+      message: "No se han proporcionado imágenes",
+    });
+  }
+
+  if (err.message === "Pet has no images") {
+    return res.status(400).json({
+      status: "error",
+      message: "La mascota no tiene imágenes",
+    });
+  }
+
+  if (err.message === "Image not found") {
+    return res.status(404).json({
+      status: "error",
+      message: "Imagen no encontrada",
     });
   }
 
