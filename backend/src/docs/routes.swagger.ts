@@ -3,9 +3,12 @@ import {
   LoginBodySchema,
   RegisterBodySchema,
   ChangePasswordBodySchema,
-  UserIdSchema,
 } from "../validators/auth.validator";
-import { PetBodySchema, PetIdSchema } from "../validators/pet.validator";
+import {
+  PetBodySchema,
+  PetIdSchema,
+  DeleteImageParamsSchema,
+} from "../validators/pet.validator";
 
 /* ========= AUTH ========= */
 
@@ -236,6 +239,67 @@ registry.registerPath({
     401: { description: "No autenticado" },
     403: { description: "No autorizado (requiere rol admin)" },
     404: { description: "Mascota no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/api/v1/pets/{id}/images",
+  tags: ["Pets"],
+  summary: "Subir imágenes de mascota",
+  description:
+    "Permite a un admin subir hasta 5 imágenes de una mascota (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: PetIdSchema,
+    body: {
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            properties: {
+              images: {
+                type: "array",
+                items: {
+                  type: "string",
+                  format: "binary",
+                },
+                description:
+                  "Imágenes de la mascota (JPG, PNG o WEBP, máximo 5MB cada una, hasta 5 imágenes)",
+              },
+            },
+            required: ["images"],
+          },
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "Imágenes subidas exitosamente" },
+    400: { description: "Imágenes no válidas o mascota no encontrada" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Mascota no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "delete",
+  path: "/api/v1/pets/{id}/images/{publicId}",
+  tags: ["Pets"],
+  summary: "Eliminar imagen de mascota",
+  description:
+    "Permite a un admin eliminar una imagen específica de una mascota (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: DeleteImageParamsSchema,
+  },
+  responses: {
+    200: { description: "Imagen eliminada exitosamente" },
+    400: { description: "Mascota sin imágenes" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Mascota o imagen no encontrada" },
   },
 });
 
