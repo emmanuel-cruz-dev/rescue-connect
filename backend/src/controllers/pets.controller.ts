@@ -52,6 +52,45 @@ class PetsController {
     }
   }
 
+  async uploadImages(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+
+      if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+        return res.status(400).json({
+          status: "error",
+          message: "No se han proporcionado imágenes",
+        });
+      }
+
+      const pet = await petsModel.uploadPetImages(id, req.files);
+
+      res.status(200).json({
+        status: "success",
+        message: `${req.files.length} imagen(es) subida(s) exitosamente`,
+        data: { pet },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteImage(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id, publicId } = req.params;
+
+      const pet = await petsModel.deletePetImage(id, publicId);
+
+      res.status(200).json({
+        status: "success",
+        message: "Imagen eliminada exitosamente",
+        data: { pet },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async adopt(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
