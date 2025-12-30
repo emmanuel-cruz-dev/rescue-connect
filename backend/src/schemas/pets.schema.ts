@@ -35,6 +35,18 @@ const petSchema = new mongoose.Schema<IPetDocument>(
       trim: true,
       maxlength: [200, "La descripción no puede superar 200 caracteres"],
     },
+    images: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+        publicId: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     adopted: {
       type: Boolean,
       default: false,
@@ -49,5 +61,8 @@ const petSchema = new mongoose.Schema<IPetDocument>(
     timestamps: true,
   }
 );
+
+petSchema.index({ adoptedBy: 1 });
+petSchema.index({ adopted: 1 });
 
 export default mongoose.model<IPetDocument>("Pet", petSchema);
