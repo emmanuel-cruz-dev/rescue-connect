@@ -6,7 +6,6 @@ import { SharedModule } from './shared/shared.module';
   selector: 'app-root',
   imports: [RouterOutlet, SharedModule],
   templateUrl: './app.html',
-  styleUrl: './app.css',
 })
 export class App {
   protected readonly title = signal('rescue-connect');
