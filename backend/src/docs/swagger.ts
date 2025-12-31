@@ -30,11 +30,9 @@ export const generateOpenApiDocument = () => {
     servers: [
       {
         url: "https://rescue-connect-kkfo.onrender.com",
-        description: "Production server",
       },
       {
         url: "http://localhost:3000",
-        description: "Localhost server",
       },
     ],
   });
