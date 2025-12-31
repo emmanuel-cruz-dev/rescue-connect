@@ -1,20 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { BadgeModule } from 'primeng/badge';
-import { AvatarModule } from 'primeng/avatar';
-import { InputTextModule } from 'primeng/inputtext';
-import { CommonModule } from '@angular/common';
-import { Ripple } from 'primeng/ripple';
-import { MenubarModule } from 'primeng/menubar';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.html',
-  standalone: true,
-  imports: [MenubarModule, BadgeModule, AvatarModule, InputTextModule, Ripple, CommonModule],
+  standalone: false,
 })
 export class Navbar implements OnInit {
   items: MenuItem[] | undefined;
+
+  constructor(public themeService: ThemeService) {}
 
   ngOnInit() {
     this.items = [
@@ -48,5 +44,9 @@ export class Navbar implements OnInit {
         ],
       },
     ];
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 }
