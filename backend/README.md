@@ -120,12 +120,16 @@ El proyecto sigue una **arquitectura en capas** (Layered Architecture) con separ
 - Eliminación individual de imágenes
 - Almacenamiento en Cloudinary
 
-### 👥 Sistema de Adopción
+### 👥 Sistema de Solicitudes de Adopción
 
-- Usuarios autenticados pueden adoptar mascotas
-- Validación de disponibilidad
-- Registro de adoptante
-- Consulta de mascotas adoptadas por usuario
+- Usuarios autenticados pueden crear solicitudes de adopción
+- Sistema de estados: pendiente, aprobada, rechazada, cancelada
+- Usuarios pueden cancelar sus propias solicitudes pendientes
+- Administradores pueden aprobar o rechazar solicitudes
+- Aprobación automática marca la mascota como adoptada
+- Rechazo automático de otras solicitudes pendientes al aprobar una
+- Consulta de solicitudes por usuario o por mascota
+- Notas administrativas en revisiones
 
 ## 📦 Instalación
 
@@ -235,6 +239,7 @@ backend/
 │   │   └── env.ts                # Variables de entorno
 │   │
 │   ├── controllers/              # Controladores
+│   │   ├── adoption.controller.ts # Controlador de adopciones
 │   │   ├── auth.controller.ts    # Controlador de autenticación
 │   │   └── pets.controller.ts    # Controlador de mascotas
 │   │
@@ -249,14 +254,18 @@ backend/
 │   │   └── validate.middleware.ts # Validación con Zod
 │   │
 │   ├── models/                   # Modelos (lógica de negocio)
+│   │   ├── adoption.model.ts     # Modelo de adopciones
 │   │   ├── auth.model.ts         # Modelo de autenticación
 │   │   └── pets.model.ts         # Modelo de mascotas
 │   │
 │   ├── routes/                   # Definición de rutas
+│   │   ├── adoption.routes.ts    # Rutas de adopciones
 │   │   ├── auth.routes.ts        # Rutas de autenticación
+│   │   ├── index.ts              # Router principal
 │   │   └── pets.routes.ts        # Rutas de mascotas
 │   │
 │   ├── schemas/                  # Esquemas de Mongoose
+│   │   ├── adoption.schema.ts    # Esquema de solicitud de adopción
 │   │   ├── auth.schema.ts        # Esquema de usuario
 │   │   └── pets.schema.ts        # Esquema de mascota
 │   │
@@ -264,6 +273,7 @@ backend/
 │   │   └── cloudinary.service.ts # Servicio de Cloudinary
 │   │
 │   ├── types/                    # Definiciones de tipos
+│   │   ├── adoption.types.ts     # Tipos de adopciones
 │   │   ├── pet.types.ts          # Tipos de mascotas
 │   │   └── user.types.ts         # Tipos de usuarios
 │   │
@@ -271,6 +281,7 @@ backend/
 │   │   └── jwt.utils.ts          # Utilidades JWT
 │   │
 │   └── validators/               # Validadores Zod
+│       ├── adoption.validator.ts # Validadores de adopciones
 │       ├── auth.validator.ts     # Validadores de autenticación
 │       └── pet.validator.ts      # Validadores de mascotas
 │
@@ -304,16 +315,35 @@ backend/
 
 ### Mascotas (`/api/v1/pets`)
 
-| Método | Endpoint                | Descripción               | Auth | Rol        |
-| ------ | ----------------------- | ------------------------- | ---- | ---------- |
-| GET    | `/`                     | Listar todas las mascotas | No   | -          |
-| GET    | `/:id`                  | Obtener mascota por ID    | No   | -          |
-| POST   | `/`                     | Crear nueva mascota       | Sí   | admin      |
-| PUT    | `/:id`                  | Actualizar mascota        | Sí   | admin      |
-| DELETE | `/:id`                  | Eliminar mascota          | Sí   | admin      |
-| POST   | `/:id/images`           | Subir imágenes            | Sí   | admin      |
-| DELETE | `/:id/images/:publicId` | Eliminar imagen           | Sí   | admin      |
-| POST   | `/:id/adopt`            | Adoptar mascota           | Sí   | user/admin |
+| Método | Endpoint                | Descripción               | Auth | Rol   |
+| ------ | ----------------------- | ------------------------- | ---- | ----- |
+| GET    | `/`                     | Listar todas las mascotas | No   | -     |
+| GET    | `/:id`                  | Obtener mascota por ID    | No   | -     |
+| POST   | `/`                     | Crear nueva mascota       | Sí   | admin |
+| PUT    | `/:id`                  | Actualizar mascota        | Sí   | admin |
+| DELETE | `/:id`                  | Eliminar mascota          | Sí   | admin |
+| POST   | `/:id/images`           | Subir imágenes            | Sí   | admin |
+| DELETE | `/:id/images/:publicId` | Eliminar imagen           | Sí   | admin |
+
+### Solicitudes de Adopción (`/api/v1/adoptions`)
+
+#### Rutas de Usuario
+
+| Método | Endpoint                        | Descripción                       | Auth | Rol        |
+| ------ | ------------------------------- | --------------------------------- | ---- | ---------- |
+| POST   | `/pets/:petId/request`          | Crear solicitud de adopción       | Sí   | user/admin |
+| GET    | `/my-requests`                  | Obtener mis solicitudes           | Sí   | user/admin |
+| PATCH  | `/requests/:requestId/cancel`   | Cancelar solicitud propia         | Sí   | user/admin |
+
+#### Rutas de Administrador
+
+| Método | Endpoint                        | Descripción                       | Auth | Rol   |
+| ------ | ------------------------------- | --------------------------------- | ---- | ----- |
+| GET    | `/requests`                     | Listar todas las solicitudes      | Sí   | admin |
+| GET    | `/requests/:requestId`          | Obtener solicitud por ID          | Sí   | admin |
+| GET    | `/pets/:petId/requests`         | Obtener solicitudes de una mascota| Sí   | admin |
+| PATCH  | `/requests/:requestId/approve`  | Aprobar solicitud                 | Sí   | admin |
+| PATCH  | `/requests/:requestId/reject`   | Rechazar solicitud                | Sí   | admin |
 
 ### Ejemplos de Uso
 
@@ -397,11 +427,57 @@ Content-Type: multipart/form-data
 images: [archivo1.jpg, archivo2.jpg]
 ```
 
-#### Adoptar Mascota
+#### Crear Solicitud de Adopción
 
 ```bash
-POST /api/v1/pets/:id/adopt
+POST /api/v1/adoptions/pets/:petId/request
 Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "message": "Me encantaría adoptar a esta mascota. Tengo experiencia con perros y un jardín amplio."
+}
+```
+
+#### Obtener Mis Solicitudes de Adopción
+
+```bash
+GET /api/v1/adoptions/my-requests
+Authorization: Bearer <token>
+
+# Filtrar por estado
+GET /api/v1/adoptions/my-requests?status=pending
+```
+
+#### Cancelar Solicitud (Usuario)
+
+```bash
+PATCH /api/v1/adoptions/requests/:requestId/cancel
+Authorization: Bearer <token>
+```
+
+#### Aprobar Solicitud (Admin)
+
+```bash
+PATCH /api/v1/adoptions/requests/:requestId/approve
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "adminNotes": "Solicitante verificado. Excelentes referencias."
+}
+```
+
+#### Rechazar Solicitud (Admin)
+
+```bash
+PATCH /api/v1/adoptions/requests/:requestId/reject
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "adminNotes": "No cumple con los requisitos de espacio."
+}
 ```
 
 ## 📊 Modelos de Datos
@@ -472,6 +548,43 @@ interface IPetImage {
 
 - `adoptedBy`: Para búsquedas por usuario
 - `adopted`: Para filtrar mascotas disponibles
+
+### Solicitud de Adopción (AdoptionRequest)
+
+```typescript
+interface IAdoptionRequest {
+  petId: ObjectId; // ID de la mascota
+  userId: ObjectId; // ID del usuario solicitante
+  status: "pending" | "approved" | "rejected" | "cancelled"; // Estado de la solicitud
+  message?: string; // Mensaje del solicitante (max 500 caracteres)
+  adminNotes?: string; // Notas del administrador (max 500 caracteres)
+  reviewedBy?: ObjectId; // ID del admin que revisó
+  reviewedAt?: Date; // Fecha de revisión
+  createdAt: Date; // Fecha de creación
+  updatedAt: Date; // Fecha de actualización
+}
+```
+
+**Estados:**
+
+- `pending`: Solicitud creada, esperando revisión
+- `approved`: Solicitud aprobada por admin (mascota adoptada)
+- `rejected`: Solicitud rechazada por admin
+- `cancelled`: Solicitud cancelada por el usuario
+
+**Validaciones:**
+
+- No se pueden crear solicitudes duplicadas pendientes para la misma mascota
+- Solo se pueden cancelar solicitudes en estado `pending`
+- Solo se pueden aprobar/rechazar solicitudes en estado `pending`
+- Al aprobar una solicitud, se rechazan automáticamente las demás pendientes
+
+**Índices:**
+
+- `petId`: Para búsquedas por mascota
+- `userId`: Para búsquedas por usuario
+- `status`: Para filtrar por estado
+- Índice compuesto `[petId, userId, status]`: Para validar duplicados
 
 ## 🔒 Middlewares
 
@@ -748,8 +861,8 @@ Todos los campos de `createPetSchema` son opcionales.
 
 La documentación interactiva está disponible en:
 
-- **Desarrollo:** `http://localhost:3000/api/v1/docs`
-- **Producción:** `https://rescue-connect-kkfo.onrender.com/api/v1/docs`
+- **Desarrollo:** http://localhost:3000/api/v1/docs
+- **Producción:** https://rescue-connect-kkfo.onrender.com/api/v1/docs
 
 ### Características de la Documentación
 
@@ -807,7 +920,7 @@ La documentación interactiva está disponible en:
 
 La aplicación está desplegada en **Render**:
 
-- URL: `https://rescue-connect-kkfo.onrender.com`
+- URL: https://rescue-connect-kkfo.onrender.com
 
 ### Variables de Entorno en Producción
 
