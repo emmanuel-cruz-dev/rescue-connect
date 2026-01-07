@@ -9,6 +9,13 @@ import {
   PetIdSchema,
   DeleteImageParamsSchema,
 } from "../validators/pet.validator";
+import {
+  CreateAdoptionRequestBodySchema,
+  CreateAdoptionRequestParamsSchema,
+  ReviewAdoptionRequestBodySchema,
+  AdoptionRequestIdParamsSchema,
+  AdoptionStatusQuerySchema,
+} from "../validators/adoption.validator";
 
 /* ========= AUTH ========= */
 
@@ -303,21 +310,193 @@ registry.registerPath({
   },
 });
 
+/* ========= ADOPTIONS ========= */
+
+// Users routes
+
 registry.registerPath({
   method: "post",
-  path: "/api/v1/pets/{id}/adopt",
-  tags: ["Pets"],
-  summary: "Adoptar mascota",
+  path: "/api/v1/adoptions/pets/{petId}/request",
+  tags: ["Adoptions"],
+  summary: "Crear solicitud de adopción",
   description:
-    "Permite a un usuario autenticado adoptar una mascota disponible",
+    "Permite a un usuario autenticado crear una solicitud para adoptar una mascota disponible",
   security: [{ bearerAuth: [] }],
   request: {
-    params: PetIdSchema,
+    params: CreateAdoptionRequestParamsSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: CreateAdoptionRequestBodySchema,
+        },
+      },
+    },
   },
   responses: {
-    200: { description: "Mascota adoptada exitosamente" },
-    400: { description: "ID inválido o mascota ya adoptada" },
+    201: { description: "Solicitud de adopción creada exitosamente" },
+    400: {
+      description:
+        "ID inválido, mascota ya adoptada o ya existe una solicitud pendiente",
+    },
     401: { description: "No autenticado" },
     404: { description: "Mascota no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/adoptions/my-requests",
+  tags: ["Adoptions"],
+  summary: "Obtener mis solicitudes de adopción",
+  description:
+    "Obtiene todas las solicitudes de adopción del usuario autenticado. Puede filtrar por estado (pending, approved, rejected, cancelled)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: AdoptionStatusQuerySchema,
+  },
+  responses: {
+    200: { description: "Solicitudes obtenidas exitosamente" },
+    401: { description: "No autenticado" },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/api/v1/adoptions/requests/{requestId}/cancel",
+  tags: ["Adoptions"],
+  summary: "Cancelar solicitud de adopción",
+  description:
+    "Permite a un usuario cancelar su propia solicitud de adopción pendiente",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: AdoptionRequestIdParamsSchema,
+  },
+  responses: {
+    200: { description: "Solicitud cancelada exitosamente" },
+    400: {
+      description:
+        "ID inválido o solo se pueden cancelar solicitudes pendientes",
+    },
+    401: { description: "No autenticado" },
+    403: { description: "Solo puedes cancelar tus propias solicitudes" },
+    404: { description: "Solicitud no encontrada" },
+  },
+});
+
+// Admin routes
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/adoptions/requests",
+  tags: ["Adoptions"],
+  summary: "Obtener todas las solicitudes (Admin)",
+  description:
+    "Obtiene todas las solicitudes de adopción. Puede filtrar por estado (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: AdoptionStatusQuerySchema,
+  },
+  responses: {
+    200: { description: "Solicitudes obtenidas exitosamente" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/adoptions/requests/{requestId}",
+  tags: ["Adoptions"],
+  summary: "Obtener solicitud por ID (Admin)",
+  description:
+    "Obtiene los detalles de una solicitud de adopción específica (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: AdoptionRequestIdParamsSchema,
+  },
+  responses: {
+    200: { description: "Solicitud obtenida exitosamente" },
+    400: { description: "ID inválido" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Solicitud no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/adoptions/pets/{petId}/requests",
+  tags: ["Adoptions"],
+  summary: "Obtener solicitudes de una mascota (Admin)",
+  description:
+    "Obtiene todas las solicitudes de adopción para una mascota específica (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: CreateAdoptionRequestParamsSchema,
+  },
+  responses: {
+    200: { description: "Solicitudes obtenidas exitosamente" },
+    400: { description: "ID inválido" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/api/v1/adoptions/requests/{requestId}/approve",
+  tags: ["Adoptions"],
+  summary: "Aprobar solicitud de adopción (Admin)",
+  description:
+    "Aprueba una solicitud de adopción, marca la mascota como adoptada y rechaza automáticamente otras solicitudes pendientes para la misma mascota (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: AdoptionRequestIdParamsSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: ReviewAdoptionRequestBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "Solicitud aprobada exitosamente" },
+    400: {
+      description:
+        "ID inválido, solo se pueden aprobar solicitudes pendientes o mascota ya adoptada",
+    },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Solicitud o mascota no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/api/v1/adoptions/requests/{requestId}/reject",
+  tags: ["Adoptions"],
+  summary: "Rechazar solicitud de adopción (Admin)",
+  description: "Rechaza una solicitud de adopción pendiente (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: AdoptionRequestIdParamsSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: ReviewAdoptionRequestBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "Solicitud rechazada exitosamente" },
+    400: {
+      description:
+        "ID inválido o solo se pueden rechazar solicitudes pendientes",
+    },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Solicitud no encontrada" },
   },
 });
