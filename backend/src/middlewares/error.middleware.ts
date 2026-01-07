@@ -129,6 +129,41 @@ export const errorHandler = (
     });
   }
 
+  if (err.message === "Only pending requests can be cancelled") {
+    return res.status(403).json({
+      status: "error",
+      message: "Solo puedes cancelar solicitudes pendientes",
+    });
+  }
+
+  if (err.message === "Only pending requests can be approved") {
+    return res.status(403).json({
+      status: "error",
+      message: "Solo puedes aprobar solicitudes pendientes",
+    });
+  }
+
+  if (err.message === "Only pending requests can be rejected") {
+    return res.status(403).json({
+      status: "error",
+      message: "Solo puedes rechazar solicitudes pendientes",
+    });
+  }
+
+  if (err.message === "You can only cancel your own requests") {
+    return res.status(403).json({
+      status: "error",
+      message: "Solo puedes cancelar tus propias solicitudes",
+    });
+  }
+
+  if (err.message === "You already have a pending adoption request for this pet") {
+    return res.status(400).json({
+      status: "error",
+      message: "Ya tienes una solicitud pendiente para esta mascota",
+    });
+  }
+
   res.status(500).json({
     status: "error",
     message: "Error interno del servidor",
