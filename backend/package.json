@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "rescue-connect-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API developed with Node.js, Express, TypeScript and MongoDB for pet adoption management.",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Emmanuel Cruz",
   "license": "ISC",
   "packageManager": "pnpm@10.26.0",
   "dependencies": {
