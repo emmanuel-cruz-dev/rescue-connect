@@ -51,11 +51,5 @@ router.delete(
   validate(deleteImageSchema),
   petsController.deleteImage
 );
-router.post(
-  "/:id/adopt",
-  authenticate,
-  validate(petIdSchema),
-  petsController.adopt
-);
 
 export default router;
