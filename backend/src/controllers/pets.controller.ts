@@ -90,29 +90,6 @@ class PetsController {
       next(err);
     }
   }
-
-  async adopt(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { id } = req.params;
-
-      if (!req.user) {
-        return res.status(401).json({
-          status: "error",
-          message: "No autenticado",
-        });
-      }
-
-      const adoptedPet = await petsModel.adopt(id, req.user.userId);
-
-      res.status(200).json({
-        status: "success",
-        message: "Mascota adoptada exitosamente",
-        data: { adoptedPet },
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
 }
 
 export default new PetsController();
