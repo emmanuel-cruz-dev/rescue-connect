@@ -20,6 +20,7 @@ import { BadgeModule } from 'primeng/badge';
 import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
+import { CarouselModule } from 'primeng/carousel';
 
 const PRIMENG_MODULES = [
   ButtonModule,
@@ -43,6 +44,7 @@ const PRIMENG_MODULES = [
   AvatarModule,
   RippleModule,
   DividerModule,
+  CarouselModule,
 ];
 
 @NgModule({
