@@ -6,6 +6,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { FileUploadModule } from 'primeng/fileupload';
 import { GalleriaModule } from 'primeng/galleria';
@@ -33,6 +34,7 @@ export const PRIMENG_IMPORTS = [
   InputTextModule,
   IconFieldModule,
   InputIconModule,
+  MessageModule,
   PasswordModule,
   FileUploadModule,
   GalleriaModule,
