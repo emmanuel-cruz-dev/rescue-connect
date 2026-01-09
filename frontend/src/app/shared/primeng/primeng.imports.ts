@@ -4,6 +4,8 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 import { PasswordModule } from 'primeng/password';
 import { FileUploadModule } from 'primeng/fileupload';
 import { GalleriaModule } from 'primeng/galleria';
@@ -20,6 +22,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
 import { CarouselModule } from 'primeng/carousel';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 export const PRIMENG_IMPORTS = [
   ButtonModule,
@@ -28,6 +31,8 @@ export const PRIMENG_IMPORTS = [
   ToastModule,
   DialogModule,
   InputTextModule,
+  IconFieldModule,
+  InputIconModule,
   PasswordModule,
   FileUploadModule,
   GalleriaModule,
@@ -44,4 +49,5 @@ export const PRIMENG_IMPORTS = [
   RippleModule,
   DividerModule,
   CarouselModule,
+  FloatLabelModule,
 ] as const;
