@@ -22,7 +22,14 @@
     </ng-template>
     <ng-template #end>
       <div class="flex items-center gap-2">
-        <input type="text" pInputText placeholder="Buscar mascotas" class="w-40" />
+        <input
+          id="search"
+          name="search"
+          type="text"
+          pInputText
+          placeholder="Buscar mascotas"
+          class="w-40"
+        />
         <p-button
           [text]="true"
           [rounded]="true"

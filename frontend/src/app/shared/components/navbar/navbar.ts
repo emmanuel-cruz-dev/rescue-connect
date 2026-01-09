@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from '../../../core/services/theme.service';
+import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
 
 @Component({
   selector: 'app-navbar',
+  imports: [PRIMENG_IMPORTS],
   templateUrl: './navbar.html',
-  standalone: false,
 })
 export class Navbar implements OnInit {
   items: MenuItem[] | undefined;
