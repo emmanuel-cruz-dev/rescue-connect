@@ -1,8 +1,66 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MessageService } from 'primeng/api';
+import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
   selector: 'app-register',
-  imports: [],
+  imports: [ReactiveFormsModule, RouterModule, PRIMENG_IMPORTS],
   templateUrl: './register.html',
 })
-export class Register {}
+export class Register {
+  messageService = inject(MessageService);
+  registerForm: FormGroup;
+  isLoading = false;
+  formSubmitted = false;
+
+  constructor(private fb: FormBuilder) {
+    this.registerForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.minLength(8)]],
+      address: ['', Validators.required],
+    });
+  }
+
+  onSubmit() {
+    this.formSubmitted = true;
+
+    if (this.registerForm.valid) {
+      this.isLoading = true;
+
+      const { ...registerData } = this.registerForm.value;
+      console.log('Register data:', registerData);
+
+      // TODO: replace with backend call
+      setTimeout(() => {
+        this.isLoading = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Registro Exitoso',
+          detail: 'Tu cuenta ha sido creada correctamente',
+          life: 3000,
+        });
+
+        // Optional: Reset the form
+        this.registerForm.reset();
+        this.formSubmitted = false;
+      }, 2000);
+    } else {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Por favor completa todos los campos requeridos',
+        life: 3000,
+      });
+    }
+  }
+
+  isInvalid(controlName: string): boolean {
+    const control = this.registerForm.get(controlName);
+    return (control?.invalid && (control.touched || this.formSubmitted)) || false;
+  }
+}

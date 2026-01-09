@@ -1,1 +1,178 @@
-<p>register works!</p>
+<p-toast />
+
+<div class="flex items-center justify-center min-h-screen dark:bg-green-900/30 px-4 py-8">
+  <div class="w-full max-w-lg">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="text-center pt-6 pb-2">
+          <h1 class="text-3xl font-bold">Crear Cuenta</h1>
+          <p class="text-gray-600 dark:text-gray-400 mt-2">
+            Completa el formulario para registrarte
+          </p>
+        </div>
+      </ng-template>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <p-floatlabel variant="on">
+            <p-iconfield>
+              <p-inputicon class="pi pi-envelope" />
+              <input
+                pInputText
+                id="email"
+                formControlName="email"
+                type="email"
+                class="w-full"
+                [invalid]="isInvalid('email')"
+              />
+            </p-iconfield>
+            <label for="email">Correo Electrónico*</label>
+          </p-floatlabel>
+          @if (isInvalid('email')) { @if (registerForm.get('email')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">
+            El correo electrónico es requerido
+          </p-message>
+          } @if (registerForm.get('email')?.errors?.['email']) {
+          <p-message severity="error" size="small" variant="simple">
+            Por favor ingresa un correo válido
+          </p-message>
+          } }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <p-floatlabel variant="on">
+            <p-iconfield>
+              <p-inputicon class="pi pi-lock" />
+              <p-password
+                id="password"
+                formControlName="password"
+                [toggleMask]="true"
+                [feedback]="true"
+                class="w-full"
+                inputStyleClass="w-full"
+                [invalid]="isInvalid('password')"
+                promptLabel="Ingresa tu contraseña"
+                weakLabel="Débil"
+                mediumLabel="Medio"
+                strongLabel="Fuerte"
+              />
+            </p-iconfield>
+            <label for="password">Contraseña*</label>
+          </p-floatlabel>
+          @if (isInvalid('password')) { @if (registerForm.get('password')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">
+            La contraseña es requerida
+          </p-message>
+          } @if (registerForm.get('password')?.errors?.['minlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            La contraseña debe tener al menos 8 caracteres
+          </p-message>
+          } }
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1">
+            <p-floatlabel variant="on">
+              <p-iconfield>
+                <p-inputicon class="pi pi-user" />
+                <input
+                  pInputText
+                  id="firstName"
+                  formControlName="firstName"
+                  class="w-full"
+                  [invalid]="isInvalid('firstName')"
+                />
+              </p-iconfield>
+              <label for="firstName">Nombre*</label>
+            </p-floatlabel>
+            @if (isInvalid('firstName')) {
+            <p-message severity="error" size="small" variant="simple">
+              El nombre es requerido
+            </p-message>
+            }
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <p-floatlabel variant="on">
+              <p-iconfield>
+                <p-inputicon class="pi pi-user" />
+                <input
+                  pInputText
+                  id="lastName"
+                  formControlName="lastName"
+                  class="w-full"
+                  [invalid]="isInvalid('lastName')"
+                />
+              </p-iconfield>
+              <label for="lastName">Apellido*</label>
+            </p-floatlabel>
+            @if (isInvalid('lastName')) {
+            <p-message severity="error" size="small" variant="simple">
+              El apellido es requerido
+            </p-message>
+            }
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <p-floatlabel variant="on">
+            <p-iconfield>
+              <p-inputicon class="pi pi-phone" />
+              <input
+                pInputText
+                id="phone"
+                formControlName="phone"
+                type="tel"
+                class="w-full"
+                [invalid]="isInvalid('phone')"
+              />
+            </p-iconfield>
+            <label for="phone">Teléfono*</label>
+          </p-floatlabel>
+          @if (isInvalid('phone')) { @if (registerForm.get('phone')?.errors?.['required']) {
+          <p-message severity="error" size="small" variant="simple">
+            El teléfono es requerido
+          </p-message>
+          } @if (registerForm.get('phone')?.errors?.['minlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            El teléfono debe tener al menos 8 dígitos
+          </p-message>
+          } }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <p-floatlabel variant="on">
+            <p-iconfield>
+              <p-inputicon class="pi pi-map-marker" />
+              <input
+                pInputText
+                id="address"
+                formControlName="address"
+                class="w-full"
+                [invalid]="isInvalid('address')"
+              />
+            </p-iconfield>
+            <label for="address">Dirección*</label>
+          </p-floatlabel>
+          @if (isInvalid('address')) {
+          <p-message severity="error" size="small" variant="simple">
+            La dirección es requerida
+          </p-message>
+          }
+        </div>
+
+        <p-button type="submit" label="Crear Cuenta" styleClass="w-full" [loading]="isLoading" />
+
+        <div class="flex items-center justify-center gap-2">
+          <p class="text-gray-600 dark:text-gray-400">¿Ya tienes una cuenta?</p>
+          <a
+            routerLink="/auth/login"
+            class="text-blue-600 hover:text-blue-700 dark:text-blue-400 font-medium"
+          >
+            Inicia sesión aquí
+          </a>
+        </div>
+      </form>
+    </p-card>
+  </div>
+</div>
