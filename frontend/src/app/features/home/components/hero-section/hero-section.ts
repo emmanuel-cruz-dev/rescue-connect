@@ -4,8 +4,5 @@ import { Component } from '@angular/core';
   selector: 'app-hero-section',
   imports: [],
   templateUrl: './hero-section.html',
-  styleUrl: './hero-section.css',
 })
-export class HeroSection {
-
-}
+export class HeroSection {}
