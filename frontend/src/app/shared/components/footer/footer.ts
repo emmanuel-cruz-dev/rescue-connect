@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
 
 @Component({
   selector: 'app-footer',
+  imports: [PRIMENG_IMPORTS],
   templateUrl: './footer.html',
-  standalone: false,
 })
 export class Footer {
   currentYear = new Date().getFullYear();
