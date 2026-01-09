@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { ThemeService } from '../../../core/services/theme.service';
 import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
-  imports: [PRIMENG_IMPORTS],
+  imports: [PRIMENG_IMPORTS, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
 })
 export class Navbar implements OnInit {
@@ -18,6 +19,17 @@ export class Navbar implements OnInit {
       {
         label: 'Home',
         icon: 'pi pi-home',
+        routerLink: '/',
+      },
+      {
+        label: 'Login',
+        icon: 'pi pi-user',
+        routerLink: '/auth/login',
+      },
+      {
+        label: 'Register',
+        icon: 'pi pi-user-plus',
+        routerLink: '/auth/register',
       },
       {
         label: 'Projects',
