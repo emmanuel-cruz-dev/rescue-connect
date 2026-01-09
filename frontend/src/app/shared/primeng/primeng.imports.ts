@@ -1,4 +1,3 @@
-import { NgModule } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -22,7 +21,7 @@ import { RippleModule } from 'primeng/ripple';
 import { DividerModule } from 'primeng/divider';
 import { CarouselModule } from 'primeng/carousel';
 
-const PRIMENG_MODULES = [
+export const PRIMENG_IMPORTS = [
   ButtonModule,
   CardModule,
   TableModule,
@@ -45,10 +44,4 @@ const PRIMENG_MODULES = [
   RippleModule,
   DividerModule,
   CarouselModule,
-];
-
-@NgModule({
-  imports: [PRIMENG_MODULES],
-  exports: [PRIMENG_MODULES],
-})
-export class PrimeNgModule {}
+] as const;
