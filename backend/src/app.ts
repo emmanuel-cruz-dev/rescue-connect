@@ -2,11 +2,13 @@ import "./docs/swagger";
 import "./docs/routes.swagger";
 
 import express from "express";
+import cors from "cors";
 import { errorHandler } from "./middlewares/error.middleware";
 import apiRouter from "./routes";
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
