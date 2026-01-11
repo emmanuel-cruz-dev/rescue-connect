@@ -1,6 +1,9 @@
 import { IUser } from './user.model';
 
 export interface LoginResponse {
-  token: string;
   user: IUser;
+  tokens: {
+    accessToken: string;
+    refreshToken?: string;
+  };
 }
