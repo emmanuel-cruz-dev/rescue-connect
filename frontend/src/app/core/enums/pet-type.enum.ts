@@ -1,1 +1,1 @@
-export type PetType = 'perro' | 'gato' | 'conejo' | 'ave';
+export type PetType = 'perro' | 'gato';
