@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +11,15 @@ import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
   templateUrl: './login.html',
 })
 export class Login {
-  messageService = inject(MessageService);
+  private authService = inject(AuthService);
+  private messageService = inject(MessageService);
+  private router = inject(Router);
+
   loginForm: FormGroup;
   isLoading = false;
   formSubmitted = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -28,22 +32,36 @@ export class Login {
     if (this.loginForm.valid) {
       this.isLoading = true;
       const loginData = this.loginForm.value;
-      console.log('Login data:', loginData);
 
-      // TODO: replace with backend call
-      setTimeout(() => {
-        this.isLoading = false;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Inicio de Sesión Exitoso',
-          detail: 'Bienvenido de nuevo',
-          life: 3000,
-        });
+      this.authService.login(loginData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
+          this.cd.detectChanges();
 
-        // Optional: Reset the form
-        // this.loginForm.reset();
-        // this.formSubmitted = false;
-      }, 2000);
+          if (response.status === 'success') {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Inicio de Sesión Exitoso',
+              detail: `Bienvenido ${response.data?.user.firstName}`,
+              life: 3000,
+            });
+
+            const user = response.data?.user;
+            if (user?.role === 'admin') {
+              this.router.navigate(['/admin/dashboard']);
+            } else {
+              console.log('Redirecting to pets list');
+              this.router.navigate(['/pets']);
+            }
+          }
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.cd.detectChanges();
+
+          this.loginForm.patchValue({ password: '' });
+        },
+      });
     } else {
       this.messageService.add({
         severity: 'error',
