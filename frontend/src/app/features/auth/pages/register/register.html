@@ -1,4 +1,4 @@
-<p-toast />
+<p-toast position="bottom-left" />
 
 <div class="flex items-center justify-center min-h-screen dark:bg-green-900/30 px-4 py-8">
   <div class="w-full max-w-lg">
@@ -19,14 +19,14 @@
               <p-inputicon class="pi pi-envelope" />
               <input
                 pInputText
-                id="email"
+                id="register-email"
                 formControlName="email"
                 type="email"
                 class="w-full"
                 [invalid]="isInvalid('email')"
               />
             </p-iconfield>
-            <label for="email">Correo Electrónico*</label>
+            <label for="register-email">Correo Electrónico*</label>
           </p-floatlabel>
           @if (isInvalid('email')) { @if (registerForm.get('email')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
@@ -44,7 +44,7 @@
             <p-iconfield>
               <p-inputicon class="pi pi-lock" />
               <p-password
-                id="password"
+                inputId="password"
                 formControlName="password"
                 [toggleMask]="true"
                 [feedback]="true"
@@ -125,6 +125,7 @@
                 type="tel"
                 class="w-full"
                 [invalid]="isInvalid('phone')"
+                autocomplete="tel"
               />
             </p-iconfield>
             <label for="phone">Teléfono*</label>
@@ -150,6 +151,7 @@
                 formControlName="address"
                 class="w-full"
                 [invalid]="isInvalid('address')"
+                autocomplete="address-line1"
               />
             </p-iconfield>
             <label for="address">Dirección*</label>
