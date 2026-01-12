@@ -6,32 +6,12 @@ import { StorageService } from './storage.service';
 import { IUser } from '../models/user.model';
 import { LoginResponse } from '../models/auth-response.model';
 import { ApiResponse } from '../models/api-response.model';
-
-interface LoginData {
-  email: string;
-  password: string;
-}
-
-interface RegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phone: string;
-  address: string;
-}
-
-interface UpdateProfileData {
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  address?: string;
-}
-
-interface ChangePasswordData {
-  currentPassword: string;
-  newPassword: string;
-}
+import {
+  LoginData,
+  RegisterData,
+  UpdateProfileData,
+  ChangePasswordData,
+} from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
