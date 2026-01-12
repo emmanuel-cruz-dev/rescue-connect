@@ -1,6 +1,6 @@
 import { Document, Types } from "mongoose";
 
-type PetType = "perro" | "gato" | "conejo" | "ave";
+type PetType = "perro" | "gato";
 
 export interface IPetImage {
   url: string;

@@ -3,7 +3,7 @@ import { registry } from "../docs/swagger";
 
 export const PetBodySchema = z.object({
   name: z.string().min(2).max(50).describe("Nombre de la mascota"),
-  type: z.enum(["perro", "gato", "conejo", "ave"]).describe("Tipo de mascota"),
+  type: z.enum(["perro", "gato"]).describe("Tipo de mascota"),
   age: z.number().int().min(0).max(30).describe("Edad de la mascota"),
   breed: z.string().min(2).max(50).describe("Raza de la mascota"),
   description: z

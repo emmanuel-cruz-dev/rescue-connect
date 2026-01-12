@@ -14,7 +14,7 @@ const petSchema = new mongoose.Schema<IPetDocument>(
       type: String,
       required: [true, "El tipo de mascota es obligatorio"],
       enum: {
-        values: ["perro", "gato", "conejo", "ave"],
+        values: ["perro", "gato"],
         message: "{VALUE} no es un tipo válido",
       },
       lowercase: true,
