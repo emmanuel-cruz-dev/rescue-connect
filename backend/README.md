@@ -105,7 +105,7 @@ El proyecto sigue una **arquitectura en capas** (Layered Architecture) con separ
 ### 🐕 Gestión de Mascotas
 
 - CRUD completo de mascotas
-- Tipos soportados: perro, gato, conejo, ave
+- Tipos soportados: perro, gato
 - Información detallada: nombre, edad, raza, descripción
 - Sistema de imágenes múltiples por mascota
 - Estado de adopción
@@ -329,21 +329,21 @@ backend/
 
 #### Rutas de Usuario
 
-| Método | Endpoint                        | Descripción                       | Auth | Rol        |
-| ------ | ------------------------------- | --------------------------------- | ---- | ---------- |
-| POST   | `/pets/:petId/request`          | Crear solicitud de adopción       | Sí   | user/admin |
-| GET    | `/my-requests`                  | Obtener mis solicitudes           | Sí   | user/admin |
-| PATCH  | `/requests/:requestId/cancel`   | Cancelar solicitud propia         | Sí   | user/admin |
+| Método | Endpoint                      | Descripción                 | Auth | Rol        |
+| ------ | ----------------------------- | --------------------------- | ---- | ---------- |
+| POST   | `/pets/:petId/request`        | Crear solicitud de adopción | Sí   | user/admin |
+| GET    | `/my-requests`                | Obtener mis solicitudes     | Sí   | user/admin |
+| PATCH  | `/requests/:requestId/cancel` | Cancelar solicitud propia   | Sí   | user/admin |
 
 #### Rutas de Administrador
 
-| Método | Endpoint                        | Descripción                       | Auth | Rol   |
-| ------ | ------------------------------- | --------------------------------- | ---- | ----- |
-| GET    | `/requests`                     | Listar todas las solicitudes      | Sí   | admin |
-| GET    | `/requests/:requestId`          | Obtener solicitud por ID          | Sí   | admin |
-| GET    | `/pets/:petId/requests`         | Obtener solicitudes de una mascota| Sí   | admin |
-| PATCH  | `/requests/:requestId/approve`  | Aprobar solicitud                 | Sí   | admin |
-| PATCH  | `/requests/:requestId/reject`   | Rechazar solicitud                | Sí   | admin |
+| Método | Endpoint                       | Descripción                        | Auth | Rol   |
+| ------ | ------------------------------ | ---------------------------------- | ---- | ----- |
+| GET    | `/requests`                    | Listar todas las solicitudes       | Sí   | admin |
+| GET    | `/requests/:requestId`         | Obtener solicitud por ID           | Sí   | admin |
+| GET    | `/pets/:petId/requests`        | Obtener solicitudes de una mascota | Sí   | admin |
+| PATCH  | `/requests/:requestId/approve` | Aprobar solicitud                  | Sí   | admin |
+| PATCH  | `/requests/:requestId/reject`  | Rechazar solicitud                 | Sí   | admin |
 
 ### Ejemplos de Uso
 
@@ -520,7 +520,7 @@ interface IUser {
 ```typescript
 interface IPet {
   name: string; // Nombre (3-50 caracteres)
-  type: "perro" | "gato" | "conejo" | "ave"; // Tipo de mascota
+  type: "perro" | "gato"; // Tipo de mascota
   age: number; // Edad (0-30 años)
   breed: string; // Raza
   description?: string; // Descripción (max 200 caracteres)
@@ -785,7 +785,7 @@ El sistema utiliza **Zod** para validación de datos con tipado estático.
 ```typescript
 {
   name: string (2-50 caracteres),
-  type: "perro" | "gato" | "conejo" | "ave",
+  type: "perro" | "gato",
   age: number (0-30),
   breed: string (2-50 caracteres),
   description?: string (max 500 caracteres),
