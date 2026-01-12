@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,10 @@ import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
   templateUrl: './register.html',
 })
 export class Register {
-  messageService = inject(MessageService);
+  private authService = inject(AuthService);
+  private messageService = inject(MessageService);
+  private router = inject(Router);
+
   registerForm: FormGroup;
   isLoading = false;
   formSubmitted = false;
@@ -31,24 +35,29 @@ export class Register {
 
     if (this.registerForm.valid) {
       this.isLoading = true;
+      const registerData = this.registerForm.value;
 
-      const { ...registerData } = this.registerForm.value;
-      console.log('Register data:', registerData);
+      this.authService.register(registerData).subscribe({
+        next: (response) => {
+          this.isLoading = false;
 
-      // TODO: replace with backend call
-      setTimeout(() => {
-        this.isLoading = false;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Registro Exitoso',
-          detail: 'Tu cuenta ha sido creada correctamente',
-          life: 3000,
-        });
+          if (response.status === 'success') {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Registro Exitoso',
+              detail: `Bienvenido ${response.data?.user.firstName}! Tu cuenta ha sido creada`,
+              life: 3000,
+            });
 
-        // Optional: Reset the form
-        this.registerForm.reset();
-        this.formSubmitted = false;
-      }, 2000);
+            this.router.navigate(['/pets']);
+          }
+        },
+        error: (error) => {
+          this.isLoading = false;
+
+          this.registerForm.patchValue({ password: '' });
+        },
+      });
     } else {
       this.messageService.add({
         severity: 'error',
