@@ -1,26 +1,110 @@
-<div class="mb-4 p-8 flex items-center justify-center">
-  <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
-    <ng-template #header>
-      <img alt="Card" class="w-full" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
-    </ng-template>
-    <ng-template #title> Advanced Card </ng-template>
-    <ng-template #subtitle> Card subtitle </ng-template>
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error
-      repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa
-      ratione quam perferendis esse, cupiditate neque quas!
-    </p>
-    <ng-template #footer>
-      <div class="flex gap-4 mt-1">
-        <p-button
-          label="Cancel"
-          severity="secondary"
-          class="w-full"
-          [outlined]="true"
-          styleClass="w-full"
-        />
-        <p-button label="Save" class="w-full" styleClass="w-full" />
+<p-card
+  class="h-full hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+  [style]="{ overflow: 'hidden' }"
+>
+  <ng-template #header>
+    <div class="relative h-68 overflow-hidden" (click)="viewDetails()">
+      <img
+        [src]="mainImage"
+        [alt]="pet.name"
+        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+        onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
+      />
+
+      @if (pet.adopted) {
+      <div
+        class="absolute top-4 right-4 bg-indigo-500 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
+      >
+        <lucide-angular [img]="HeartHandshakeIcon" size="20"></lucide-angular>
+        <span class="text-sm font-semibold">Adoptado</span>
       </div>
-    </ng-template>
-  </p-card>
-</div>
+      } @else {
+      <div
+        class="absolute top-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
+      >
+        <i class="pi pi-sparkles text-white"></i>
+        <span class="text-sm font-semibold">Disponible</span>
+      </div>
+      }
+
+      <div
+        class="absolute bottom-4 left-4 text-neutral-800 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2 shadow-lg"
+      >
+        @if (pet.type === 'perro') {
+        <lucide-angular [img]="DogIcon" size="20"></lucide-angular>
+        } @else {
+        <lucide-angular [img]="CatIcon" size="20"></lucide-angular>
+        }
+        <span class="text-sm font-semibold">
+          {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
+        </span>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #title>
+    <h3 class="text-2xl font-bold truncate first-letter:uppercase">
+      {{ pet.name }}
+    </h3>
+  </ng-template>
+
+  <ng-template #subtitle>
+    <p class="text-sm font-medium truncate first-letter:uppercase">
+      {{ pet.breed }}
+    </p>
+  </ng-template>
+
+  <div class="space-y-3">
+    <div class="flex items-center">
+      <i class="pi pi-calendar text-blue-500 mr-2"></i>
+      <span class="text-sm">{{ getAgeLabel() }}</span>
+    </div>
+
+    <p class="text-sm leading-relaxed line-clamp-3 first-letter:uppercase">
+      {{ pet.description || 'Sin descripción' }}
+    </p>
+  </div>
+
+  <ng-template #footer>
+    @if (!showAdminActions) {
+    <div class="flex gap-3 mt-4">
+      <p-button
+        label="Ver más"
+        icon="pi pi-eye"
+        severity="secondary"
+        [outlined]="true"
+        styleClass="flex-1"
+        (onClick)="viewDetails()"
+      />
+
+      @if (showAdoptButton && !pet.adopted) {
+      <p-button label="Adoptar" severity="success" styleClass="flex-1" (onClick)="onAdopt()">
+        <ng-template pTemplate="content">
+          <lucide-angular [img]="PawPrintIcon" size="20"></lucide-angular>
+          <span>Adoptar</span>
+        </ng-template>
+      </p-button>
+      }
+    </div>
+    } @if (showAdminActions) {
+    <div class="flex gap-3 mt-4">
+      <p-button
+        label="Ver"
+        icon="pi pi-eye"
+        severity="info"
+        [outlined]="true"
+        styleClass="flex-1"
+        (onClick)="viewDetails()"
+      />
+      <p-button
+        label="Editar"
+        icon="pi pi-pencil"
+        [outlined]="true"
+        styleClass="flex-1"
+        (onClick)="onEdit()"
+      />
+      <p-button icon="pi pi-trash" severity="danger" [outlined]="true" (onClick)="onDelete()" />
+    </div>
+    }
+  </ng-template>
+</p-card>
