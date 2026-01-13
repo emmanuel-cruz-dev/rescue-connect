@@ -4,6 +4,7 @@ import { provideHttpClient, HTTP_INTERCEPTORS, withInterceptorsFromDi } from '@a
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
 import Lara from '@primeuix/themes/lara';
+
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
@@ -13,6 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
+
     providePrimeNG({
       theme: {
         preset: Lara,
@@ -21,7 +23,9 @@ export const appConfig: ApplicationConfig = {
         },
       },
     }),
+
     MessageService,
+
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
