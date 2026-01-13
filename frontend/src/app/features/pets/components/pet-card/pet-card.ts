@@ -1,9 +1,76 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  LucideAngularModule,
+  PawPrintIcon,
+  CatIcon,
+  DogIcon,
+  HeartHandshakeIcon,
+} from 'lucide-angular';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { IPet } from '../../../../core/models/pet.model';
+import { PetType } from '../../../../core/enums/pet-type.enum';
 
 @Component({
   selector: 'app-pet-card',
-  imports: [PRIMENG_IMPORTS],
+  imports: [PRIMENG_IMPORTS, LucideAngularModule],
   templateUrl: './pet-card.html',
 })
-export class PetCard {}
+export class PetCard {
+  @Input({ required: true }) pet!: IPet;
+  @Input() showAdoptButton = true;
+  @Input() showAdminActions = false;
+
+  @Output() adopt = new EventEmitter<string>();
+  @Output() edit = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<string>();
+
+  private router = inject(Router);
+
+  readonly CatIcon = CatIcon;
+  readonly DogIcon = DogIcon;
+  readonly PawPrintIcon = PawPrintIcon;
+  readonly HeartHandshakeIcon = HeartHandshakeIcon;
+
+  get mainImage(): string {
+    if (this.pet.images && this.pet.images.length > 0) {
+      return this.pet.images[0].url;
+    }
+    return this.getPlaceholderImage();
+  }
+
+  getPlaceholderImage(): string {
+    const placeholders: Record<PetType, string> = {
+      perro: '/assets/images/pets/placeholder-dog.webp',
+      gato: '/assets/images/pets/placeholder-cat.webp',
+    };
+    return placeholders[this.pet.type] ?? placeholders['perro'];
+  }
+
+  // TODO: Change age type to string in back-end
+  getAgeLabel(): string {
+    if (this.pet.age === 1) {
+      return '1 año';
+    }
+    if (this.pet.age < 1) {
+      return `${Math.round(this.pet.age * 12)} meses`;
+    }
+    return `${this.pet.age} años`;
+  }
+
+  viewDetails(): void {
+    this.router.navigate(['/pets', this.pet._id]);
+  }
+
+  onAdopt(): void {
+    this.adopt.emit(this.pet._id);
+  }
+
+  onEdit(): void {
+    this.edit.emit(this.pet._id);
+  }
+
+  onDelete(): void {
+    this.delete.emit(this.pet._id);
+  }
+}
