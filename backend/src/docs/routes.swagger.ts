@@ -8,6 +8,7 @@ import {
   PetBodySchema,
   PetIdSchema,
   DeleteImageParamsSchema,
+  GetPetsQuerySchema,
 } from "../validators/pet.validator";
 import {
   CreateAdoptionRequestBodySchema,
@@ -158,9 +159,13 @@ registry.registerPath({
   path: "/api/v1/pets",
   tags: ["Pets"],
   summary: "Listar mascotas",
-  description: "Obtiene la lista de todas las mascotas disponibles",
+  description: "Obtiene la lista de todas las mascotas. Puede filtrar por estado de adopción usando el parámetro adopted (true/false)",
+  request: {
+    query: GetPetsQuerySchema,
+  },
   responses: {
     200: { description: "Lista de mascotas obtenida exitosamente" },
+    400: { description: "Parámetro de consulta inválido" },
   },
 });
 
