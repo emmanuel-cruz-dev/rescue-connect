@@ -315,15 +315,16 @@ backend/
 
 ### Mascotas (`/api/v1/pets`)
 
-| Método | Endpoint                | Descripción               | Auth | Rol   |
-| ------ | ----------------------- | ------------------------- | ---- | ----- |
-| GET    | `/`                     | Listar todas las mascotas | No   | -     |
-| GET    | `/:id`                  | Obtener mascota por ID    | No   | -     |
-| POST   | `/`                     | Crear nueva mascota       | Sí   | admin |
-| PUT    | `/:id`                  | Actualizar mascota        | Sí   | admin |
-| DELETE | `/:id`                  | Eliminar mascota          | Sí   | admin |
-| POST   | `/:id/images`           | Subir imágenes            | Sí   | admin |
-| DELETE | `/:id/images/:publicId` | Eliminar imagen           | Sí   | admin |
+| Método | Endpoint                | Descripción                                                 | Auth | Rol   |
+| ------ | ----------------------- | ----------------------------------------------------------- | ---- | ----- |
+| GET    | `/`                     | Listar todas las mascotas (acepta query `?adopted=true/false`) | No   | -     |
+| GET    | `/:id`                  | Obtener mascota por ID                                      | No   | -     |
+| POST   | `/`                     | Crear nueva mascota                                         | Sí   | admin |
+| PUT    | `/:id`                  | Actualizar mascota                                          | Sí   | admin |
+| DELETE | `/:id`                  | Eliminar mascota                                            | Sí   | admin |
+| POST   | `/:id/images`           | Subir imágenes                                              | Sí   | admin |
+| DELETE | `/:id/images/:publicId` | Eliminar imagen                                             | Sí   | admin |
+
 
 ### Solicitudes de Adopción (`/api/v1/adoptions`)
 
@@ -416,6 +417,20 @@ Content-Type: application/json
   "description": "Perro muy cariñoso y juguetón"
 }
 ```
+
+#### Listar Mascotas con Filtro
+
+```bash
+# Obtener todas las mascotas
+GET /api/v1/pets
+
+# Obtener solo mascotas adoptadas
+GET /api/v1/pets?adopted=true
+
+# Obtener solo mascotas disponibles (no adoptadas)
+GET /api/v1/pets?adopted=false
+```
+
 
 #### Subir Imágenes de Mascota (Admin)
 
