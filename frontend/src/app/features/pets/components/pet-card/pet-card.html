@@ -1,6 +1,6 @@
 <p-card
   class="h-full hover:shadow-xl transition-shadow duration-300 cursor-pointer"
-  [style]="{ width: '25rem', overflow: 'hidden' }"
+  [style]="{ overflow: 'hidden' }"
 >
   <ng-template #header>
     <div class="relative h-72 overflow-hidden" (click)="viewDetails()">
@@ -43,7 +43,7 @@
   </ng-template>
 
   <ng-template #title>
-    <h3 class="text-2xl font-bold truncate first-letter:uppercase">
+    <h3 class="text-2xl font-bold truncate first-letter:uppercase max-w-68">
       {{ pet.name }}
     </h3>
   </ng-template>
