@@ -1,9 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { PetService } from '../../../pets/services/pet.service';
+import { PetCard } from '../../../pets/components/pet-card/pet-card';
+import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
   selector: 'app-featured-pets',
-  imports: [],
+  imports: [RouterModule, PetCard, PRIMENG_IMPORTS],
   templateUrl: './featured-pets.html',
-  styleUrl: './featured-pets.css',
 })
-export class FeaturedPets {}
+export class FeaturedPets implements OnInit {
+  private petService = inject(PetService);
+
+  featuredPets = this.petService.pets$;
+  loading = this.petService.loading;
+  responsiveOptions: any[] | undefined;
+
+  ngOnInit(): void {
+    this.petService.getAvailablePets().subscribe();
+
+    this.responsiveOptions = [
+      {
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3,
+      },
+      {
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2,
+      },
+      {
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1,
+      },
+    ];
+  }
+}
