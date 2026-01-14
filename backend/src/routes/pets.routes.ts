@@ -8,11 +8,12 @@ import {
   updatePetSchema,
   petIdSchema,
   deleteImageSchema,
+  getPetsSchema,
 } from "../validators/pet.validator";
 
 const router = Router();
 
-router.get("/", petsController.getAll);
+router.get("/", validate(getPetsSchema), petsController.getAll);
 router.get("/:id", validate(petIdSchema), petsController.getById);
 
 router.post(
