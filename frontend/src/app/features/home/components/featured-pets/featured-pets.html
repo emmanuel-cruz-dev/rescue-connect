@@ -1,1 +1,40 @@
-<p>featured-pets works!</p>
+<section class="py-16">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl font-bold mb-4">Mascotas destacadas</h2>
+      <p class="max-w-2xl mx-auto">
+        Conoce a algunas de nuestras adorables mascotas que buscan un hogar
+      </p>
+    </div>
+
+    @if (loading()) {
+    <div class="flex justify-center py-12">
+      <p-progressSpinner />
+    </div>
+    } @else {
+    <p-carousel
+      [circular]="true"
+      [value]="(featuredPets | async) ?? []"
+      [numVisible]="3"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      [autoplayInterval]="3000"
+    >
+      <ng-template let-pet #item>
+        <div class="m-4 pb-4">
+          <app-pet-card [pet]="pet" [showAdoptButton]="true" />
+        </div>
+      </ng-template>
+    </p-carousel>
+
+    <div class="text-center mt-12">
+      <p-button
+        label="Ver todas las mascotas"
+        icon="pi pi-arrow-right"
+        [routerLink]="['/pets']"
+        size="large"
+      />
+    </div>
+    }
+  </div>
+</section>
