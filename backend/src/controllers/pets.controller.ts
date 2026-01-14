@@ -4,7 +4,9 @@ import petsModel from "../models/pets.model";
 class PetsController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const pets = await petsModel.getAll();
+      const { adopted } = req.query;
+      const adoptedFilter = adopted === "true" ? true : adopted === "false" ? false : undefined;
+      const pets = await petsModel.getAll(adoptedFilter);
       res
         .status(200)
         .json({ status: "success", data: { pets }, count: pets.length });
