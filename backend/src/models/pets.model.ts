@@ -4,8 +4,9 @@ import cloudinaryService from "../services/cloudinary.service";
 import { IPet } from "../types/pet.types";
 
 class PetsModel {
-  async getAll() {
-    return await petModel.find();
+  async getAll(adopted?: boolean) {
+    const filter = adopted !== undefined ? { adopted } : {};
+    return await petModel.find(filter);
   }
 
   async findById(id: string | Types.ObjectId) {
