@@ -39,6 +39,19 @@ export const petIdSchema = z.object({
   params: PetIdSchema,
 });
 
+export const GetPetsQuerySchema = z.object({
+  adopted: z
+    .enum(["true", "false"])
+    .optional()
+    .describe("Filtrar por estado de adopción"),
+});
+
+registry.register("GetPetsQuery", GetPetsQuerySchema);
+
+export const getPetsSchema = z.object({
+  query: GetPetsQuerySchema,
+});
+
 export const deleteImageSchema = z.object({
   params: DeleteImageParamsSchema,
 });
