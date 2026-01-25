@@ -1,1 +1,68 @@
-<p>how-it-works works!</p>
+<section class="py-20 px-4 bg-gray-50 dark:bg-slate-900">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold mb-4">¿Cómo funciona la adopción?</h2>
+      <p class="text-lg text-gray-800 dark:text-gray-300 max-w-2xl mx-auto">
+        Adoptar una mascota es simple, transparente y 100% online.
+      </p>
+    </div>
+
+    <!-- Steps -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      @for (step of steps; track step.title; let i = $index) {
+      <p-card
+        class="dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+      >
+        <div>
+          <aside class="flex items-center gap-4 mb-3">
+            <!-- Icon -->
+            <figure
+              class="w-12 h-12 flex items-center justify-center rounded-lg bg-pink-100 text-pink-600 dark:bg-pink-600 dark:text-white shrink-0"
+            >
+              <i [class]="step.icon + ' text-xl'"></i>
+            </figure>
+
+            <!-- Text -->
+            <div>
+              <span class="text-sm text-gray-500 dark:text-gray-400 font-semibold">
+                Paso {{ i + 1 }}
+              </span>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                {{ step.title }}
+              </h3>
+            </div>
+          </aside>
+          <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+            {{ step.description }}
+          </p>
+        </div>
+      </p-card>
+      }
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center">
+      <div class="inline-flex flex-col sm:flex-row gap-4 items-center justify-center">
+        <button
+          pButton
+          label="Ver mascotas disponibles"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          (click)="goToPets()"
+          class="p-button-lg bg-pink-600 border-0 hover:bg-pink-700 px-8 dark:text-white"
+        ></button>
+
+        <button
+          pButton
+          label="Crear cuenta"
+          icon="pi pi-user-plus"
+          iconPos="right"
+          (click)="goToRegister()"
+          outlined
+          class="p-button-lg text-sky-700 bg-sky-50/80 hover:bg-sky-100 px-8 border-sky-700 dark:bg-sky-800 dark:text-white dark:hover:bg-sky-700"
+        ></button>
+      </div>
+    </div>
+  </div>
+</section>
