@@ -1,5 +1,5 @@
 <section class="py-16">
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto px-4 max-w-6xl">
     <div class="text-center mb-12">
       <h2 class="text-4xl font-bold mb-4">Mascotas destacadas</h2>
       <p class="max-w-2xl mx-auto">
@@ -21,7 +21,7 @@
       [autoplayInterval]="3000"
     >
       <ng-template let-pet #item>
-        <div class="m-2 xl:m-4 pb-4">
+        <div class="m-2 xl:m-3 pb-4">
           <app-pet-card [pet]="pet" [showAdoptButton]="true" />
         </div>
       </ng-template>
