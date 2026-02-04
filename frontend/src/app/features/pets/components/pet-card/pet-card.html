@@ -1,5 +1,5 @@
 <p-card
-  class="h-full hover:shadow-xl transition-shadow duration-300 cursor-pointer"
+  class="h-full hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-gray-200 dark:border-gray-700 dark:bg-gray-800"
   [style]="{ overflow: 'hidden' }"
 >
   <ng-template #header>
@@ -13,14 +13,14 @@
 
       @if (pet.adopted) {
       <div
-        class="absolute top-4 right-4 bg-indigo-500 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
+        class="absolute top-4 right-4 bg-pink-600 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
       >
         <lucide-angular [img]="HeartHandshakeIcon" size="20"></lucide-angular>
         <span class="text-sm font-semibold">Adoptado</span>
       </div>
       } @else {
       <div
-        class="absolute top-4 right-4 bg-emerald-500 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
+        class="absolute top-4 right-4 bg-sky-600 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
       >
         <i class="pi pi-sparkles text-white"></i>
         <span class="text-sm font-semibold">Disponible</span>
@@ -28,7 +28,7 @@
       }
 
       <div
-        class="absolute bottom-4 left-4 text-neutral-800 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2 shadow-lg"
+        class="absolute bottom-4 left-4 text-gray-800 dark:text-gray-900 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2 shadow-lg"
       >
         @if (pet.type === 'perro') {
         <lucide-angular [img]="DogIcon" size="20"></lucide-angular>
@@ -43,24 +43,30 @@
   </ng-template>
 
   <ng-template #title>
-    <h3 class="text-2xl font-bold truncate first-letter:uppercase max-w-60">
+    <h3
+      class="text-2xl font-bold truncate first-letter:uppercase max-w-60 text-gray-900 dark:text-white"
+    >
       {{ pet.name }}
     </h3>
   </ng-template>
 
   <ng-template #subtitle>
-    <p class="text-sm font-medium truncate first-letter:uppercase md:max-w-56">
+    <p
+      class="text-sm font-medium truncate first-letter:uppercase md:max-w-56 text-gray-600 dark:text-gray-300"
+    >
       {{ pet.breed }}
     </p>
   </ng-template>
 
   <div class="space-y-3">
     <div class="flex items-center">
-      <i class="pi pi-calendar text-blue-500 mr-2"></i>
-      <span class="text-sm">{{ getAgeLabel() }}</span>
+      <i class="pi pi-calendar text-pink-600 dark:text-pink-400 mr-2"></i>
+      <span class="text-sm text-gray-700 dark:text-gray-300">{{ getAgeLabel() }}</span>
     </div>
 
-    <p class="text-sm leading-relaxed line-clamp-3 first-letter:uppercase">
+    <p
+      class="text-sm leading-relaxed line-clamp-3 first-letter:uppercase text-gray-600 dark:text-gray-300"
+    >
       {{ pet.description || 'Sin descripción' }}
     </p>
   </div>
@@ -71,14 +77,17 @@
       <p-button
         label="Ver más"
         icon="pi pi-eye"
-        severity="secondary"
         [outlined]="true"
-        styleClass="flex-1"
+        styleClass="flex-1 text-sky-700 border-sky-600 hover:bg-sky-50 dark:text-sky-400 dark:border-sky-600 dark:hover:bg-sky-900/20"
         (onClick)="viewDetails()"
       />
 
       @if (showAdoptButton && !pet.adopted) {
-      <p-button label="Adoptar" severity="success" styleClass="flex-1" (onClick)="onAdopt()">
+      <p-button
+        label="Adoptar"
+        styleClass="flex-1 bg-pink-600 hover:bg-pink-700 border-0 text-white"
+        (onClick)="onAdopt()"
+      >
         <ng-template pTemplate="content">
           <lucide-angular [img]="PawPrintIcon" size="20"></lucide-angular>
           <span>Adoptar</span>
@@ -91,19 +100,23 @@
       <p-button
         label="Ver"
         icon="pi pi-eye"
-        severity="info"
         [outlined]="true"
-        styleClass="flex-1"
+        styleClass="flex-1 text-sky-700 border-sky-600 hover:bg-sky-50 dark:text-sky-400 dark:border-sky-600 dark:hover:bg-sky-900/20"
         (onClick)="viewDetails()"
       />
       <p-button
         label="Editar"
         icon="pi pi-pencil"
         [outlined]="true"
-        styleClass="flex-1"
+        styleClass="flex-1 text-gray-700 border-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-800"
         (onClick)="onEdit()"
       />
-      <p-button icon="pi pi-trash" severity="danger" [outlined]="true" (onClick)="onDelete()" />
+      <p-button
+        icon="pi pi-trash"
+        [outlined]="true"
+        styleClass="text-red-600 border-red-600 hover:bg-red-50 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900/20"
+        (onClick)="onDelete()"
+      />
     </div>
     }
   </ng-template>
