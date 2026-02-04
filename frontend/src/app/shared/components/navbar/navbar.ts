@@ -10,51 +10,31 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './navbar.html',
 })
 export class Navbar implements OnInit {
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [];
 
   constructor(public themeService: ThemeService) {}
 
   ngOnInit() {
     this.items = [
       {
-        label: 'Home',
+        label: 'Inicio',
         icon: 'pi pi-home',
         routerLink: '/',
       },
       {
-        label: 'Login',
-        icon: 'pi pi-user',
-        routerLink: '/auth/login',
+        label: 'Mascotas',
+        icon: 'pi pi-heart',
+        routerLink: '/pets',
       },
       {
-        label: 'Register',
-        icon: 'pi pi-user-plus',
-        routerLink: '/auth/register',
+        label: 'Cómo funciona',
+        icon: 'pi pi-info-circle',
+        routerLink: '/how-it-works',
       },
       {
-        label: 'Projects',
-        icon: 'pi pi-search',
-        badge: '3',
-        items: [
-          {
-            label: 'Core',
-            icon: 'pi pi-bolt',
-            shortcut: '⌘+S',
-          },
-          {
-            label: 'Blocks',
-            icon: 'pi pi-server',
-            shortcut: '⌘+B',
-          },
-          {
-            separator: true,
-          },
-          {
-            label: 'UI Kit',
-            icon: 'pi pi-pencil',
-            shortcut: '⌘+U',
-          },
-        ],
+        label: 'Refugios',
+        icon: 'pi pi-building',
+        routerLink: '/shelters',
       },
     ];
   }
