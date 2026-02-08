@@ -1,31 +1,41 @@
-<footer
-  class="bg-surface-50 dark:bg-surface-900 border-t border-surface-200 dark:border-surface-700"
->
+<footer class="bg-surface-100 dark:bg-black border-t border-surface-200 dark:border-surface-700">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
-      <div class="lg:col-span-1">
+      <div class="lg:col-span-2">
         <div class="flex items-center gap-2 mb-4">
           <figure class="flex items-center justify-center w-10 h-10">
-            <img src="/assets/images/logos/logo.png" alt="logo" class="w-full object-cover" />
+            <img
+              src="/assets/images/logos/logo.png"
+              alt="Rescue Connect logo"
+              class="w-full object-cover"
+            />
           </figure>
-          <span class="text-xl font-semibold text-surface-900 dark:text-surface-0"
-            >Rescue Connect</span
-          >
+          <span class="text-xl font-semibold text-surface-900 dark:text-surface-0">
+            Rescue Connect
+          </span>
         </div>
-        <p class="text-sm text-surface-600 dark:text-surface-400 mb-4">
-          Una aplicación para rescatar mascotas.
+
+        <p class="text-sm text-surface-600 dark:text-surface-400 mb-4 max-w-sm">
+          Transformamos vidas uniendo corazones responsables con huellas que buscan un hogar.
+          Facilitamos la adopción y apoyamos a refugios y rescatistas.
         </p>
+
         <div class="flex gap-2">
           @for (social of socialLinks; track social.icon) {
-          <p-button
-            [icon]="social.icon"
-            [text]="true"
-            [rounded]="true"
-            severity="secondary"
-            size="large"
+          <a
+            [href]="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
             [attr.aria-label]="social.label"
-            (onClick)="$event.preventDefault()"
-          />
+          >
+            <p-button
+              [icon]="social.icon"
+              [text]="true"
+              [rounded]="true"
+              severity="secondary"
+              size="large"
+            />
+          </a>
           }
         </div>
       </div>
@@ -34,14 +44,14 @@
         <h3
           class="text-sm font-semibold text-surface-900 dark:text-surface-0 uppercase tracking-wider mb-4"
         >
-          Producto
+          Adopción
         </h3>
         <ul class="space-y-3">
-          @for (link of footerLinks.product; track link.label) {
+          @for (link of footerLinks.adoption; track link.label) {
           <li>
             <a
               [href]="link.url"
-              class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary transition-colors"
+              class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
             >
               {{ link.label }}
             </a>
@@ -54,14 +64,14 @@
         <h3
           class="text-sm font-semibold text-surface-900 dark:text-surface-0 uppercase tracking-wider mb-4"
         >
-          Compañía
+          Organización
         </h3>
         <ul class="space-y-3">
-          @for (link of footerLinks.company; track link.label) {
+          @for (link of footerLinks.organization; track link.label) {
           <li>
             <a
               [href]="link.url"
-              class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary transition-colors"
+              class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
             >
               {{ link.label }}
             </a>
@@ -74,34 +84,14 @@
         <h3
           class="text-sm font-semibold text-surface-900 dark:text-surface-0 uppercase tracking-wider mb-4"
         >
-          Soporte
+          Ayuda
         </h3>
         <ul class="space-y-3">
-          @for (link of footerLinks.support; track link.label ){
+          @for (link of footerLinks.help; track link.label) {
           <li>
             <a
               [href]="link.url"
-              class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary transition-colors"
-            >
-              {{ link.label }}
-            </a>
-          </li>
-          }
-        </ul>
-      </div>
-
-      <div>
-        <h3
-          class="text-sm font-semibold text-surface-900 dark:text-surface-0 uppercase tracking-wider mb-4"
-        >
-          Legal
-        </h3>
-        <ul class="space-y-3">
-          @for (link of footerLinks.legal; track link.label ){
-          <li>
-            <a
-              [href]="link.url"
-              class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary transition-colors"
+              class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
             >
               {{ link.label }}
             </a>
@@ -115,22 +105,23 @@
 
     <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
       <p class="text-sm text-surface-600 dark:text-surface-400 text-center sm:text-left">
-        © {{ currentYear }} Rescue Connect. Todos los derechos reservados.
+        © 2026 Rescue Connect. Proyecto educativo y sin fines comerciales.
       </p>
-      <div class="flex items-center gap-4">
+
+      <aside class="flex items-center gap-4">
         <a
           href="/privacy"
-          class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary transition-colors"
+          class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
         >
           Privacidad
         </a>
         <a
           href="/terms"
-          class="text-sm text-surface-600 dark:text-surface-400 hover:text-primary transition-colors"
+          class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
         >
-          Términos y condiciones
+          Términos
         </a>
-      </div>
+      </aside>
     </div>
   </div>
 </footer>
