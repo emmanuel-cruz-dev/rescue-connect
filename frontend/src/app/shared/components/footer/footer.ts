@@ -7,35 +7,28 @@ import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
   templateUrl: './footer.html',
 })
 export class Footer {
-  currentYear = new Date().getFullYear();
-
   socialLinks = [
-    { icon: 'pi pi-twitter', url: 'https://twitter.com', label: 'Twitter' },
-    { icon: 'pi pi-facebook', url: 'https://facebook.com', label: 'Facebook' },
     { icon: 'pi pi-instagram', url: 'https://instagram.com', label: 'Instagram' },
+    { icon: 'pi pi-facebook', url: 'https://facebook.com', label: 'Facebook' },
+    { icon: 'pi pi-twitter', url: 'https://twitter.com', label: 'Twitter' },
     { icon: 'pi pi-github', url: 'https://github.com', label: 'GitHub' },
   ];
 
   footerLinks = {
-    product: [
-      { label: 'Características', url: '/features' },
-      { label: 'Precios', url: '/pricing' },
-      { label: 'Demos', url: '/demos' },
+    adoption: [
+      { label: 'Ver mascotas', url: '/pets' },
+      { label: 'Cómo adoptar', url: '/how-it-works' },
+      { label: 'Requisitos de adopción', url: '/requirements' },
     ],
-    company: [
-      { label: 'Acerca de', url: '/about' },
-      { label: 'Blog', url: '/blog' },
-      { label: 'Carreras', url: '/careers' },
+    organization: [
+      { label: 'Sobre el proyecto', url: '/about' },
+      { label: 'Refugios asociados', url: '/shelters' },
+      { label: 'Sumarse como voluntario', url: '/volunteer' },
     ],
-    support: [
-      { label: 'Centro de Ayuda', url: '/help' },
+    help: [
+      { label: 'Preguntas frecuentes', url: '/faq' },
       { label: 'Contacto', url: '/contact' },
-      { label: 'FAQ', url: '/faq' },
-    ],
-    legal: [
-      { label: 'Privacidad', url: '/privacy' },
-      { label: 'Términos', url: '/terms' },
-      { label: 'Cookies', url: '/cookies' },
+      { label: 'Reportar un problema', url: '/support' },
     ],
   };
 }
