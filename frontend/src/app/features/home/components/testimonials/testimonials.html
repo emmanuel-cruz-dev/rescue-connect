@@ -1,1 +1,84 @@
-<p>testimonials works!</p>
+<section
+  class="py-16 bg-linear-to-b from white to-pink-50/90 dark:bg-slate-900 dark:bg-linear-to-b dark:from-slate-900 dark:to-pink-950/30"
+>
+  <div class="container mx-auto px-4 max-w-6xl">
+    <div class="text-center mb-12">
+      <small class="text-pink-600 font-bold tracking-widest uppercase text-base">Testimonios</small>
+      <h2 class="text-4xl font-extrabold mt-2 mb-4 text-gray-900 dark:text-white">
+        Finales felices
+      </h2>
+      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        Historias reales de familias que transformaron sus vidas gracias a Rescue Connect.
+      </p>
+    </div>
+
+    <p-carousel
+      [value]="testimonials"
+      [numVisible]="3"
+      [numScroll]="2"
+      [circular]="true"
+      [autoplayInterval]="5000"
+      [responsiveOptions]="[
+        { breakpoint: '1024px', numVisible: 2, numScroll: 1 },
+        { breakpoint: '768px', numVisible: 1, numScroll: 1 }
+      ]"
+    >
+      <ng-template let-testimonial #item>
+        <div class="pb-5 px-3 h-full">
+          <div
+            class="relative bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 h-full flex flex-col justify-between hover:shadow-lg transition-all duration-300 group"
+          >
+            <div
+              class="absolute top-6 right-8 text-pink-100 dark:text-gray-700 group-hover:text-pink-200 transition-colors"
+            >
+              <i class="pi pi-quote text-6xl"></i>
+            </div>
+
+            <div class="relative z-10">
+              <div class="flex gap-1 mb-4 text-yellow-400">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                <i
+                  class="pi text-xs"
+                  [ngClass]="star <= testimonial.rating ? 'pi-star-fill' : 'pi-star'"
+                ></i>
+                }
+              </div>
+
+              <p class="text-gray-700 dark:text-gray-300 italic leading-relaxed mb-8">
+                "{{ testimonial.message }}"
+              </p>
+            </div>
+
+            <div class="flex items-center gap-4 border-t border-gray-100 dark:border-gray-700 pt-6">
+              <div class="relative">
+                <p-avatar
+                  [image]="testimonial.avatar"
+                  shape="circle"
+                  size="xlarge"
+                  class="ring-2 ring-pink-500 ring-offset-2 dark:ring-offset-gray-800"
+                  [attr.aria-label]="testimonial.name"
+                />
+                <div
+                  class="flex items-center justify-center w-6 h-6 absolute -bottom-1 -right-1 bg-pink-600 rounded-full border-2 border-white dark:border-gray-800"
+                >
+                  <i
+                    class="pi pi-heart-fill text-[10px] text-white translate-y-[0.5px] translate-x-[-0.3px]"
+                  ></i>
+                </div>
+              </div>
+
+              <aside>
+                <p class="font-bold text-gray-900 dark:text-white leading-tight">
+                  {{ testimonial.name }}
+                </p>
+                <p class="text-sm text-sky-600 dark:text-sky-400 font-medium">
+                  {{ testimonial.role }}
+                </p>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</section>
