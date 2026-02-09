@@ -34,8 +34,8 @@ export class HowItWorks {
       icon: 'pi pi-heart',
     },
     {
-      title: 'Último paso',
-      description: 'Nuestro equipo revisa tu solicitud. Si es aprobada, coordinamos la adopción.',
+      title: 'Revisión',
+      description: 'Nuestro equipo evalúa tu solicitud. Si es aprobada, coordinamos la adopción.',
       icon: 'pi pi-check-circle',
     },
   ];
