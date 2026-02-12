@@ -1,0 +1,113 @@
+<section
+  class="py-16 px-4 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <small class="text-pink-600 font-bold tracking-widest uppercase text-base"
+        >Preguntas Frecuentes</small
+      >
+      <h2 class="text-4xl font-extrabold mt-2 mb-4 text-gray-900 dark:text-white">
+        Todo lo que necesitás saber
+      </h2>
+      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        Respuestas claras a las dudas más comunes sobre el proceso de adopción.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
+      <div class="card flex flex-col bg-white dark:bg-slate-900 shadow-lg p-6 rounded-lg">
+        <div class="flex mb-4 gap-2 justify-end">
+          @for (faq of faqs; track faq.value; let i = $index) {
+          <p-button
+            (onClick)="activeIndex = faq.value"
+            [rounded]="true"
+            [label]="(i + 1).toString()"
+            [styleClass]="
+              activeIndex === faq.value
+                ? 'w-8 h-8 p-0 bg-pink-600 border-pink-600'
+                : 'w-8 h-8 p-0 text-black border-gray-600 dark:text-white dark:border-gray-400'
+            "
+            [outlined]="activeIndex !== faq.value"
+          />
+          }
+        </div>
+        <p-accordion
+          [(value)]="activeIndex"
+          [dt]="{
+            header: {
+              background: 'var(--p-custom-bg)',
+              border: { color: 'rgba(255,255,255,0.1)' },
+              activeBackground: 'var(--p-custom-active-bg)',
+              activeHoverBackground: 'rgba(255,255,255,0.05)',
+              activeColor: '#ec4899',
+              hoverBackground: 'rgba(255,255,255,0.05)',
+            },
+            content: {
+              background: 'var(--p-custom--active-bg)',
+              color: 'var(--p-custom-text)',
+              border: { color: 'transparent' },
+            }
+          }"
+          class="w-full"
+        >
+          @for (faq of faqs; track faq.question) {
+          <p-accordion-panel [value]="faq.value">
+            <p-accordion-header>
+              {{ faq.question }}
+            </p-accordion-header>
+            <p-accordion-content>
+              <p class="m-0 pt-3">
+                {{ faq.answer }}
+              </p>
+            </p-accordion-content>
+          </p-accordion-panel>
+          }
+        </p-accordion>
+      </div>
+
+      <div class="card shadow-lg">
+        <div class="w-full">
+          <p-galleria
+            [value]="images"
+            [showItemNavigators]="true"
+            [responsiveOptions]="responsiveOptions"
+            [circular]="true"
+            [numVisible]="5"
+            [showThumbnails]="true"
+            [showIndicators]="false"
+            [containerStyle]="{ 'max-width': '100%' }"
+            [dt]="{
+              thumbnailsContent: {
+                background: 'var(--p-custom-bg)'
+              },
+              thumbnailNavButton: {
+                background: 'transparent',
+                hoverBackground: 'rgba(255, 255, 255, 0.05)',
+                color: '#ffffff'
+              }
+            }"
+          >
+            <ng-template #item let-item>
+              <img
+                [src]="item.itemImageSrc"
+                [alt]="item.alt"
+                class="w-full h-auto"
+                style="height: 400px; object-fit: cover; max-width: 100%"
+                loading="lazy"
+              />
+            </ng-template>
+            <ng-template #thumbnail let-item>
+              <img
+                [src]="item.thumbnailImageSrc"
+                [alt]="item.alt"
+                class="cursor-pointer rounded"
+                style="width: 68px; height: 60px; object-fit: cover"
+                loading="lazy"
+              />
+            </ng-template>
+          </p-galleria>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
