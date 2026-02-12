@@ -15,3 +15,18 @@
   --p-primary-800: #9d174d;
   --p-primary-900: #831843;
 }
+
+@layer base {
+  :root {
+    --p-custom-bg: #ffffff;
+    --p-custom-text: #1e293b;
+    --p-custom-border: #e2e8f0;
+  }
+
+  .dark-mode {
+    --p-custom-bg: #090e1f;
+    --p-custom-active-bg: #05091a;
+    --p-custom-text: #f8fafc;
+    --p-custom-border: rgba(255, 255, 255, 0.05);
+  }
+}
