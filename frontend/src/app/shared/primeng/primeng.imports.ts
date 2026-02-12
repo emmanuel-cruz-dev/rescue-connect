@@ -1,4 +1,5 @@
 import { AccordionModule } from 'primeng/accordion';
+import { AnimateOnScrollModule } from 'primeng/animateonscroll';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -27,6 +28,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { FloatLabelModule } from 'primeng/floatlabel';
 
 export const PRIMENG_IMPORTS = [
+  AnimateOnScrollModule,
   AccordionModule,
   ButtonModule,
   CardModule,
