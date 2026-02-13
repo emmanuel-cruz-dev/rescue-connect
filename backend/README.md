@@ -1,5 +1,17 @@
 # 🐾 Rescue Connect - Backend API
 
+<div align="center">
+
+![Status](https://img.shields.io/badge/Status-Production_Ready-green)
+![Node.js](https://img.shields.io/badge/Node.js-16+-brightgreen?logo=node.js)
+![Express](https://img.shields.io/badge/Express-5.x-black?logo=express)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)
+![MongoDB](https://img.shields.io/badge/MongoDB-6.x-47A248?logo=mongodb&logoColor=white)
+![Swagger](https://img.shields.io/badge/API_Docs-Swagger-85EA2D?logo=swagger)
+
+</div>
+
+
 API REST desarrollada con Node.js, Express, TypeScript y MongoDB para la gestión de adopción de mascotas.
 
 > **Nota**: Este es el backend de Rescue Connect. El proyecto completo es un monorepo que incluye tanto el [frontend](../frontend) como el backend. Para instrucciones generales del proyecto, consulta el [README principal](../README.md).
