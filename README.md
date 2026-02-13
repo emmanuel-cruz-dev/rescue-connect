@@ -220,21 +220,9 @@ Las contribuciones son bienvenidas. Para contribuir:
 
 ---
 
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
----
-
 ## 👨‍💻 Autor
 
 **Emmanuel Cruz**
 
 - GitHub: [@emmanuel-cruz-dev](https://github.com/emmanuel-cruz-dev)
 - Proyecto: [Rescue Connect](https://github.com/emmanuel-cruz-dev/rescue-connect)
-
----
-
-<div align="center">
-  <p>Hecho con ❤️ para ayudar a las mascotas a encontrar un hogar</p>
-</div>
