@@ -1,8 +1,18 @@
 # 🐾 Rescue Connect - Frontend
 
+<div align="center">
+
+![Status](https://img.shields.io/badge/Status-En%20Construcción-orange)
+![Angular](https://img.shields.io/badge/Angular-21-red)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
+
+</div>
+
 Aplicación web frontend para la plataforma de adopción de mascotas Rescue Connect, desarrollada con Angular 21.
 
 > **Nota**: Este es el frontend de Rescue Connect. El proyecto completo es un monorepo que incluye tanto el frontend como el [backend](../backend). Para instrucciones generales del proyecto, consulta el [README principal](../README.md).
+
+> ⚠️ **En Desarrollo Activo**: Este proyecto está actualmente en construcción. Algunas funcionalidades están completas mientras que otras están siendo implementadas. Ver [Estado Actual](#-estado-actual) para más detalles.
 
 ---
 
@@ -11,6 +21,7 @@ Aplicación web frontend para la plataforma de adopción de mascotas Rescue Conn
 - [Descripción General](#-descripción-general)
 - [Tecnologías](#-tecnologías)
 - [Características Implementadas](#-características-implementadas)
+- [Estado Actual](#-estado-actual)
 - [Instalación](#-instalación)
 - [Scripts Disponibles](#-scripts-disponibles)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
@@ -62,6 +73,65 @@ Rescue Connect Frontend es una aplicación web moderna construida con Angular 21
 - **How It Works**: Explicación del proceso de adopción
 - **Testimonials**: Testimonios de usuarios
 - **FAQ**: Preguntas frecuentes
+
+---
+
+## 🚧 Estado Actual
+
+### ✅ Completado
+
+- **Autenticación**
+  - Login de usuarios
+  - Registro de usuarios
+  - Guards de protección de rutas
+  - Layout específico de autenticación
+
+- **Página de Inicio**
+  - Hero section
+  - Sección de mascotas destacadas
+  - Cómo funciona
+  - Testimonios
+  - FAQ
+
+- **Gestión de Mascotas**
+  - Listado de mascotas disponibles
+  - Vista detallada de cada mascota
+  - Componentes de tarjeta de mascota
+  - Galería de imágenes
+
+- **Arquitectura Base**
+  - Layouts (Main y Auth)
+  - Servicios de comunicación con backend
+  - Interceptors HTTP
+  - Guards de rutas
+  - Modelos e interfaces TypeScript
+
+### 🔄 En Desarrollo
+
+- **Panel de Usuario**
+  - Vista de perfil
+  - Edición de información personal
+  - Historial de solicitudes de adopción
+  - Mascotas adoptadas
+
+- **Sistema de Adopción**
+  - Formulario de solicitud de adopción
+  - Seguimiento de estado de solicitudes
+  - Cancelación de solicitudes
+
+- **Panel Administrativo**
+  - Dashboard de administración
+  - Gestión de mascotas (crear, editar, eliminar)
+  - Gestión de solicitudes de adopción
+  - Subida y gestión de imágenes
+
+### 📋 Pendiente
+
+- Filtros y búsqueda avanzada de mascotas
+- Sistema de favoritos
+- Notificaciones en tiempo real
+
+---
 
 ### 🔐 Autenticación
 
@@ -302,9 +372,3 @@ pnpm test
 - Se implementa **lazy loading** para optimizar la carga inicial
 - Los estilos siguen la metodología **utility-first** de Tailwind CSS
 - Se utiliza **PrimeNG** para componentes UI complejos
-
----
-
-<div align="center">
-  <p>Desarrollado con Angular 21 y ❤️</p>
-</div>
