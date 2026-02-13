@@ -1,5 +1,5 @@
 <p-card
-  class="h-full hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+  class="h-full hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-gray-200 dark:border-gray-700 dark:bg-slate-900!"
   [style]="{ overflow: 'hidden' }"
 >
   <ng-template #header>
@@ -78,14 +78,14 @@
         label="Ver más"
         icon="pi pi-eye"
         [outlined]="true"
-        styleClass="flex-1 text-sky-700 border-sky-600 hover:bg-sky-50 dark:text-sky-400 dark:border-sky-600 dark:hover:bg-sky-900/20"
+        styleClass="flex-1 text-sky-700! border-sky-600! hover:bg-sky-50! dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20!"
         (onClick)="viewDetails()"
       />
 
       @if (showAdoptButton && !pet.adopted) {
       <p-button
         label="Adoptar"
-        styleClass="flex-1 bg-pink-600 hover:bg-pink-700 border-0 text-white"
+        styleClass="flex-1 bg-pink-600! hover:bg-pink-700! border-0! text-white!"
         (onClick)="onAdopt()"
       >
         <ng-template pTemplate="content">
