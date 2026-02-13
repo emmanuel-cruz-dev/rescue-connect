@@ -1,38 +1,52 @@
-<section class="py-16">
+<section
+  class="py-16 bg-linear-to-b from-white to-pink-50/90 dark:bg-slate-900 dark:bg-linear-to-b dark:from-slate-900 dark:to-pink-950/30"
+>
   <div class="container mx-auto px-4 max-w-6xl">
-    <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold mb-4">Mascotas destacadas</h2>
-      <p class="max-w-2xl mx-auto">
-        Conoce a algunas de nuestras adorables mascotas que buscan un hogar
-      </p>
-    </div>
+    <app-section-header
+      eyebrow="Mascotas destacadas"
+      title="Conocé a quienes están esperando un hogar"
+      description="Cada una tiene una historia y muchas ganas de formar parte de una familia."
+    />
 
     @if (loading()) {
     <div class="flex justify-center py-12">
       <p-progressSpinner />
     </div>
     } @else {
-    <p-carousel
-      [circular]="true"
-      [value]="(featuredPets | async) ?? []"
-      [numVisible]="3"
-      [numScroll]="3"
-      [responsiveOptions]="responsiveOptions"
-      [autoplayInterval]="3000"
+    <div
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-0 zoom-in-95 animate-duration-1000 animate-delay-200"
+      once="true"
     >
-      <ng-template let-pet #item>
-        <div class="m-2 xl:m-3 pb-4">
-          <app-pet-card [pet]="pet" [showAdoptButton]="true" />
-        </div>
-      </ng-template>
-    </p-carousel>
+      <p-carousel
+        [circular]="true"
+        [value]="(featuredPets | async) ?? []"
+        [numVisible]="3"
+        [numScroll]="3"
+        [responsiveOptions]="responsiveOptions"
+        [autoplayInterval]="3000"
+      >
+        <ng-template let-pet #item>
+          <div class="m-2 xl:m-3 pb-4">
+            <app-pet-card [pet]="pet" [showAdoptButton]="true" />
+          </div>
+        </ng-template>
+      </p-carousel>
+    </div>
 
-    <div class="text-center mt-12">
+    <div
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-10 slide-in-from-b-8 animate-duration-1000 animate-delay-800"
+      once="true"
+      class="text-center mt-12"
+    >
       <p-button
         label="Ver todas las mascotas"
         icon="pi pi-arrow-right"
+        iconPos="right"
         [routerLink]="['/pets']"
         size="large"
+        styleClass="bg-pink-600! border-0! hover:bg-pink-700! px-8! text-white!"
       />
     </div>
     }
