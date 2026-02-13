@@ -6,7 +6,12 @@
   >
     <div class="w-full h-full max-h-110">
       <div class="grid grid-cols-12 grid-rows-12 gap-4 h-full">
-        <figure class="row-start-2 col-span-4 row-span-5 overflow-hidden rounded-2xl shadow-xl">
+        <figure
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-10 slide-in-from-l-8 animate-duration-1000"
+          class="row-start-2 col-span-4 row-span-5 overflow-hidden rounded-2xl shadow-xl"
+        >
           <img
             src="assets/images/hero/hero-grid1.webp"
             alt="Primer plano de un perro marrón y blanco con expresión alegre y la boca abierta"
@@ -16,7 +21,12 @@
           />
         </figure>
 
-        <figure class="col-span-8 row-span-6 overflow-hidden rounded-2xl shadow-xl">
+        <figure
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-10 slide-in-from-t-12 animate-duration-1000 animate-delay-200"
+          class="col-span-8 row-span-6 overflow-hidden rounded-2xl shadow-xl"
+        >
           <img
             src="assets/images/hero/hero-grid2.webp"
             alt="Gato atigrado de ojos verdes descansando sobre un sofá rojo con luces de fondo desenfocadas"
@@ -26,7 +36,12 @@
           />
         </figure>
 
-        <figure class="col-span-8 row-span-6 overflow-hidden rounded-2xl shadow-xl">
+        <figure
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-10 slide-in-from-b-12 animate-duration-1000 animate-delay-400"
+          class="col-span-8 row-span-6 overflow-hidden rounded-2xl shadow-xl"
+        >
           <img
             src="assets/images/hero/hero-grid3.webp"
             alt="Cachorro blanco y marrón jugando tumbado sobre el césped verde"
@@ -36,7 +51,12 @@
           />
         </figure>
 
-        <figure class="col-span-4 row-span-5 overflow-hidden rounded-2xl shadow-xl">
+        <figure
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-10 slide-in-from-r-8 animate-duration-1000 animate-delay-600"
+          class="col-span-4 row-span-5 overflow-hidden rounded-2xl shadow-xl"
+        >
           <img
             src="assets/images/hero/hero-grid4.webp"
             alt="Retrato de un gatito blanco y negro con bigotes largos mirando atentamente a la cámara"
@@ -49,28 +69,43 @@
     </div>
 
     <aside class="flex flex-col justify-center">
-      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-6 text-gray-900 dark:text-white">
+      <h1
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-r-12 animate-duration-1000"
+        class="text-4xl md:text-5xl font-bold leading-tight mb-6 text-gray-900 dark:text-white"
+      >
         Tu próximo mejor amigo
         <span class="text-pink-600">te está esperando</span>
       </h1>
 
-      <p class="text-lg mb-10 max-w-xl text-gray-600 dark:text-gray-300">
+      <p
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-0 zoom-in-90 animate-duration-1000 animate-delay-600"
+        class="text-lg mb-10 max-w-xl text-gray-600 dark:text-gray-300"
+      >
         Conectamos mascotas rescatadas con personas responsables, de forma simple, transparente y
         acompañada en cada paso.
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-4">
+      <div
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-b-8 animate-duration-1000 animate-delay-400"
+        class="flex flex-col sm:flex-row gap-4"
+      >
         <p-button
           label="Ver mascotas"
           icon="pi pi-heart"
-          styleClass="bg-pink-600 hover:bg-pink-700 border-0 text-white p-button-lg"
+          styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white! p-button-lg"
         />
 
         <p-button
           label="Cómo funciona"
           icon="pi pi-info-circle"
           [outlined]="true"
-          styleClass="p-button-lg text-sky-700 border-sky-600 hover:bg-sky-50 dark:text-sky-400 dark:border-sky-600 dark:hover:bg-sky-900/20"
+          styleClass="p-button-lg text-sky-700! border-sky-600! hover:bg-sky-50 dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20"
         />
       </div>
     </aside>
