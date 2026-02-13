@@ -2,24 +2,25 @@
   class="py-16 px-4 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
 >
   <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-14">
-      <small class="text-pink-600 font-bold tracking-widest uppercase text-base"
-        >¿Cómo funciona la adopción?</small
-      >
-      <h2 class="text-4xl font-extrabold mt-2 mb-4 text-gray-900 dark:text-white">
-        Un proceso simple y transparente
-      </h2>
-      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        Te acompañamos paso a paso para que adoptar sea una experiencia clara y segura.
-      </p>
-    </div>
+    <app-section-header
+      eyebrow="¿Cómo funciona la adopción?"
+      title="Un proceso simple y transparente"
+      description="Te acompañamos paso a paso para que adoptar sea una experiencia clara y segura."
+    />
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
       @for (step of steps; track step.title; let i = $index) {
-      <p-card
-        class="dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
+      <div
+        pAnimateOnScroll
+        enterClass="opacity-100 translate-y-0 transition-all duration-700 ease-out"
+        leaveClass="opacity-0 translate-y-8"
+        class="opacity-0 translate-y-8"
+        [once]="true"
+        [style.transitionDelay.ms]="i * 150"
       >
-        <div>
+        <p-card
+          class="border border-gray-200 dark:border-gray-700! rounded-xl shadow-lg dark:bg-slate-900!"
+        >
           <aside class="flex items-center gap-4 mb-3">
             <figure
               class="w-12 h-12 flex items-center justify-center rounded-lg bg-pink-100 text-pink-600 dark:bg-pink-600 dark:text-white shrink-0"
@@ -39,12 +40,17 @@
           <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
             {{ step.description }}
           </p>
-        </div>
-      </p-card>
+        </p-card>
+      </div>
       }
     </div>
 
-    <div class="text-center">
+    <div
+      pAnimateOnScroll
+      enterClass="animate-enter fade-in-10 zoom-in-75 animate-duration-1000 animate-delay-800"
+      [once]="true"
+      class="text-center"
+    >
       <div class="inline-flex flex-col sm:flex-row gap-4 items-center justify-center">
         <button
           pButton
@@ -52,7 +58,7 @@
           icon="pi pi-arrow-right"
           iconPos="right"
           (click)="goToPets()"
-          class="p-button-lg bg-pink-600 border-0 hover:bg-pink-700 px-8 dark:text-white"
+          class="p-button-lg bg-pink-600! border-pink-600! hover:bg-pink-700! px-8! dark:text-white!"
         ></button>
 
         <button
@@ -62,7 +68,7 @@
           iconPos="right"
           (click)="goToRegister()"
           outlined
-          class="p-button-lg text-sky-700 bg-sky-50 hover:bg-sky-100 px-8 border-sky-600 dark:bg-sky-900/30 dark:text-sky-200 dark:border-sky-700 dark:hover:bg-sky-900/50"
+          class="p-button-lg text-sky-700! bg-sky-50! hover:bg-sky-100! px-8! border-sky-600! dark:bg-sky-900/30! dark:text-sky-200! dark:border-sky-700! dark:hover:bg-sky-900/50!"
         ></button>
       </div>
     </div>
