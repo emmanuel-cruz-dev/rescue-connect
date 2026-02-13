@@ -1,12 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SectionHeader } from '../section-header/section-header';
 import { PetService } from '../../../pets/services/pet.service';
 import { PetCard } from '../../../pets/components/pet-card/pet-card';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
   selector: 'app-featured-pets',
-  imports: [RouterModule, PetCard, PRIMENG_IMPORTS],
+  imports: [RouterModule, PetCard, SectionHeader, PRIMENG_IMPORTS],
   templateUrl: './featured-pets.html',
 })
 export class FeaturedPets implements OnInit {
