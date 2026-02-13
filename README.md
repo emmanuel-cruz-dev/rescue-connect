@@ -2,6 +2,16 @@
 
 **Plataforma web para la adopción responsable de mascotas**
 
+<div align="center">
+  
+![Status](https://img.shields.io/badge/Status-En%20Desarrollo-yellow)
+![Backend](https://img.shields.io/badge/Backend-Completo-green)
+![Frontend](https://img.shields.io/badge/Frontend-En%20Construcción-orange)
+
+</div>
+
+> ⚠️ **Proyecto en Desarrollo Activo**: El backend está funcional y desplegado. El frontend está actualmente en construcción y se están implementando nuevas funcionalidades
+
 Rescue Connect es una aplicación full-stack que conecta a mascotas en busca de hogar con personas dispuestas a adoptarlas. El proyecto facilita el proceso de adopción mediante un sistema de solicitudes, gestión de perfiles de mascotas y autenticación segura de usuarios.
 
 ---
@@ -11,6 +21,7 @@ Rescue Connect es una aplicación full-stack que conecta a mascotas en busca de 
 - [Características Principales](#-características-principales)
 - [Stack Tecnológico](#-stack-tecnológico)
 - [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Estado del Proyecto](#-estado-del-proyecto)
 - [Inicio Rápido](#-inicio-rápido)
 - [Documentación](#-documentación)
 - [Contribuir](#-contribuir)
@@ -104,6 +115,30 @@ rescue-connect/
 │
 └── README.md             # Este archivo
 ```
+
+---
+
+## 🚧 Estado del Proyecto
+
+### Backend ✅
+- **Estado**: Funcional y desplegado
+- **API REST**: Completamente operativa
+- **Documentación**: Swagger disponible
+- **Próximas mejoras**: Detalles menores y optimizaciones
+
+### Frontend 🔨
+- **Estado**: En desarrollo activo
+- **Completado**: 
+  - ✅ Página de inicio (Landing)
+  - ✅ Sistema de autenticación (Login/Registro)
+  - ✅ Listado de mascotas
+  - ✅ Vista detallada de mascotas
+  - ✅ Layouts y guards
+- **En progreso**:
+  - 🔄 Panel de usuario
+  - 🔄 Sistema de solicitudes de adopción
+  - 🔄 Panel administrativo
+  - 🔄 Gestión de perfil
 
 ---
 
