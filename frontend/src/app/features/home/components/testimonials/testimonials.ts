@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SectionHeader } from '../section-header/section-header';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 interface Testimonial {
@@ -11,7 +12,7 @@ interface Testimonial {
 
 @Component({
   selector: 'app-testimonials',
-  imports: [PRIMENG_IMPORTS],
+  imports: [SectionHeader, PRIMENG_IMPORTS],
   templateUrl: './testimonials.html',
 })
 export class Testimonials {
