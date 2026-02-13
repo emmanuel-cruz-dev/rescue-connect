@@ -2,6 +2,8 @@
 
 API REST desarrollada con Node.js, Express, TypeScript y MongoDB para la gestión de adopción de mascotas.
 
+> **Nota**: Este es el backend de Rescue Connect. El proyecto completo es un monorepo que incluye tanto el [frontend](../frontend) como el backend. Para instrucciones generales del proyecto, consulta el [README principal](../README.md).
+> 
 ## 📋 Tabla de Contenidos
 
 - [Descripción General](#-descripción-general)
@@ -142,14 +144,12 @@ El proyecto sigue una **arquitectura en capas** (Layered Architecture) con separ
 ### Pasos de Instalación
 
 1. **Clonar el repositorio**
-
 ```bash
-git clone <repository-url>
+git clone https://github.com/emmanuel-cruz-dev/rescue-connect.git
 cd rescue-connect/backend
 ```
 
 2. **Instalar dependencias**
-
 ```bash
 pnpm install
 # o
@@ -157,7 +157,6 @@ npm install
 ```
 
 3. **Configurar variables de entorno**
-
 ```bash
 cp .env.example .env
 ```
@@ -165,7 +164,6 @@ cp .env.example .env
 4. **Editar el archivo `.env`** con tus credenciales
 
 5. **Iniciar el servidor de desarrollo**
-
 ```bash
 pnpm dev
 # o
