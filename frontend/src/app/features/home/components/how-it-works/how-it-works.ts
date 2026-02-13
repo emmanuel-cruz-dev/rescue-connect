@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SectionHeader } from '../section-header/section-header';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 interface HowItWorksStep {
@@ -11,7 +12,7 @@ interface HowItWorksStep {
 @Component({
   selector: 'app-how-it-works',
   standalone: true,
-  imports: [PRIMENG_IMPORTS],
+  imports: [PRIMENG_IMPORTS, SectionHeader],
   templateUrl: './how-it-works.html',
 })
 export class HowItWorks {
