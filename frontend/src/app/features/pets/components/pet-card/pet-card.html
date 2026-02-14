@@ -15,7 +15,7 @@
       <div
         class="absolute top-4 right-4 bg-pink-600 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
       >
-        <lucide-angular [img]="HeartHandshakeIcon" size="20"></lucide-angular>
+        <lucide-angular [img]="HeartHandshakeIcon" size="20" />
         <span class="text-sm font-semibold">Adoptado</span>
       </div>
       } @else {
@@ -31,9 +31,9 @@
         class="absolute bottom-4 left-4 text-gray-800 dark:text-gray-900 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2 shadow-lg"
       >
         @if (pet.type === 'perro') {
-        <lucide-angular [img]="DogIcon" size="20"></lucide-angular>
+        <lucide-angular [img]="DogIcon" size="20" />
         } @else {
-        <lucide-angular [img]="CatIcon" size="20"></lucide-angular>
+        <lucide-angular [img]="CatIcon" size="20" />
         }
         <span class="text-sm font-semibold">
           {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
@@ -89,7 +89,7 @@
         (onClick)="onAdopt()"
       >
         <ng-template pTemplate="content">
-          <lucide-angular [img]="PawPrintIcon" size="20"></lucide-angular>
+          <lucide-angular [img]="PawPrintIcon" size="20" />
           <span>Adoptar</span>
         </ng-template>
       </p-button>
