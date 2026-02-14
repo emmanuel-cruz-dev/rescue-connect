@@ -1,8 +1,10 @@
 <p-toast position="bottom-left" />
 
-<div class="flex items-center justify-center min-h-screen bg-gray-200 dark:bg-gray-900 px-4 py-8">
+<div
+  class="flex items-center justify-center min-h-screen px-4 py-8 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900 pt-28"
+>
   <div class="w-full max-w-lg">
-    <p-card>
+    <p-card class="bg-white dark:bg-slate-900 shadow-2xl">
       <ng-template pTemplate="header">
         <div class="text-center pt-6 pb-2">
           <h1 class="text-3xl font-bold">Crear Cuenta</h1>
@@ -163,7 +165,12 @@
           }
         </div>
 
-        <p-button type="submit" label="Crear Cuenta" styleClass="w-full" [loading]="isLoading" />
+        <p-button
+          type="submit"
+          label="Crear Cuenta"
+          styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white! w-full"
+          [loading]="isLoading"
+        />
 
         <div class="flex items-center justify-center gap-2">
           <p class="text-gray-600 dark:text-gray-400">¿Ya tienes una cuenta?</p>
