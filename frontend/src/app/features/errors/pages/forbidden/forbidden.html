@@ -1,0 +1,76 @@
+<section
+  class="flex h-screen w-full flex-col items-center justify-center bg-linear-to-b from-pink-50/90 to-white px-4 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="text-center max-w-2xl">
+    <header class="relative mb-8">
+      <h1 class="text-9xl font-black text-pink-100 dark:text-pink-950/30">403</h1>
+      <figure class="absolute inset-0 top-5 flex items-center justify-center">
+        <i class="pi pi-lock text-6xl text-pink-600 dark:text-pink-500"></i>
+      </figure>
+    </header>
+
+    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white mb-4">
+      Acceso Denegado
+    </h2>
+
+    <div class="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+      <p>Lo sentimos, no tienes permisos para acceder a esta página.</p>
+      <p class="flex items-center justify-center gap-2">
+        Esta área está protegida
+        <lucide-angular [img]="ShieldAlertIcon" size="20" />
+      </p>
+    </div>
+
+    <div class="flex flex-wrap gap-4 justify-center">
+      <button
+        pButton
+        label="Volver atrás"
+        icon="pi pi-arrow-left"
+        iconPos="left"
+        outlined
+        (click)="goBack()"
+        class="p-button-lg px-8! text-sky-700! border-sky-600! hover:bg-sky-50 dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20"
+      ></button>
+
+      <button
+        pButton
+        label="Ir al inicio"
+        icon="pi pi-home"
+        iconPos="left"
+        routerLink="/"
+        class="p-button-lg bg-pink-600! border-pink-600! hover:bg-pink-700! px-8! dark:text-white!"
+      ></button>
+    </div>
+
+    <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">¿Necesitas ayuda?</p>
+
+      <ul class="flex flex-wrap justify-center text-sm">
+        <li class="px-3 border-r last:border-r-0 border-gray-300 dark:border-gray-600">
+          <a
+            routerLink="/"
+            class="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 hover:underline"
+          >
+            Inicio
+          </a>
+        </li>
+        <li class="px-3 border-r last:border-r-0 border-gray-300 dark:border-gray-600">
+          <a
+            routerLink="/profile"
+            class="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 hover:underline"
+          >
+            Mi perfil
+          </a>
+        </li>
+        <li class="px-3 border-r last:border-r-0 border-gray-300 dark:border-gray-600">
+          <a
+            routerLink="/auth/login"
+            class="text-pink-600 hover:text-pink-700 dark:text-pink-400 dark:hover:text-pink-300 hover:underline"
+          >
+            Iniciar sesión
+          </a>
+        </li>
+      </ul>
+    </footer>
+  </div>
+</section>
