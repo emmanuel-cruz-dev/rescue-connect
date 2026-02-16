@@ -47,15 +47,30 @@ export class PetCard {
     return placeholders[this.pet.type] ?? placeholders['perro'];
   }
 
-  // TODO: Change age type to string in back-end
   getAgeLabel(): string {
-    if (this.pet.age === 1) {
-      return '1 año';
+    if (!this.pet.birthDate) return '';
+
+    const birthDate = new Date(this.pet.birthDate);
+    const today = new Date();
+
+    const diffInMs = today.getTime() - birthDate.getTime();
+    const totalMonths = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 30.44));
+
+    const years = Math.floor(totalMonths / 12);
+    const months = totalMonths % 12;
+
+    if (years === 0) {
+      return months === 1 ? '1 mes' : `${months} meses`;
     }
-    if (this.pet.age < 1) {
-      return `${Math.round(this.pet.age * 12)} meses`;
+
+    if (months === 0) {
+      return years === 1 ? '1 año' : `${years} años`;
     }
-    return `${this.pet.age} años`;
+
+    const yearLabel = years === 1 ? 'año' : 'años';
+    const monthLabel = months === 1 ? 'mes' : 'meses';
+
+    return `${years} ${yearLabel} y ${months} ${monthLabel}`;
   }
 
   viewDetails(): void {
