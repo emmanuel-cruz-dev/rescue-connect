@@ -18,6 +18,37 @@ import {
   AdoptionStatusQuerySchema,
 } from "../validators/adoption.validator";
 
+/* ========= SYSTEM ========= */
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/health",
+  tags: ["System"],
+  summary: "Estado del servidor",
+  description:
+    "Verifica si el servidor está activo y devuelve métricas básicas de funcionamiento.",
+  responses: {
+    200: {
+      description: "Servidor operativo",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              status: { type: "string", example: "available" },
+              timestamp: {
+                type: "string",
+                format: "date-time",
+                example: "2026-03-20",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
 /* ========= AUTH ========= */
 
 registry.registerPath({
