@@ -13,6 +13,10 @@ export const routes: Routes = [
         path: '',
         loadChildren: () => import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
       },
+      {
+        path: 'pets',
+        loadChildren: () => import('./features/pets/pet.routes').then((m) => m.PETS_ROUTES),
+      },
     ],
   },
   {
