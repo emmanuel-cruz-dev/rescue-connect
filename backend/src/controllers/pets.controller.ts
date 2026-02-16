@@ -1,15 +1,19 @@
 import { Request, Response, NextFunction } from "express";
 import petsModel from "../models/pets.model";
+import { IPetQueryParams } from "../types/pet.types";
 
 class PetsController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const { adopted } = req.query;
-      const adoptedFilter = adopted === "true" ? true : adopted === "false" ? false : undefined;
-      const pets = await petsModel.getAll(adoptedFilter);
+      const queryParams = req.query as unknown as IPetQueryParams;
+      const pets = await petsModel.getAll(queryParams);
       res
         .status(200)
-        .json({ status: "success", data: { pets }, count: pets.length });
+        .json({
+          status: "success",
+          data: { pets },
+          count: pets.pagination.totalItems,
+        });
     } catch (err) {
       next(err);
     }
