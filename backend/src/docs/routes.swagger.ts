@@ -158,14 +158,64 @@ registry.registerPath({
   method: "get",
   path: "/api/v1/pets",
   tags: ["Pets"],
-  summary: "Listar mascotas",
-  description: "Obtiene la lista de todas las mascotas. Puede filtrar por estado de adopción usando el parámetro adopted (true/false)",
+  summary: "Listar mascotas con filtros y paginación",
+  description: `Obtiene la lista de mascotas con múltiples opciones de filtrado y paginación.
+
+**Filtros disponibles:**
+- adopted: Estado de adopción (true/false)
+- type: Tipo de mascota (perro/gato)
+- gender: Género (macho/hembra)
+- size: Tamaño (pequeño/mediano/grande/extra grande)
+- isSterilized: Si está esterilizada (true/false)
+- isVaccinated: Si está vacunada (true/false)
+- minAge: Edad mínima en años
+- maxAge: Edad máxima en años
+- search: Búsqueda por nombre, raza o descripción
+
+**Paginación:**
+- page: Número de página (default: 1)
+- limit: Elementos por página (default: 10, max: 100)
+
+**Ordenamiento:**
+- sortBy: Campo de ordenamiento (createdAt/name/birthDate, default: createdAt)
+- order: Orden (asc/desc, default: desc)`,
   request: {
     query: GetPetsQuerySchema,
   },
   responses: {
-    200: { description: "Lista de mascotas obtenida exitosamente" },
-    400: { description: "Parámetro de consulta inválido" },
+    200: {
+      description:
+        "Lista de mascotas obtenida exitosamente con información de paginación",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              success: { type: "boolean", example: true },
+              data: {
+                type: "array",
+                items: {
+                  type: "object",
+                  description: "Objeto de mascota",
+                },
+              },
+              pagination: {
+                type: "object",
+                properties: {
+                  currentPage: { type: "number", example: 1 },
+                  totalPages: { type: "number", example: 5 },
+                  totalItems: { type: "number", example: 47 },
+                  itemsPerPage: { type: "number", example: 10 },
+                  hasNextPage: { type: "boolean", example: true },
+                  hasPrevPage: { type: "boolean", example: false },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    400: { description: "Parámetros de consulta inválidos" },
   },
 });
 
