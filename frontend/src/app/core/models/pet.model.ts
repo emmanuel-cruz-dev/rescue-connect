@@ -10,7 +10,7 @@ export interface IPet {
   _id: string;
   name: string;
   type: PetType;
-  age: number;
+  birthDate: Date;
   breed: string;
   description?: string;
   adopted: boolean;
