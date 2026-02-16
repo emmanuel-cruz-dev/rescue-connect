@@ -19,11 +19,9 @@ const petSchema = new mongoose.Schema<IPetDocument>(
       },
       lowercase: true,
     },
-    age: {
-      type: Number,
-      required: [true, "La edad es obligatoria"],
-      min: [0, "La edad no puede ser negativa"],
-      max: [30, "La edad no parece correcta"],
+    birthDate: {
+      type: Date,
+      required: [true, "La fecha de nacimiento es obligatoria"],
     },
     breed: {
       type: String,
