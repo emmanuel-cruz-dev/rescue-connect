@@ -23,6 +23,18 @@ const petSchema = new mongoose.Schema<IPetDocument>(
       type: Date,
       required: [true, "La fecha de nacimiento es obligatoria"],
     },
+    gender: {
+      type: String,
+      required: [true, "El género es obligatorio"],
+      enum: ["macho", "hembra"],
+      lowercase: true,
+    },
+    size: {
+      type: String,
+      required: [true, "el tamaño es obligatorio"],
+      enum: ["pequeño", "mediano", "grande", "extra grande"],
+      default: "mediano",
+    },
     breed: {
       type: String,
       trim: true,
@@ -45,6 +57,8 @@ const petSchema = new mongoose.Schema<IPetDocument>(
         },
       },
     ],
+    isSterilized: { type: Boolean, default: false },
+    isVaccinated: { type: Boolean, default: false },
     adopted: {
       type: Boolean,
       default: false,
@@ -60,7 +74,13 @@ const petSchema = new mongoose.Schema<IPetDocument>(
   }
 );
 
-petSchema.index({ adoptedBy: 1 });
 petSchema.index({ adopted: 1 });
+petSchema.index({ type: 1 });
+petSchema.index({ adoptedBy: 1 });
+
+petSchema.index({ name: "text", breed: "text", description: "text" });
+petSchema.index({ adopted: 1, type: 1, gender: 1, size: 1 });
+petSchema.index({ createdAt: -1 });
+petSchema.index({ birthDate: 1 });
 
 export default mongoose.model<IPetDocument>("Pet", petSchema);
