@@ -27,8 +27,8 @@ const petSchema = new mongoose.Schema<IPetDocument>(
     },
     breed: {
       type: String,
-      required: [true, "La raza es obligatoria"],
       trim: true,
+      default: "mestizo",
     },
     description: {
       type: String,
