@@ -10,7 +10,7 @@ export interface IPetImage {
 export interface IPet {
   name: string;
   type: PetType;
-  age: number;
+  birthDate: Date;
   breed: string;
   description?: string;
   images?: IPetImage[];
