@@ -51,11 +51,13 @@
   </ng-template>
 
   <ng-template #subtitle>
+    @if (pet.breed && pet.breed !== 'mestizo') {
     <p
       class="text-sm font-medium truncate first-letter:uppercase md:max-w-56 text-gray-600 dark:text-gray-300"
     >
       {{ pet.breed }}
     </p>
+    }
   </ng-template>
 
   <div class="space-y-3">
