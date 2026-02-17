@@ -6,14 +6,13 @@ class PetsController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const queryParams = req.query as unknown as IPetQueryParams;
-      const pets = await petsModel.getAll(queryParams);
-      res
-        .status(200)
-        .json({
-          status: "success",
-          data: { pets },
-          count: pets.pagination.totalItems,
-        });
+      const result = await petsModel.getAll(queryParams);
+
+      res.status(200).json({
+        status: "success",
+        data: result.data,
+        pagination: result.pagination,
+      });
     } catch (err) {
       next(err);
     }
