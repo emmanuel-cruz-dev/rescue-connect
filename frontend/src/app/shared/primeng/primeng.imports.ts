@@ -27,6 +27,8 @@ import { DividerModule } from 'primeng/divider';
 import { CarouselModule } from 'primeng/carousel';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SkeletonModule } from 'primeng/skeleton';
+import { DrawerModule } from 'primeng/drawer';
+import { SelectModule } from 'primeng/select';
 
 export const PRIMENG_IMPORTS = [
   AnimateOnScrollModule,
@@ -58,4 +60,6 @@ export const PRIMENG_IMPORTS = [
   CarouselModule,
   FloatLabelModule,
   SkeletonModule,
+  DrawerModule,
+  SelectModule,
 ] as const;
