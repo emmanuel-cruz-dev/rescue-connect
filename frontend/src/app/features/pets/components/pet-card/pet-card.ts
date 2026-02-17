@@ -9,7 +9,7 @@ import {
 } from 'lucide-angular';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet } from '../../../../core/models/pet.model';
-import { PetType } from '../../../../core/enums/pet-type.enum';
+import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
 
 @Component({
   selector: 'app-pet-card',
@@ -71,6 +71,16 @@ export class PetCard {
     const monthLabel = months === 1 ? 'mes' : 'meses';
 
     return `${years} ${yearLabel} y ${months} ${monthLabel}`;
+  }
+
+  getSizeLabel(): string {
+    const labels: Record<PetSize, string> = {
+      pequeño: 'Pequeño',
+      mediano: 'Mediano',
+      grande: 'Grande',
+      'extra grande': 'Extra grande',
+    };
+    return labels[this.pet.size];
   }
 
   viewDetails(): void {
