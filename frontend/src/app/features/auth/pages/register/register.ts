@@ -41,7 +41,7 @@ export class Register {
         next: (response) => {
           this.isLoading = false;
 
-          if (response.status === 'success') {
+          if (response.success) {
             this.messageService.add({
               severity: 'success',
               summary: 'Registro Exitoso',

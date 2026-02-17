@@ -38,7 +38,7 @@ export class Login {
           this.isLoading = false;
           this.cd.detectChanges();
 
-          if (response.status === 'success') {
+          if (response.success) {
             this.messageService.add({
               severity: 'success',
               summary: 'Inicio de Sesión Exitoso',
