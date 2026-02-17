@@ -25,8 +25,7 @@ registry.registerPath({
   path: "/api/v1/health",
   tags: ["System"],
   summary: "Estado del servidor",
-  description:
-    "Verifica si el servidor está activo y devuelve métricas básicas de funcionamiento.",
+  description: "Verifica si el servidor está activo y devuelve la fecha actual",
   responses: {
     200: {
       description: "Servidor operativo",
