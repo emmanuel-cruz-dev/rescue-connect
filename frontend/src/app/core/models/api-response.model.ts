@@ -1,6 +1,17 @@
 export interface ApiResponse<T> {
-  status: 'success' | 'error';
-  message: string;
-  data?: T;
+  success: boolean;
+  message?: string;
+  data: T;
   error?: string;
+}
+
+export interface PaginatedApiResponse<T> extends ApiResponse<T> {
+  pagination: {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
 }
