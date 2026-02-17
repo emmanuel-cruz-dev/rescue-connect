@@ -1,0 +1,203 @@
+<div
+  class="bg-white dark:bg-slate-800/80 rounded-2xl border border-slate-100 dark:border-slate-700/60 shadow-sm overflow-hidden"
+>
+  <div
+    class="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-700/60"
+  >
+    <div class="flex items-center gap-2">
+      <i class="pi pi-sliders-h text-pink-500"></i>
+      <span class="font-semibold text-slate-700 dark:text-slate-200 text-sm">Filtros</span>
+      @if (activeCount() > 0) {
+      <span
+        class="bg-pink-100 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400 text-xs font-semibold rounded-full px-2 py-0.5"
+      >
+        {{ activeCount() }}
+      </span>
+      }
+    </div>
+    @if (activeCount() > 0) {
+    <button
+      (click)="onClearFilters()"
+      class="text-xs text-slate-400 hover:text-pink-500 dark:hover:text-pink-400 transition-colors font-medium"
+    >
+      Limpiar
+    </button>
+    }
+  </div>
+
+  <div class="px-5 py-4 space-y-4">
+    <div>
+      <label
+        class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+        >Buscar</label
+      >
+      <div class="relative mt-1">
+        <i
+          class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm pointer-events-none"
+        ></i>
+        <input
+          type="text"
+          placeholder="Nombre, raza, descripción..."
+          [value]="searchValue()"
+          (input)="onSearch($any($event.target).value)"
+          class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-700 focus:border-transparent transition-all"
+        />
+      </div>
+    </div>
+
+    <hr class="border-slate-100 dark:border-slate-700/60" />
+
+    <div>
+      <label
+        class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+        >Tipo</label
+      >
+      <div class="grid grid-cols-2 gap-2 mt-1">
+        @for (type of petTypes; track type.value) {
+        <button
+          (click)="onTypeChange(selectedType() === type.value ? undefined : type.value)"
+          [class]="
+            selectedType() === type.value
+              ? 'flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-sm font-medium border-2 border-pink-500 bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 transition-all'
+              : 'flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-sm font-medium border-2 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-pink-300 dark:hover:border-pink-700 hover:bg-pink-50/50 dark:hover:bg-pink-950/20 transition-all'
+          "
+        >
+          <lucide-angular [img]="type.icon" size="18" [strokeWidth]="2" />
+          {{ type.label }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <hr class="border-slate-100 dark:border-slate-700/60" />
+
+    <div class="space-y-2">
+      <label
+        class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+        >Género</label
+      >
+      <div class="grid grid-cols-2 gap-2">
+        @for (gender of genderOptions; track gender.value) {
+        <button
+          (click)="onGenderChange(selectedGender() === gender.value ? undefined : gender.value)"
+          [class]="
+            selectedGender() === gender.value
+              ? 'px-3 py-2 rounded-xl text-sm font-medium border-2 border-pink-500 bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 transition-all'
+              : 'px-3 py-2 rounded-xl text-sm font-medium border-2 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-pink-300 dark:hover:border-pink-700 hover:bg-pink-50/50 dark:hover:bg-pink-950/20 transition-all'
+          "
+        >
+          {{ gender.label }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <hr class="border-slate-100 dark:border-slate-700/60" />
+
+    <div class="space-y-2">
+      <label
+        class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+        >Tamaño</label
+      >
+      <div class="grid grid-cols-2 gap-2">
+        @for (size of sizeOptions; track size.value) {
+        <button
+          (click)="onSizeChange(selectedSize() === size.value ? undefined : size.value)"
+          [class]="
+            selectedSize() === size.value
+              ? 'px-3 py-2 rounded-xl text-sm font-medium border-2 border-pink-500 bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 transition-all'
+              : 'px-3 py-2 rounded-xl text-sm font-medium border-2 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-pink-300 dark:hover:border-pink-700 hover:bg-pink-50/50 dark:hover:bg-pink-950/20 transition-all'
+          "
+        >
+          {{ size.label }}
+        </button>
+        }
+      </div>
+    </div>
+
+    <hr class="border-slate-100 dark:border-slate-700/60" />
+
+    <div class="space-y-2">
+      <label
+        class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+        >Edad (años)</label
+      >
+      <div class="grid grid-cols-2 gap-2">
+        <div class="space-y-1">
+          <span class="text-xs text-slate-400 dark:text-slate-500">Mínima</span>
+          <input
+            type="number"
+            min="0"
+            max="30"
+            placeholder="0"
+            [value]="minAge() ?? ''"
+            (change)="onMinAgeChange($any($event.target).value)"
+            class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-700 focus:border-transparent transition-all"
+          />
+        </div>
+        <div class="space-y-1">
+          <span class="text-xs text-slate-400 dark:text-slate-500">Máxima</span>
+          <input
+            type="number"
+            min="0"
+            max="30"
+            placeholder="30"
+            [value]="maxAge() ?? ''"
+            (change)="onMaxAgeChange($any($event.target).value)"
+            class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 dark:focus:ring-pink-700 focus:border-transparent transition-all"
+          />
+        </div>
+      </div>
+    </div>
+
+    <hr class="border-slate-100 dark:border-slate-700/60" />
+
+    <div class="space-y-2.5">
+      <label
+        class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500"
+        >Condición</label
+      >
+
+      <label class="flex items-center gap-3 cursor-pointer group">
+        <div
+          (click)="onSterilizedChange(!isSterilized())"
+          [class]="
+            isSterilized()
+              ? 'w-5 h-5 rounded-md border-2 border-pink-500 bg-pink-500 flex items-center justify-center transition-all shrink-0'
+              : 'w-5 h-5 rounded-md border-2 border-slate-300 dark:border-slate-600 group-hover:border-pink-400 transition-all shrink-0'
+          "
+        >
+          @if (isSterilized()) {
+          <i class="pi pi-check text-white text-xs"></i>
+          }
+        </div>
+        <span class="text-sm text-slate-600 dark:text-slate-300 select-none">Esterilizado/a</span>
+      </label>
+
+      <label class="flex items-center gap-3 cursor-pointer group">
+        <div
+          (click)="onVaccinatedChange(!isVaccinated())"
+          [class]="
+            isVaccinated()
+              ? 'w-5 h-5 rounded-md border-2 border-pink-500 bg-pink-500 flex items-center justify-center transition-all shrink-0'
+              : 'w-5 h-5 rounded-md border-2 border-slate-300 dark:border-slate-600 group-hover:border-pink-400 transition-all shrink-0'
+          "
+        >
+          @if (isVaccinated()) {
+          <i class="pi pi-check text-white text-xs"></i>
+          }
+        </div>
+        <span class="text-sm text-slate-600 dark:text-slate-300 select-none">Vacunado/a</span>
+      </label>
+    </div>
+
+    @if (activeCount() > 0) {
+    <button
+      (click)="onClearFilters()"
+      class="w-full mt-2 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-pink-500 dark:hover:text-pink-400 transition-all"
+    >
+      Limpiar todos los filtros
+    </button>
+    }
+  </div>
+</div>
