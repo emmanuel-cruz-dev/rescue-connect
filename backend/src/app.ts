@@ -15,7 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1", apiRouter);
 
 app.get("/", (_req, res) => {
-  res.json({ message: "API is running 🚀" });
+  res.json({
+    message: "API is running 🚀",
+    status: "ok",
+    docs: "/api/v1/docs",
+  });
 });
 
 app.use(errorHandler);
