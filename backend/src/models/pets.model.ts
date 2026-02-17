@@ -64,7 +64,10 @@ class PetsModel {
       ];
     }
 
-    const skip = (page - 1) * limit;
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    const skip = (pageNumber - 1) * limitNumber;
 
     const sortOrder = order === "asc" ? 1 : -1;
     const sort: any = { [sortBy]: sortOrder };
@@ -74,17 +77,17 @@ class PetsModel {
       petModel.countDocuments(filter),
     ]);
 
-    const totalPages = Math.ceil(totalItems / limit);
+    const totalPages = Math.ceil(totalItems / limitNumber);
 
     const response: IPaginatedResponse<IPetDocument> = {
       data: data as IPetDocument[],
       pagination: {
-        currentPage: page,
+        currentPage: pageNumber,
         totalPages,
         totalItems,
-        itemsPerPage: limit,
-        hasNextPage: page < totalPages,
-        hasPrevPage: page > 1,
+        itemsPerPage: limitNumber,
+        hasNextPage: pageNumber < totalPages,
+        hasPrevPage: pageNumber > 1,
       },
     };
 
