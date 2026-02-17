@@ -3,7 +3,7 @@
   [style]="{ overflow: 'hidden' }"
 >
   <ng-template #header>
-    <div class="relative h-72 overflow-hidden" (click)="viewDetails()">
+    <div class="relative h-56 overflow-hidden" (click)="viewDetails()">
       <img
         [src]="mainImage"
         [alt]="pet.name"
@@ -11,58 +11,62 @@
         onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
       />
 
-      @if (pet.adopted) {
-      <div
-        class="absolute top-4 right-4 bg-pink-600 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
-      >
-        <lucide-angular [img]="HeartHandshakeIcon" size="20" />
-        <span class="text-sm font-semibold">Adoptado</span>
+      <div class="absolute top-3 right-3">
+        <p-tag
+          [value]="pet.gender === 'macho' ? 'Macho' : 'Hembra'"
+          [icon]="pet.gender === 'macho' ? 'pi pi-mars' : 'pi pi-venus'"
+          class="text-sm shadow-lg text-white"
+          [ngClass]="{
+            'bg-blue-500!': pet.gender === 'macho',
+            'bg-pink-500!': pet.gender !== 'macho'
+          }"
+          [rounded]="true"
+        />
       </div>
-      } @else {
-      <div
-        class="absolute top-4 right-4 bg-sky-600 text-white px-3 py-1 rounded-full shadow-lg flex items-center gap-2"
-      >
-        <i class="pi pi-sparkles text-white"></i>
-        <span class="text-sm font-semibold">Disponible</span>
-      </div>
-      }
 
-      <div
-        class="absolute bottom-4 left-4 text-gray-800 dark:text-gray-900 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-2 shadow-lg"
-      >
-        @if (pet.type === 'perro') {
-        <lucide-angular [img]="DogIcon" size="20" />
-        } @else {
-        <lucide-angular [img]="CatIcon" size="20" />
+      <div class="absolute bottom-3 left-3 flex gap-2">
+        @if (pet.isVaccinated) {
+        <div
+          pTooltip="Vacunado"
+          tooltipPosition="top"
+          class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 backdrop-blur shadow-lg text-green-600 dark:text-green-400"
+        >
+          <i class="pi pi-shield text-sm"></i>
+        </div>
+        } @if (pet.isSterilized) {
+        <div
+          pTooltip="Esterilizado"
+          tooltipPosition="top"
+          class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 backdrop-blur shadow-lg text-sky-600 dark:text-sky-400"
+        >
+          <i class="pi pi-check-circle text-sm"></i>
+        </div>
         }
-        <span class="text-sm font-semibold">
-          {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
-        </span>
       </div>
     </div>
   </ng-template>
 
   <ng-template #title>
-    <h3
-      class="text-2xl font-bold truncate first-letter:uppercase max-w-60 text-gray-900 dark:text-white"
-    >
-      {{ pet.name }}
-    </h3>
+    <div class="flex items-baseline justify-between gap-2">
+      <h3 class="text-xl font-bold truncate first-letter:uppercase text-gray-900 dark:text-white">
+        {{ pet.name }}
+      </h3>
+      <span class="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap shrink-0">
+        {{ getSizeLabel() }}
+      </span>
+    </div>
   </ng-template>
 
   <ng-template #subtitle>
-    @if (pet.breed && pet.breed !== 'mestizo') {
-    <p
-      class="text-sm font-medium truncate first-letter:uppercase md:max-w-56 text-gray-600 dark:text-gray-300"
-    >
-      {{ pet.breed }}
+    <p class="text-sm text-gray-500 dark:text-gray-400 truncate first-letter:uppercase">
+      {{ pet.breed && pet.breed !== 'mestizo' ? pet.breed + ' • ' : '' }}
+      {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
     </p>
-    }
   </ng-template>
 
   <div class="space-y-3">
     <div class="flex items-center">
-      <i class="pi pi-calendar text-pink-600 dark:text-pink-400 mr-2"></i>
+      <i class="pi pi-calendar text-pink-600 dark:text-pink-400 mr-2 text-sm"></i>
       <span class="text-sm text-gray-700 dark:text-gray-300">{{ getAgeLabel() }}</span>
     </div>
 
