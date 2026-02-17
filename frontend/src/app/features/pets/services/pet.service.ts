@@ -1,14 +1,13 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable, tap, catchError, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
-import { ApiResponse } from '../../../core/models/api-response.model';
+import { ApiResponse, PaginatedApiResponse } from '../../../core/models/api-response.model';
 import {
   IPet,
   CreatePetData,
   UpdatePetData,
   PetFilters,
-  PetListResponse,
-  PetDetailResponse,
+  PetPagination,
 } from '../../../core/models/pet.model';
 
 @Injectable({
@@ -17,39 +16,51 @@ import {
 export class PetService {
   private apiService = inject(ApiService);
 
-  private petsSubject = new BehaviorSubject<IPet[]>([]);
-  public pets$ = this.petsSubject.asObservable();
-
+  public pets = signal<IPet[]>([]);
+  public pagination = signal<PetPagination | null>(null);
   public selectedPet = signal<IPet | null>(null);
-  public totalPets = signal<number>(0);
   public loading = signal<boolean>(false);
 
-  getAllPets(filters?: PetFilters): Observable<ApiResponse<PetListResponse> & { count: number }> {
+  getAllPets(filters?: PetFilters): Observable<PaginatedApiResponse<IPet[]>> {
     this.loading.set(true);
-    return this.apiService
-      .get<ApiResponse<PetListResponse> & { count: number }>('/api/v1/pets', filters)
-      .pipe(
-        tap((response) => {
-          if (response.status === 'success' && response.data) {
-            this.petsSubject.next(response.data.pets);
-            this.totalPets.set(response.count || response.data.pets.length);
+
+    const queryParams: any = {};
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          if (typeof value === 'boolean') {
+            queryParams[key] = value.toString();
+          } else {
+            queryParams[key] = value;
           }
-          this.loading.set(false);
-        }),
-        catchError((error) => {
-          console.error('Error fetching pets:', error);
-          this.loading.set(false);
-          return throwError(() => error);
-        })
-      );
+        }
+      });
+    }
+
+    return this.apiService.get<any>('/api/v1/pets', queryParams).pipe(
+      tap((response) => {
+        if (Array.isArray(response.data) && response.data.length >= 0) {
+          this.pets.set(response.data);
+          this.pagination.set(response.pagination ?? null);
+        }
+        this.loading.set(false);
+      }),
+      catchError((error) => {
+        console.error('Error fetching pets:', error);
+        this.loading.set(false);
+        this.pets.set([]);
+        this.pagination.set(null);
+        return throwError(() => error);
+      })
+    );
   }
 
-  getPetById(id: string): Observable<ApiResponse<PetDetailResponse>> {
+  getPetById(id: string): Observable<ApiResponse<IPet>> {
     this.loading.set(true);
-    return this.apiService.get<ApiResponse<PetDetailResponse>>(`/api/v1/pets/${id}`).pipe(
+    return this.apiService.get<ApiResponse<IPet>>(`/api/v1/pets/${id}`).pipe(
       tap((response) => {
-        if (response.status === 'success' && response.data) {
-          this.selectedPet.set(response.data.pet);
+        if (response.success && response.data) {
+          this.selectedPet.set(response.data);
         }
         this.loading.set(false);
       }),
@@ -61,17 +72,10 @@ export class PetService {
     );
   }
 
-  createPet(data: CreatePetData): Observable<ApiResponse<PetDetailResponse>> {
+  createPet(petData: CreatePetData): Observable<ApiResponse<IPet>> {
     this.loading.set(true);
-    return this.apiService.post<ApiResponse<PetDetailResponse>>('/api/v1/pets', data).pipe(
-      tap((response) => {
-        if (response.status === 'success' && response.data) {
-          const currentPets = this.petsSubject.value;
-          this.petsSubject.next([response.data.pet, ...currentPets]);
-          this.totalPets.update((count) => count + 1);
-        }
-        this.loading.set(false);
-      }),
+    return this.apiService.post<ApiResponse<IPet>>('/api/v1/pets', petData).pipe(
+      tap(() => this.loading.set(false)),
       catchError((error) => {
         console.error('Error creating pet:', error);
         this.loading.set(false);
@@ -80,21 +84,10 @@ export class PetService {
     );
   }
 
-  updatePet(id: string, data: UpdatePetData): Observable<ApiResponse<PetDetailResponse>> {
+  updatePet(id: string, petData: UpdatePetData): Observable<ApiResponse<IPet>> {
     this.loading.set(true);
-    return this.apiService.put<ApiResponse<PetDetailResponse>>(`/api/v1/pets/${id}`, data).pipe(
-      tap((response) => {
-        if (response.status === 'success' && response.data) {
-          const currentPets = this.petsSubject.value;
-          const updatedPets = currentPets.map((pet) => (pet._id === id ? response.data?.pet : pet));
-          this.petsSubject.next(updatedPets as IPet[]);
-
-          if (this.selectedPet()?._id === id) {
-            this.selectedPet.set(response.data.pet);
-          }
-        }
-        this.loading.set(false);
-      }),
+    return this.apiService.put<ApiResponse<IPet>>(`/api/v1/pets/${id}`, petData).pipe(
+      tap(() => this.loading.set(false)),
       catchError((error) => {
         console.error('Error updating pet:', error);
         this.loading.set(false);
@@ -103,22 +96,10 @@ export class PetService {
     );
   }
 
-  deletePet(id: string): Observable<ApiResponse<any>> {
+  deletePet(id: string): Observable<ApiResponse<void>> {
     this.loading.set(true);
-    return this.apiService.delete<ApiResponse<any>>(`/api/v1/pets/${id}`).pipe(
-      tap((response) => {
-        if (response.status === 'success') {
-          const currentPets = this.petsSubject.value;
-          const filteredPets = currentPets.filter((pet) => pet._id !== id);
-          this.petsSubject.next(filteredPets);
-          this.totalPets.update((count) => count - 1);
-
-          if (this.selectedPet()?._id === id) {
-            this.selectedPet.set(null);
-          }
-        }
-        this.loading.set(false);
-      }),
+    return this.apiService.delete<ApiResponse<void>>(`/api/v1/pets/${id}`).pipe(
+      tap(() => this.loading.set(false)),
       catchError((error) => {
         console.error('Error deleting pet:', error);
         this.loading.set(false);
@@ -127,54 +108,29 @@ export class PetService {
     );
   }
 
-  uploadImages(id: string, formData: FormData): Observable<ApiResponse<PetDetailResponse>> {
-    this.loading.set(true);
-    return this.apiService
-      .post<ApiResponse<PetDetailResponse>>(`/api/v1/pets/${id}/images`, formData)
-      .pipe(
-        tap((response) => {
-          if (response.status === 'success' && response.data) {
-            const currentPets = this.petsSubject.value;
-            const updatedPets = currentPets.map((pet) =>
-              pet._id === id ? response.data?.pet : pet
-            );
-            this.petsSubject.next(updatedPets as IPet[]);
+  uploadImages(petId: string, files: File[]): Observable<ApiResponse<IPet>> {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append('images', file);
+    });
 
-            if (this.selectedPet()?._id === id) {
-              this.selectedPet.set(response.data.pet);
-            }
-          }
-          this.loading.set(false);
-        }),
-        catchError((error) => {
-          console.error('Error uploading images:', error);
-          this.loading.set(false);
-          return throwError(() => error);
-        })
-      );
+    this.loading.set(true);
+    return this.apiService.post<ApiResponse<IPet>>(`/api/v1/pets/${petId}/images`, formData).pipe(
+      tap(() => this.loading.set(false)),
+      catchError((error) => {
+        console.error('Error uploading images:', error);
+        this.loading.set(false);
+        return throwError(() => error);
+      })
+    );
   }
 
-  deleteImage(petId: string, publicId: string): Observable<ApiResponse<PetDetailResponse>> {
+  deleteImage(petId: string, publicId: string): Observable<ApiResponse<IPet>> {
     this.loading.set(true);
-
-    const encodedPublicId = encodeURIComponent(publicId);
     return this.apiService
-      .delete<ApiResponse<PetDetailResponse>>(`/api/v1/pets/${petId}/images/${encodedPublicId}`)
+      .delete<ApiResponse<IPet>>(`/api/v1/pets/${petId}/images/${publicId}`)
       .pipe(
-        tap((response) => {
-          if (response.status === 'success' && response.data) {
-            const currentPets = this.petsSubject.value;
-            const updatedPets = currentPets.map((pet) =>
-              pet._id === petId ? response.data?.pet : pet
-            );
-            this.petsSubject.next(updatedPets as IPet[]);
-
-            if (this.selectedPet()?._id === petId) {
-              this.selectedPet.set(response.data.pet);
-            }
-          }
-          this.loading.set(false);
-        }),
+        tap(() => this.loading.set(false)),
         catchError((error) => {
           console.error('Error deleting image:', error);
           this.loading.set(false);
@@ -183,29 +139,8 @@ export class PetService {
       );
   }
 
-  getAvailablePets(
-    filters?: PetFilters
-  ): Observable<ApiResponse<PetListResponse> & { count: number }> {
-    const adoptionFilters = { ...filters, adopted: false };
-    return this.getAllPets(adoptionFilters);
-  }
-
-  getAdoptedPets(
-    filters?: PetFilters
-  ): Observable<ApiResponse<PetListResponse> & { count: number }> {
-    const adoptionFilters = { ...filters, adopted: true };
-    return this.getAllPets(adoptionFilters);
-  }
-
-  clearSelectedPet(): void {
-    this.selectedPet.set(null);
-  }
-
-  getCurrentPets(): IPet[] {
-    return this.petsSubject.value;
-  }
-
-  searchPets(query: string): Observable<ApiResponse<PetListResponse> & { count: number }> {
-    return this.getAllPets({ search: query });
+  resetFilters(): void {
+    this.pets.set([]);
+    this.pagination.set(null);
   }
 }
