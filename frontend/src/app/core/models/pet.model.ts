@@ -1,4 +1,5 @@
-import { PetType } from '../enums/pet-type.enum';
+import { PetType, PetGender, PetSize } from '../enums/pet-type.enum';
+import { Pagination } from './api-response.model';
 
 export interface IPetImage {
   _id: string;
@@ -11,8 +12,12 @@ export interface IPet {
   name: string;
   type: PetType;
   birthDate: Date;
+  gender: PetGender;
+  size: PetSize;
   breed: string;
   description?: string;
+  isSterilized: boolean;
+  isVaccinated: boolean;
   adopted: boolean;
   adoptedBy: string | null;
   images: IPetImage[];
@@ -24,32 +29,41 @@ export interface IPet {
 export interface CreatePetData {
   name: string;
   type: PetType;
-  age: number;
+  birthDate: Date;
+  gender: PetGender;
+  size: PetSize;
   breed: string;
   description?: string;
+  isSterilized?: boolean;
+  isVaccinated?: boolean;
 }
 
 export interface UpdatePetData {
   name?: string;
   type?: PetType;
-  age?: number;
+  birthDate?: Date;
+  gender?: PetGender;
+  size?: PetSize;
   breed?: string;
   description?: string;
+  isSterilized?: boolean;
+  isVaccinated?: boolean;
 }
 
 export interface PetFilters {
-  type?: string;
+  page?: number;
+  limit?: number;
   adopted?: boolean;
+  type?: PetType;
+  gender?: PetGender;
+  size?: PetSize;
   minAge?: number;
   maxAge?: number;
-  breed?: string;
   search?: string;
+  isSterilized?: boolean;
+  isVaccinated?: boolean;
+  sortBy?: 'createdAt' | 'name' | 'birthDate';
+  order?: 'asc' | 'desc';
 }
 
-export interface PetListResponse {
-  pets: IPet[];
-}
-
-export interface PetDetailResponse {
-  pet: IPet;
-}
+export type PetPagination = Pagination;
