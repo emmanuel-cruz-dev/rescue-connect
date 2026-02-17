@@ -20,7 +20,7 @@
     >
       <p-carousel
         [circular]="true"
-        [value]="(featuredPets | async) ?? []"
+        [value]="featuredPets()"
         [numVisible]="3"
         [numScroll]="3"
         [responsiveOptions]="responsiveOptions"

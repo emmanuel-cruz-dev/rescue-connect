@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SectionHeader } from '../section-header/section-header';
 import { PetService } from '../../../pets/services/pet.service';
 import { PetCard } from '../../../pets/components/pet-card/pet-card';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { IPet } from '../../../../core/models/pet.model';
 
 @Component({
   selector: 'app-featured-pets',
@@ -13,12 +14,23 @@ import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 export class FeaturedPets implements OnInit {
   private petService = inject(PetService);
 
-  featuredPets = this.petService.pets$;
-  loading = this.petService.loading;
+  featuredPets = signal<IPet[]>([]);
+  loading = signal<boolean>(false);
   responsiveOptions: any[] | undefined;
 
   ngOnInit(): void {
-    this.petService.getAvailablePets().subscribe();
+    this.petService.getAllPets({ adopted: false, limit: 8 }).subscribe({
+      next: (response) => {
+        if (Array.isArray(response.data)) {
+          this.featuredPets.set(response.data);
+        }
+        this.loading.set(false);
+      },
+      error: (error) => {
+        console.error('Error fetching featured pets:', error);
+        this.loading.set(false);
+      },
+    });
 
     this.responsiveOptions = [
       {
