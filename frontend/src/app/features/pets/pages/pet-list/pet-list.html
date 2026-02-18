@@ -1,19 +1,23 @@
-<div
+<section
   class="pt-24 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
 >
-  <div class="container mx-auto px-4 max-w-7xl pb-10">
-    <div class="mb-8">
-      <p class="text-sm font-semibold uppercase tracking-widest text-pink-600 mb-1">Catálogo</p>
-      <h1 class="text-4xl font-bold text-slate-800 dark:text-white">Mascotas disponibles</h1>
-      <p class="text-slate-500 dark:text-slate-400 mt-2">
+  <div class="container mx-auto px-4 max-w-7xl pb-16">
+    <header class="mb-12">
+      <p class="text-sm font-bold uppercase tracking-widest text-pink-600 mb-2">Catálogo</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight">
+        Mascotas <span class="text-pink-600">disponibles</span>
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 mt-4 text-lg max-w-2xl">
         @if (pagination()) {
         {{ pagination()!.totalItems }} mascotas esperando un hogar } @else { Encontrá tu compañero
         ideal }
       </p>
-    </div>
+    </header>
 
     <div class="flex gap-4 items-start">
-      <aside class="w-72 shrink-0 sticky top-24 hidden lg:block overflow-y-auto">
+      <aside
+        class="w-72 shrink-0 sticky top-24 hidden lg:block overflow-y-auto max-h-[calc(100vh-6rem)] pr-1"
+      >
         <app-pet-filters
           [filters]="filters()"
           (filtersChange)="onFiltersChange($event)"
@@ -43,16 +47,16 @@
             <i class="pi pi-sliders-h"></i>
             Filtros @if (activeFiltersCount() > 0) {
             <span
-              class="bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center"
+              class="bg-pink-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shadow-lg shadow-pink-200 dark:shadow-none"
             >
               {{ activeFiltersCount() }}
             </span>
             }
           </button>
 
-          <!-- Sort select -->
           <div class="flex items-center gap-3 ml-auto">
-            <span class="text-sm text-slate-500 dark:text-slate-400 hidden sm:inline"
+            <span
+              class="text-sm font-bold uppercase tracking-wider text-gray-800 dark:text-gray-300 hidden sm:inline"
               >Ordenar:</span
             >
             <p-select
@@ -66,91 +70,63 @@
           </div>
         </div>
 
-        <!-- Loading state -->
         @if (loading()) {
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-          @for (i of skeletons; track i) {
+          @for (i of skeletons; track $index) {
           <div
-            class="rounded-2xl overflow-hidden bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700"
+            class="rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 shadow-sm"
           >
-            <p-skeleton height="13rem" class="mb-2" />
-            <div class="p-4 space-y-3">
-              <p-skeleton width="60%" height="1.2rem" borderRadius="8px" />
-              <p-skeleton width="40%" height="0.8rem" borderRadius="8px" />
-              <p-skeleton width="80%" height="0.8rem" borderRadius="8px" />
-              <div class="pt-2">
-                <p-skeleton width="100%" height="2.5rem" borderRadius="12px" />
+            <p-skeleton height="14rem" class="mb-2" />
+            <
+            <div class="p-5 space-y-4">
+              <div class="flex justify-between">
+                <p-skeleton width="60%" height="1.5rem" />
+                <p-skeleton width="20%" />
               </div>
+              <p-skeleton width="40%" height="1rem" />
+              <p-skeleton width="100%" height="3rem" borderRadius="12px" />
             </div>
           </div>
           }
         </div>
-        } @if (!loading() && pets().length === 0) {
-        <div class="flex flex-col items-center justify-center py-24 text-center">
+        } @else if (pets().length === 0) {
+        <div
+          class="flex flex-col items-center justify-center py-32 text-center bg-white/30 dark:bg-slate-800/20 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800"
+        >
           <div
-            class="w-20 h-20 rounded-full bg-pink-50 dark:bg-pink-950/40 flex items-center justify-center mb-5"
+            class="w-24 h-24 rounded-full bg-pink-50 dark:bg-pink-950/40 flex items-center justify-center mb-6"
           >
-            <i class="pi pi-search text-3xl text-pink-300 dark:text-pink-600"></i>
+            <i class="pi pi-search text-4xl text-pink-300 dark:text-pink-600"></i>
           </div>
-          <h3 class="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">
-            Sin resultados
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-3">
+            No hay coincidencias
           </h3>
-          <p class="text-slate-400 dark:text-slate-500 max-w-xs mb-6">
+          <p class="text-gray-500 dark:text-gray-400 max-w-sm mb-8 text-lg">
             No encontramos mascotas con esos filtros. Probá con otras opciones.
           </p>
-          <button
-            (click)="clearFilters()"
-            class="px-5 py-2.5 rounded-xl bg-pink-500 hover:bg-pink-600 text-white text-sm font-medium transition-colors"
-          >
-            Limpiar filtros
-          </button>
+          <p-button
+            label="Limpiar todos los filtros"
+            icon="pi pi-refresh"
+            (onClick)="clearFilters()"
+            styleClass="text-white! bg-pink-600! border-none! px-6"
+          />
         </div>
-        } @if (!loading() && pets().length > 0) {
+        } @else {
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
           @for (pet of pets(); track pet._id) {
           <app-pet-card [pet]="pet" [showAdoptButton]="false" />
           }
         </div>
 
-        @if (pagination() && pagination()!.totalPages > 1) {
-        <div class="mt-10 flex items-center justify-center gap-2">
-          <button
-            (click)="prevPage()"
-            [disabled]="!pagination()?.hasPrevPage"
-            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-pink-950/30 hover:border-pink-300 dark:hover:border-pink-800 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
-          >
-            <i class="pi pi-chevron-left text-sm"></i>
-          </button>
-
-          @for (page of pageNumbers(); track page) { @if (page === -1) {
-          <span class="w-10 h-10 flex items-center justify-center text-slate-400">…</span>
-          } @else {
-          <button
-            (click)="goToPage(page)"
-            [class]="
-              page === pagination()!.currentPage
-                ? 'w-10 h-10 rounded-xl bg-pink-500 text-white font-semibold text-sm'
-                : 'w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-pink-950/30 hover:border-pink-300 dark:hover:border-pink-800 transition-colors text-sm'
-            "
-          >
-            {{ page }}
-          </button>
-          } }
-
-          <button
-            (click)="nextPage()"
-            [disabled]="!pagination()?.hasNextPage"
-            class="w-10 h-10 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-pink-50 dark:hover:bg-pink-950/30 hover:border-pink-300 dark:hover:border-pink-800 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
-          >
-            <i class="pi pi-chevron-right text-sm"></i>
-          </button>
-        </div>
-
-        <p class="text-center text-sm text-slate-400 dark:text-slate-500 mt-3">
-          Página {{ pagination()!.currentPage }} de {{ pagination()!.totalPages }}
-        </p>
-        } }
+        <p-paginator
+          [rows]="filters().limit || 6"
+          [totalRecords]="pagination()?.totalItems || 0"
+          [first]="((filters().page || 1) - 1) * (filters().limit || 6)"
+          (onPageChange)="onPageChange($event)"
+          class="mt-8 bg-transparent border-none"
+        />
+        }
       </div>
     </div>
   </div>
-</div>
+</section>
