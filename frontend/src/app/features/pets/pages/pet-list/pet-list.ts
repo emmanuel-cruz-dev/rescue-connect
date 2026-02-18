@@ -23,11 +23,11 @@ export class PetList implements OnInit {
   loading = this.petService.loading;
 
   filtersDrawerVisible = false;
-  skeletons = Array(9).fill(0);
+  skeletons = Array(6).fill(0);
 
   filters = signal<PetFiltersModel>({
     page: 1,
-    limit: 9,
+    limit: 6,
     adopted: false,
     sortBy: 'createdAt',
     order: 'desc',
@@ -160,7 +160,7 @@ export class PetList implements OnInit {
     this.selectedSort = 'createdAt_desc';
     this.filters.set({
       page: 1,
-      limit: 9,
+      limit: 6,
       adopted: false,
       sortBy: 'createdAt',
       order: 'desc',
