@@ -77,7 +77,6 @@
             class="rounded-2xl overflow-hidden bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 shadow-sm"
           >
             <p-skeleton height="14rem" class="mb-2" />
-            <
             <div class="p-5 space-y-4">
               <div class="flex justify-between">
                 <p-skeleton width="60%" height="1.5rem" />
@@ -123,7 +122,7 @@
           [totalRecords]="pagination()?.totalItems || 0"
           [first]="((filters().page || 1) - 1) * (filters().limit || 6)"
           (onPageChange)="onPageChange($event)"
-          class="mt-8 bg-transparent border-none"
+          class="mt-8 bg-transparent! border-none"
         />
         }
       </div>
