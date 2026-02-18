@@ -2,10 +2,10 @@ import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { PetService } from '../../services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model';
-import { MessageService } from 'primeng/api';
 import { PetCard } from '../../components/pet-card/pet-card';
 import { PetFilters } from '../../components/pet-filters/pet-filters';
 
@@ -65,31 +65,6 @@ export class PetList implements OnInit {
     if (f.isSterilized) count++;
     if (f.isVaccinated) count++;
     return count;
-  });
-
-  pageNumbers = computed(() => {
-    const p = this.pagination();
-    if (!p) return [];
-
-    const total = p.totalPages;
-    const current = p.currentPage;
-    const pages: number[] = [];
-
-    if (total <= 7) {
-      return Array.from({ length: total }, (_, i) => i + 1);
-    }
-
-    pages.push(1);
-    if (current > 3) pages.push(-1);
-
-    const start = Math.max(2, current - 1);
-    const end = Math.min(total - 1, current + 1);
-    for (let i = start; i <= end; i++) pages.push(i);
-
-    if (current < total - 2) pages.push(-1);
-    pages.push(total);
-
-    return pages;
   });
 
   ngOnInit(): void {
@@ -154,6 +129,20 @@ export class PetList implements OnInit {
   prevPage(): void {
     const p = this.pagination();
     if (p?.hasPrevPage) this.goToPage(p.currentPage - 1);
+  }
+
+  onPageChange(event: any): void {
+    const nextPage = event.page + 1;
+
+    this.filters.update((current) => ({
+      ...current,
+      page: nextPage,
+      limit: event.rows,
+    }));
+
+    this.loadPets();
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   clearFilters(): void {
