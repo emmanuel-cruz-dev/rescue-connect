@@ -41,6 +41,14 @@ Rescue Connect Frontend es una aplicación web moderna construida con Angular 21
 
 ---
 
+## 🌐 Demo
+
+**[Ver aplicación en vivo →](https://rescue-connect-rs.vercel.app)**
+
+> ⚠️ En desarrollo activo — algunas funcionalidades están incompletas.
+
+---
+
 ## 🛠 Tecnologías
 
 ### Core
