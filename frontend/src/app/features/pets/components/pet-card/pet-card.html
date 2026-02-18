@@ -15,6 +15,9 @@
         <p-avatar
           [icon]="pet.gender === 'macho' ? 'pi pi-mars' : 'pi pi-venus'"
           shape="circle"
+          [pTooltip]="pet.gender === 'macho' ? 'Macho' : 'Hembra'"
+          tooltipPosition="top"
+          [showDelay]="100"
           class="text-white! shadow-lg"
           [ngClass]="{
             'bg-blue-500!': pet.gender === 'macho',
@@ -31,6 +34,7 @@
           shape="circle"
           pTooltip="Vacunado"
           tooltipPosition="top"
+          [showDelay]="100"
           class="bg-green-600 text-white shadow-lg"
         />
         } @if (pet.isSterilized) {
@@ -39,6 +43,7 @@
           shape="circle"
           pTooltip="Esterilizado"
           tooltipPosition="top"
+          [showDelay]="100"
           class="bg-blue-600 text-white shadow-lg"
         />
         }
