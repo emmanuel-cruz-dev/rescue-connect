@@ -12,35 +12,35 @@
       />
 
       <div class="absolute top-3 right-3">
-        <p-tag
-          [value]="pet.gender === 'macho' ? 'Macho' : 'Hembra'"
+        <p-avatar
           [icon]="pet.gender === 'macho' ? 'pi pi-mars' : 'pi pi-venus'"
-          class="text-sm shadow-lg text-white!"
+          shape="circle"
+          class="text-white! shadow-lg"
           [ngClass]="{
             'bg-blue-500!': pet.gender === 'macho',
             'bg-pink-500!': pet.gender !== 'macho'
           }"
-          [rounded]="true"
+          [style]="{ color: pet.gender === 'macho' ? '#00b7ff' : '#ff00ff' }"
         />
       </div>
 
       <div class="absolute bottom-3 left-3 flex gap-2">
         @if (pet.isVaccinated) {
-        <div
+        <p-avatar
+          icon="pi pi-shield"
+          shape="circle"
           pTooltip="Vacunado"
           tooltipPosition="top"
-          class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 backdrop-blur shadow-lg text-green-600 dark:text-green-400"
-        >
-          <i class="pi pi-shield text-sm"></i>
-        </div>
+          class="bg-green-600 text-white shadow-lg"
+        />
         } @if (pet.isSterilized) {
-        <div
+        <p-avatar
+          icon="pi pi-check-circle"
+          shape="circle"
           pTooltip="Esterilizado"
           tooltipPosition="top"
-          class="w-9 h-9 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 backdrop-blur shadow-lg text-sky-600 dark:text-sky-400"
-        >
-          <i class="pi pi-check-circle text-sm"></i>
-        </div>
+          class="bg-blue-600 text-white shadow-lg"
+        />
         }
       </div>
     </div>
