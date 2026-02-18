@@ -2,7 +2,7 @@ import { Component, input, output, signal, effect, computed, OnDestroy } from '@
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LucideAngularModule, DogIcon, CatIcon } from 'lucide-angular';
+import { LucideAngularModule, FishIcon, BoneIcon } from 'lucide-angular';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model';
 
@@ -12,8 +12,8 @@ import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model
   templateUrl: './pet-filters.html',
 })
 export class PetFilters implements OnDestroy {
-  readonly DogIcon = DogIcon;
-  readonly CatIcon = CatIcon;
+  readonly Fish = FishIcon;
+  readonly Bone = BoneIcon;
 
   filters = input.required<PetFiltersModel>();
   filtersChange = output<Partial<PetFiltersModel>>();
@@ -50,8 +50,8 @@ export class PetFilters implements OnDestroy {
   });
 
   petTypes = [
-    { label: 'Perro', value: 'perro', icon: DogIcon },
-    { label: 'Gato', value: 'gato', icon: CatIcon },
+    { label: 'Perro', value: 'perro', icon: BoneIcon },
+    { label: 'Gato', value: 'gato', icon: FishIcon },
   ];
 
   genderOptions = [
