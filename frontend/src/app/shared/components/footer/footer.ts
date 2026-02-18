@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
 
 @Component({
   selector: 'app-footer',
-  imports: [PRIMENG_IMPORTS],
+  imports: [RouterModule, PRIMENG_IMPORTS],
   templateUrl: './footer.html',
 })
 export class Footer {
