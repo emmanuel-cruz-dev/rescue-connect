@@ -6,7 +6,9 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
 import { ChipModule } from 'primeng/chip';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DataViewModule } from 'primeng/dataview';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DrawerModule } from 'primeng/drawer';
@@ -39,8 +41,10 @@ export const PRIMENG_IMPORTS = [
   ButtonModule,
   CardModule,
   CarouselModule,
+  CheckboxModule,
   ChipModule,
   ConfirmDialogModule,
+  DataViewModule,
   DialogModule,
   DividerModule,
   DrawerModule,
