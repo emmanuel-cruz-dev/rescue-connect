@@ -50,7 +50,7 @@
           @for (link of footerLinks.adoption; track link.label) {
           <li>
             <a
-              [href]="link.url"
+              [routerLink]="link.url"
               class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
             >
               {{ link.label }}
@@ -70,7 +70,7 @@
           @for (link of footerLinks.organization; track link.label) {
           <li>
             <a
-              [href]="link.url"
+              [routerLink]="link.url"
               class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
             >
               {{ link.label }}
@@ -90,7 +90,7 @@
           @for (link of footerLinks.help; track link.label) {
           <li>
             <a
-              [href]="link.url"
+              [routerLink]="link.url"
               class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
             >
               {{ link.label }}
@@ -110,13 +110,13 @@
 
       <aside class="flex items-center gap-4">
         <a
-          href="/privacy"
+          routerLink="/privacy"
           class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
         >
           Privacidad
         </a>
         <a
-          href="/terms"
+          routerLink="/terms"
           class="text-sm text-surface-600 dark:text-surface-400 hover:text-pink-600 transition-colors"
         >
           Términos
