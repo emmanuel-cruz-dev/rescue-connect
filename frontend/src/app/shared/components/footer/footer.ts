@@ -27,9 +27,9 @@ export class Footer {
       { label: 'Sumarse como voluntario', url: '/volunteer' },
     ],
     help: [
-      { label: 'Preguntas frecuentes', url: '/faq' },
       { label: 'Contacto', url: '/contact' },
-      { label: 'Reportar un problema', url: '/support' },
+      { label: 'Términos de uso', url: '/terms' },
+      { label: 'Política de privacidad', url: '/privacy' },
     ],
   };
 }
