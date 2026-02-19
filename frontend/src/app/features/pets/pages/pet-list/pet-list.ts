@@ -8,10 +8,19 @@ import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model';
 import { PetCard } from '../../components/pet-card/pet-card';
 import { PetFilters } from '../../components/pet-filters/pet-filters';
+import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton/pet-card-skeleton';
 
 @Component({
   selector: 'app-pet-list',
-  imports: [CommonModule, RouterModule, FormsModule, PetCard, PetFilters, PRIMENG_IMPORTS],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    PetCard,
+    PetFilters,
+    PetCardSkeleton,
+    PRIMENG_IMPORTS,
+  ],
   templateUrl: './pet-list.html',
 })
 export class PetList implements OnInit {
