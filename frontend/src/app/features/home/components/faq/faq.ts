@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SectionHeader } from '../section-header/section-header';
+import { PetGallery } from '../../../../shared/components/pet-gallery/pet-gallery';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 interface FaqItem {
@@ -21,7 +22,7 @@ interface ResponsiveOptions {
 
 @Component({
   selector: 'app-faq',
-  imports: [PRIMENG_IMPORTS, SectionHeader],
+  imports: [PRIMENG_IMPORTS, SectionHeader, PetGallery],
   templateUrl: './faq.html',
 })
 export class Faq implements OnInit {
