@@ -205,7 +205,7 @@ Para información detallada sobre cada parte del proyecto:
 
 - **Backend**: [https://rescue-connect-kkfo.onrender.com](https://rescue-connect-kkfo.onrender.com)
 - **Frontend**: [https://rescue-connect-rs.vercel.app](https://rescue-connect-rs.vercel.app)
-- **Swagger Docs**: [https://rescue-connect-kkfo.onrender.com/api-docs](https://rescue-connect-kkfo.onrender.com/api/v1/docs)
+- **Swagger Docs**: [https://rescue-connect-kkfo.onrender.com/api/v1/docs](https://rescue-connect-kkfo.onrender.com/api/v1/docs)
 
 ---
 
