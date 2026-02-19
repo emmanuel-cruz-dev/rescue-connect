@@ -1,18 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SectionHeader } from '../section-header/section-header';
-import { PetGallery } from '../../../../shared/components/pet-gallery/pet-gallery';
+import { PetGallery, GalleryImage } from '../../../../shared/components/pet-gallery/pet-gallery';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 interface FaqItem {
   value: string;
   question: string;
   answer: string;
-}
-
-interface GalleryImage {
-  itemImageSrc: string;
-  thumbnailImageSrc: string;
-  alt: string;
 }
 
 interface ResponsiveOptions {
