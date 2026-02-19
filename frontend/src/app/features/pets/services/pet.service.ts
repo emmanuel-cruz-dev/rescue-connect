@@ -57,10 +57,11 @@ export class PetService {
 
   getPetById(id: string): Observable<ApiResponse<IPet>> {
     this.loading.set(true);
-    return this.apiService.get<ApiResponse<IPet>>(`/api/v1/pets/${id}`).pipe(
+    return this.apiService.get<any>(`/api/v1/pets/${id}`).pipe(
       tap((response) => {
-        if (response.success && response.data) {
-          this.selectedPet.set(response.data);
+        const pet = response?.data?.pet;
+        if (pet) {
+          this.selectedPet.set(pet);
         }
         this.loading.set(false);
       }),
