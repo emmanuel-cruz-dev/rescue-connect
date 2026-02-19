@@ -9,11 +9,6 @@ interface FaqItem {
   answer: string;
 }
 
-interface ResponsiveOptions {
-  breakpoint: string;
-  numVisible: number;
-}
-
 @Component({
   selector: 'app-faq',
   imports: [PRIMENG_IMPORTS, SectionHeader, PetGallery],
@@ -49,25 +44,6 @@ export class Faq implements OnInit {
   ];
 
   images: GalleryImage[] = [];
-
-  responsiveOptions: ResponsiveOptions[] = [
-    {
-      breakpoint: '1280px',
-      numVisible: 5,
-    },
-    {
-      breakpoint: '1024px',
-      numVisible: 4,
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 4,
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 4,
-    },
-  ];
 
   ngOnInit() {
     this.images = [
