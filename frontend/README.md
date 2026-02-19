@@ -307,7 +307,7 @@ Editar `src/environments/environment.ts`:
 ```typescript
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api/v1'
+  apiUrl: 'http://localhost:3000'
 };
 ```
 
@@ -316,7 +316,7 @@ Para producción, editar `src/environments/environment.prod.ts`:
 ```typescript
 export const environment = {
   production: true,
-  apiUrl: 'https://rescue-connect-kkfo.onrender.com/api/v1'
+  apiUrl: 'https://rescue-connect-kkfo.onrender.com'
 };
 ```
 
