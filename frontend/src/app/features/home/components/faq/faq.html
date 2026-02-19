@@ -75,45 +75,7 @@
         enterClass="animate-enter fade-in-10 slide-in-from-r-12 animate-duration-1000 animate-delay-400"
         class="card shadow-lg w-full"
       >
-        <p-galleria
-          [value]="images"
-          [showItemNavigators]="true"
-          [responsiveOptions]="responsiveOptions"
-          [circular]="true"
-          [numVisible]="5"
-          [showThumbnails]="true"
-          [showIndicators]="false"
-          [containerStyle]="{ 'max-width': '100%' }"
-          [dt]="{
-            thumbnailsContent: {
-              background: 'var(--p-custom-bg)'
-            },
-            thumbnailNavButton: {
-              background: 'transparent',
-              hoverBackground: 'rgba(255, 255, 255, 0.05)',
-              color: '#ffffff'
-            }
-          }"
-        >
-          <ng-template #item let-item>
-            <img
-              [src]="item.itemImageSrc"
-              [alt]="item.alt"
-              class="w-full h-auto"
-              style="height: 400px; object-fit: cover; max-width: 100%"
-              loading="lazy"
-            />
-          </ng-template>
-          <ng-template #thumbnail let-item>
-            <img
-              [src]="item.thumbnailImageSrc"
-              [alt]="item.alt"
-              class="cursor-pointer rounded"
-              style="width: 68px; height: 60px; object-fit: cover"
-              loading="lazy"
-            />
-          </ng-template>
-        </p-galleria>
+        <app-pet-gallery [images]="images" [imageHeight]="400" />
       </div>
     </div>
   </div>
