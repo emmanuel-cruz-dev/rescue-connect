@@ -1,0 +1,42 @@
+<p-galleria
+  [value]="galleryImages"
+  [showItemNavigators]="showNavigators"
+  [responsiveOptions]="responsiveOptions"
+  [circular]="true"
+  [numVisible]="5"
+  [showThumbnails]="showThumbnails"
+  [showIndicators]="false"
+  [containerStyle]="{ 'max-width': '100%' }"
+  [dt]="{
+    thumbnailsContent: {
+      background: 'var(--p-custom-bg)'
+    },
+    thumbnailNavButton: {
+      background: 'transparent',
+      hoverBackground: 'rgba(255, 255, 255, 0.05)',
+      color: '#ffffff'
+    }
+  }"
+>
+  <ng-template #item let-item>
+    <img
+      [src]="item.itemImageSrc"
+      [alt]="item.alt"
+      class="w-full h-auto object-cover"
+      [style.height.px]="imageHeight"
+      style="max-width: 100%"
+      loading="lazy"
+      onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
+    />
+  </ng-template>
+
+  <ng-template #thumbnail let-item>
+    <img
+      [src]="item.thumbnailImageSrc"
+      [alt]="item.alt"
+      class="cursor-pointer rounded"
+      style="width: 68px; height: 60px; object-fit: cover"
+      loading="lazy"
+    />
+  </ng-template>
+</p-galleria>
