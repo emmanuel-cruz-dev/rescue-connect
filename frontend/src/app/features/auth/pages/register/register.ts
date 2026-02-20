@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { AuthService } from '../../../../core/services/auth.service';
+import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +19,7 @@ export class Register {
   isLoading = false;
   formSubmitted = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.registerForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -40,12 +40,13 @@ export class Register {
       this.authService.register(registerData).subscribe({
         next: (response) => {
           this.isLoading = false;
+          this.cd.detectChanges();
 
-          if (response.success) {
+          if (response.status === 'success') {
             this.messageService.add({
               severity: 'success',
               summary: 'Registro Exitoso',
-              detail: `Bienvenido ${response.data?.user.firstName}! Tu cuenta ha sido creada`,
+              detail: `¡Bienvenido ${response.data?.user.firstName}! Tu cuenta ha sido creada`,
               life: 3000,
             });
 
@@ -54,6 +55,7 @@ export class Register {
         },
         error: (error) => {
           this.isLoading = false;
+          this.cd.detectChanges();
 
           this.registerForm.patchValue({ password: '' });
         },
