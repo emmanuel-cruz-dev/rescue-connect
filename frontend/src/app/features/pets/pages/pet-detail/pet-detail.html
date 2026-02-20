@@ -3,6 +3,9 @@
 >
   <div class="container mx-auto px-4 max-w-6xl pb-16">
     <button
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-700"
       (click)="goBack()"
       class="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors mb-8 group cursor-pointer"
     >
@@ -30,7 +33,14 @@
     </div>
     } @else if (pet()) {
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-      <div class="space-y-3 sticky top-24">
+      <!-- Galería: slide desde la izquierda -->
+      <div
+        pAnimateOnScroll
+        once="true"
+        [threshold]="0.1"
+        enterClass="animate-enter fade-in-10 slide-in-from-l-6 animate-duration-700"
+        class="space-y-3 sticky top-24"
+      >
         <div class="relative">
           <app-pet-gallery
             [images]="galleryImages()"
@@ -51,7 +61,14 @@
         </div>
       </div>
 
-      <div class="space-y-6">
+      <!-- Info: slide desde la derecha, con delay para que entre después de la galería -->
+      <div
+        pAnimateOnScroll
+        once="true"
+        [threshold]="0.1"
+        enterClass="animate-enter fade-in-10 slide-in-from-r-6 animate-duration-700 animate-delay-200"
+        class="space-y-6"
+      >
         <div>
           <p class="text-sm font-bold uppercase tracking-widest text-pink-600 mb-1">
             {{ pet()!.type === 'perro' ? 'Perro' : 'Gato' }}
@@ -64,7 +81,12 @@
           }
         </div>
 
-        <div class="flex flex-wrap gap-2">
+        <div
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-0 zoom-in-90 animate-duration-1000 animate-delay-600"
+          class="flex flex-wrap gap-2"
+        >
           <span
             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-pink-50 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 border border-pink-100 dark:border-pink-900"
           >
@@ -96,6 +118,9 @@
 
         @if (pet()!.description) {
         <div
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-10 slide-in-from-b-8 animate-duration-1000 animate-delay-400"
           class="bg-white dark:bg-slate-800/60 rounded-2xl border border-gray-100 dark:border-gray-700 p-5"
         >
           <h2
@@ -110,6 +135,10 @@
         }
 
         <div
+          pAnimateOnScroll
+          once="true"
+          [threshold]="0.1"
+          enterClass="animate-enter fade-in-10 slide-in-from-b-8 animate-duration-1000 animate-delay-200"
           class="bg-white dark:bg-slate-800/60 rounded-2xl border border-gray-100 dark:border-gray-700 p-5"
         >
           <h2
