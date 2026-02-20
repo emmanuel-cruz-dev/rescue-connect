@@ -1,14 +1,16 @@
-import { Component, OnInit, inject, signal, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { switchMap } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { PetService } from '../../services/pet.service';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model';
 import { PetCard } from '../../components/pet-card/pet-card';
 import { PetFilters } from '../../components/pet-filters/pet-filters';
 import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton/pet-card-skeleton';
+import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model';
 
 @Component({
   selector: 'app-pet-list',
@@ -23,7 +25,7 @@ import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton
   ],
   templateUrl: './pet-list.html',
 })
-export class PetList implements OnInit {
+export class PetList {
   private petService = inject(PetService);
   private messageService = inject(MessageService);
 
@@ -41,6 +43,21 @@ export class PetList implements OnInit {
     sortBy: 'createdAt',
     order: 'desc',
   });
+
+  constructor() {
+    toObservable(this.filters)
+      .pipe(switchMap((filters) => this.petService.getAllPets(filters)))
+      .subscribe({
+        error: (error) => {
+          console.error('Error al cargar mascotas:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudieron cargar las mascotas',
+          });
+        },
+      });
+  }
 
   selectedSort = 'createdAt_desc';
 
@@ -76,30 +93,12 @@ export class PetList implements OnInit {
     return count;
   });
 
-  ngOnInit(): void {
-    this.loadPets();
-  }
-
-  loadPets(): void {
-    this.petService.getAllPets(this.filters()).subscribe({
-      error: (error) => {
-        console.error('Error al cargar mascotas:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudieron cargar las mascotas',
-        });
-      },
-    });
-  }
-
   onFiltersChange(newFilters: Partial<PetFiltersModel>): void {
     this.filters.update((current) => ({
       ...current,
       ...newFilters,
       page: 1,
     }));
-    this.loadPets();
   }
 
   onSortChange(value: string): void {
@@ -108,7 +107,6 @@ export class PetList implements OnInit {
       PetFiltersModel['order']
     ];
     this.filters.update((current) => ({ ...current, sortBy, order, page: 1 }));
-    this.loadPets();
   }
 
   updateFilter(key: keyof PetFiltersModel, value: any): void {
@@ -117,7 +115,6 @@ export class PetList implements OnInit {
       [key]: value,
       page: 1,
     }));
-    this.loadPets();
   }
 
   onSearch(searchTerm: string): void {
@@ -126,7 +123,7 @@ export class PetList implements OnInit {
 
   goToPage(page: number): void {
     this.filters.update((current) => ({ ...current, page }));
-    this.loadPets();
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -149,8 +146,6 @@ export class PetList implements OnInit {
       limit: event.rows,
     }));
 
-    this.loadPets();
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -163,6 +158,5 @@ export class PetList implements OnInit {
       sortBy: 'createdAt',
       order: 'desc',
     });
-    this.loadPets();
   }
 }
