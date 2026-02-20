@@ -39,7 +39,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
             case 403:
               errorMessage = 'No tienes permisos para realizar esta acción';
-              this.router.navigate(['/errors/forbidden']);
+              this.router.navigate(['/error/forbidden']);
               break;
             case 404:
               errorMessage = error.error?.message || 'Recurso no encontrado';
