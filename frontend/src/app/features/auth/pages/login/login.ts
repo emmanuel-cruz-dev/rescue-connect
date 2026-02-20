@@ -38,7 +38,7 @@ export class Login {
           this.isLoading = false;
           this.cd.detectChanges();
 
-          if (response.success) {
+          if (response.status === 'success') {
             this.messageService.add({
               severity: 'success',
               summary: 'Inicio de Sesión Exitoso',
@@ -47,6 +47,7 @@ export class Login {
             });
 
             const user = response.data?.user;
+
             if (user?.role === 'admin') {
               this.router.navigate(['/admin/dashboard']);
             } else {
