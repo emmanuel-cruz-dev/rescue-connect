@@ -11,7 +11,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
   }
 
   if (authService.isLoggedIn()) {
-    router.navigate(['/errors/forbidden']);
+    router.navigate(['/error/forbidden']);
     return false;
   }
 
