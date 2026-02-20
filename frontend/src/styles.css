@@ -30,3 +30,21 @@
     --p-custom-border: rgba(255, 255, 255, 0.05);
   }
 }
+
+/* --- Pet filters start --- */
+
+.pet-filters__content.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.pet-filters__content.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pet-filters__content.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 20px;
+}
+
+/* --- Pet filters end --- */
