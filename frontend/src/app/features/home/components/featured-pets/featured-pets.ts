@@ -3,12 +3,13 @@ import { RouterModule } from '@angular/router';
 import { SectionHeader } from '../section-header/section-header';
 import { PetService } from '../../../pets/services/pet.service';
 import { PetCard } from '../../../pets/components/pet-card/pet-card';
+import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton/pet-card-skeleton';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet } from '../../../../core/models/pet.model';
 
 @Component({
   selector: 'app-featured-pets',
-  imports: [RouterModule, PetCard, SectionHeader, PRIMENG_IMPORTS],
+  imports: [RouterModule, PetCard, SectionHeader, PetCardSkeleton, PRIMENG_IMPORTS],
   templateUrl: './featured-pets.html',
 })
 export class FeaturedPets implements OnInit {
@@ -19,6 +20,7 @@ export class FeaturedPets implements OnInit {
   responsiveOptions: any[] | undefined;
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.petService.getAllPets({ adopted: false, limit: 8 }).subscribe({
       next: (response) => {
         if (Array.isArray(response.data)) {
