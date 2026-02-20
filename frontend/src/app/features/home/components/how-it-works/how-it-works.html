@@ -51,14 +51,15 @@
       [once]="true"
       class="text-center"
     >
-      <div class="inline-flex flex-col sm:flex-row gap-4 items-center justify-center">
+      <div class="flex flex-col sm:inline-flex sm:flex-row gap-4 items-center justify-center">
         <button
           pButton
           label="Ver mascotas disponibles"
           icon="pi pi-arrow-right"
           iconPos="right"
           (click)="goToPets()"
-          class="p-button-lg bg-pink-600! border-pink-600! hover:bg-pink-700! px-8! dark:text-white!"
+          size="large"
+          class="w-full bg-pink-600! border-pink-600! hover:bg-pink-700! px-8! dark:text-white! text-nowrap"
         ></button>
 
         <button
@@ -67,8 +68,9 @@
           icon="pi pi-user-plus"
           iconPos="right"
           (click)="goToRegister()"
+          size="large"
           outlined
-          class="p-button-lg text-sky-700! bg-sky-50! hover:bg-sky-100! px-8! border-sky-600! dark:bg-sky-900/30! dark:text-sky-200! dark:border-sky-700! dark:hover:bg-sky-900/50!"
+          class="w-full text-sky-700! bg-sky-50! hover:bg-sky-100! px-8! border-sky-600! dark:bg-sky-900/30! dark:text-sky-200! dark:border-sky-700! dark:hover:bg-sky-900/50!"
         ></button>
       </div>
     </div>
