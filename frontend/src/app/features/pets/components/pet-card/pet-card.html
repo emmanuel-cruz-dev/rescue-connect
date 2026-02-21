@@ -4,12 +4,41 @@
 >
   <ng-template #header>
     <div class="relative h-56 overflow-hidden" (click)="viewDetails()">
+      @if (pet.images && pet.images.length > 1) {
+      <p-galleria
+        [value]="pet.images"
+        [showThumbnails]="false"
+        [showItemNavigators]="true"
+        [showItemNavigatorsOnHover]="true"
+        [circular]="true"
+        [showIndicators]="false"
+        [showIndicatorsOnItem]="false"
+        containerClass="h-56"
+        (click)="$event.stopPropagation()"
+      >
+        <ng-template #item let-image>
+          <img
+            [src]="image.url"
+            [alt]="pet.name"
+            class="w-full h-56 object-cover"
+            onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
+          />
+        </ng-template>
+      </p-galleria>
+      } @else {
       <img
         [src]="mainImage"
         [alt]="pet.name"
         class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
         onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
       />
+      }
+      <!-- <img
+        [src]="mainImage"
+        [alt]="pet.name"
+        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+        onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
+      /> -->
 
       <div class="absolute top-3 right-3">
         <p-avatar
