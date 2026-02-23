@@ -33,13 +33,12 @@
     </div>
     } @else if (pet()) {
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-      <!-- Galería: slide desde la izquierda -->
       <div
         pAnimateOnScroll
         once="true"
         [threshold]="0.1"
         enterClass="animate-enter fade-in-10 slide-in-from-l-6 animate-duration-700"
-        class="space-y-3 sticky top-24"
+        class="space-y-3"
       >
         <div class="relative">
           <app-pet-gallery
@@ -61,7 +60,6 @@
         </div>
       </div>
 
-      <!-- Info: slide desde la derecha, con delay para que entre después de la galería -->
       <div
         pAnimateOnScroll
         once="true"
