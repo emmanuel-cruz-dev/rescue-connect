@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
@@ -13,7 +12,7 @@ interface NavItem {
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterModule, RouterLinkActive, PRIMENG_IMPORTS, CommonModule],
+  imports: [RouterModule, RouterLinkActive, PRIMENG_IMPORTS],
   templateUrl: './sidebar.html',
 })
 export class Sidebar {
