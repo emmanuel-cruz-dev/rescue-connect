@@ -24,7 +24,7 @@ export class Navbar implements OnInit {
       },
       {
         label: 'Mascotas',
-        icon: 'pi pi-heart',
+        icon: 'custom__pet-icon',
         routerLink: '/pets',
       },
       {
