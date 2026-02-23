@@ -1,9 +1,9 @@
 <p-card
-  class="h-full hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-gray-200 dark:border-gray-700 dark:bg-slate-900!"
+  class="h-full hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-700 dark:bg-slate-900!"
   [style]="{ overflow: 'hidden' }"
 >
   <ng-template #header>
-    <div class="relative h-56 overflow-hidden" (click)="viewDetails()">
+    <div class="relative h-56 overflow-hidden">
       @if (pet.images && pet.images.length > 1) {
       <p-galleria
         [value]="pet.images"
@@ -20,7 +20,8 @@
           <img
             [src]="image.url"
             [alt]="pet.name"
-            class="w-full h-56 object-cover"
+            class="w-full h-56 object-cover cursor-pointer"
+            (click)="viewDetails()"
             onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
           />
         </ng-template>
@@ -29,16 +30,11 @@
       <img
         [src]="mainImage"
         [alt]="pet.name"
-        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300 cursor-pointer"
+        (click)="viewDetails()"
         onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
       />
       }
-      <!-- <img
-        [src]="mainImage"
-        [alt]="pet.name"
-        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
-        onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
-      /> -->
 
       <div class="absolute top-3 right-3">
         <p-avatar
@@ -81,7 +77,7 @@
   </ng-template>
 
   <ng-template #title>
-    <div class="flex items-baseline justify-between gap-2">
+    <div class="flex items-baseline justify-between gap-2 cursor-pointer" (click)="viewDetails()">
       <h3 class="text-xl font-bold truncate first-letter:uppercase text-gray-900 dark:text-white">
         {{ pet.name }}
       </h3>
