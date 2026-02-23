@@ -1,1 +1,8 @@
-<p>dashboard-layout works!</p>
+<div class="flex h-screen overflow-hidden">
+  <app-sidebar class="shrink-0" />
+  <main
+    class="flex-1 overflow-y-auto bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+  >
+    <router-outlet />
+  </main>
+</div>
