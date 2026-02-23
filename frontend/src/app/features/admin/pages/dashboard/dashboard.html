@@ -1,0 +1,57 @@
+<section class="p-6">
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
+    <p class="text-gray-400 mt-1">
+      Bienvenido de nuevo, {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
+    </p>
+  </header>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+    @for (stat of stats; track stat.label) {
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700"
+    >
+      <div class="flex items-center justify-between mb-4">
+        <i [class]="stat.icon + ' text-2xl ' + stat.color"></i>
+        <span class="text-3xl font-bold text-gray-800 dark:text-white">{{ stat.value }}</span>
+      </div>
+      <p class="text-gray-400 text-sm font-medium">{{ stat.label }}</p>
+    </div>
+    }
+  </div>
+
+  <div
+    class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700"
+  >
+    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Acciones Rápidas</h2>
+    <div class="flex flex-wrap gap-3">
+      <p-button
+        label="Agregar Mascota"
+        icon="pi pi-plus"
+        routerLink="/admin/pets/new"
+        styleClass="text-white! bg-pink-600! hover:bg-pink-700! border-pink-600! hover:border-pink-700! font-semibold!"
+      />
+      <p-button
+        label="Ver Mascotas"
+        icon="pi pi-heart"
+        routerLink="/admin/pets"
+        [outlined]="true"
+        styleClass="text-gray-600! dark:text-gray-300! border-gray-200! dark:border-gray-700! hover:bg-gray-50! dark:hover:bg-slate-800! font-semibold!"
+      />
+      <p-button
+        label="Ver Usuarios"
+        icon="pi pi-users"
+        routerLink="/admin/users"
+        [outlined]="true"
+        styleClass="text-gray-600! dark:text-gray-300! border-gray-200! dark:border-gray-700! hover:bg-gray-50! dark:hover:bg-slate-800! font-semibold!"
+      />
+      <p-button
+        label="Ver Adopciones"
+        icon="pi pi-home"
+        routerLink="/admin/adoptions"
+        [outlined]="true"
+        styleClass="text-gray-600! dark:text-gray-300! border-gray-200! dark:border-gray-700! hover:bg-gray-50! dark:hover:bg-slate-800! font-semibold!"
+      />
+    </div>
+  </div>
+</section>
