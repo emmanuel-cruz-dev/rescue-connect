@@ -1,5 +1,6 @@
 <section
-  class="py-16 px-4 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+  class="py-16 px-4 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900 scroll-mt-18"
+  id="how-it-works"
 >
   <div class="max-w-6xl mx-auto">
     <app-section-header
@@ -57,9 +58,9 @@
           label="Ver mascotas disponibles"
           icon="pi pi-arrow-right"
           iconPos="right"
-          (click)="goToPets()"
+          routerLink="/pets"
           size="large"
-          class="w-full bg-pink-600! border-pink-600! hover:bg-pink-700! px-8! dark:text-white! text-nowrap"
+          class="w-full bg-pink-600! border-pink-600! hover:bg-pink-700! px-12! dark:text-white! text-nowrap"
         ></button>
 
         <button
@@ -67,7 +68,7 @@
           label="Crear cuenta"
           icon="pi pi-user-plus"
           iconPos="right"
-          (click)="goToRegister()"
+          routerLink="/auth/register"
           size="large"
           outlined
           class="w-full text-sky-700! bg-sky-50! hover:bg-sky-100! px-8! border-sky-600! dark:bg-sky-900/30! dark:text-sky-200! dark:border-sky-700! dark:hover:bg-sky-900/50!"
