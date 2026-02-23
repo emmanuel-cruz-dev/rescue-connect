@@ -24,7 +24,7 @@
           pRipple
           [routerLink]="item.routerLink"
           routerLinkActive="text-primary font-medium"
-          class="flex items-center px-4 py-3 gap-2 text-surface-700 dark:text-surface-300 hover:text-primary transition-colors"
+          class="flex items-center px-4 py-3 gap-2 text-surface-700 dark:text-surface-300 hover:text-primary transition-colors cursor-pointer"
         >
           @if (item.icon) {
           <i [class]="item.icon"></i>
@@ -37,6 +37,12 @@
       <ng-template #end>
         <div class="flex items-center gap-2">
           <p-button
+            label="Ingresar"
+            [text]="true"
+            routerLink="/auth/login"
+            styleClass="text-pink-600!"
+          />
+          <p-button
             [text]="true"
             [rounded]="true"
             (onClick)="toggleTheme()"
@@ -44,13 +50,6 @@
             class="bg-gray-200/40 dark:bg-slate-800 rounded-full"
             severity="secondary"
             aria-label="Cambiar tema"
-          />
-
-          <p-button
-            label="Ingresar"
-            [text]="true"
-            routerLink="/auth/login"
-            styleClass="text-pink-600!"
           />
         </div>
       </ng-template>
