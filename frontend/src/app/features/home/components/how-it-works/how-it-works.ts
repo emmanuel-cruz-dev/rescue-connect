@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { SectionHeader } from '../section-header/section-header';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
@@ -12,7 +12,7 @@ interface HowItWorksStep {
 @Component({
   selector: 'app-how-it-works',
   standalone: true,
-  imports: [PRIMENG_IMPORTS, SectionHeader],
+  imports: [RouterLink, SectionHeader, PRIMENG_IMPORTS],
   templateUrl: './how-it-works.html',
 })
 export class HowItWorks {
@@ -40,14 +40,4 @@ export class HowItWorks {
       icon: 'pi pi-check-circle',
     },
   ];
-
-  constructor(private router: Router) {}
-
-  goToPets(): void {
-    this.router.navigate(['/pets']);
-  }
-
-  goToRegister(): void {
-    this.router.navigate(['/auth/register']);
-  }
 }
