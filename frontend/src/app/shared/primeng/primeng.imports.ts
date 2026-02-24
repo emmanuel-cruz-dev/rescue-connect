@@ -16,6 +16,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { GalleriaModule } from 'primeng/galleria';
 import { IconFieldModule } from 'primeng/iconfield';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenubarModule } from 'primeng/menubar';
@@ -52,6 +54,8 @@ export const PRIMENG_IMPORTS = [
   FloatLabelModule,
   GalleriaModule,
   IconFieldModule,
+  InputGroupModule,
+  InputGroupAddonModule,
   InputIconModule,
   InputTextModule,
   MenubarModule,
