@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { AuthService } from '../../../../core/services/auth.service';
+import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
   selector: 'app-my-profile',
