@@ -32,8 +32,9 @@
       <li>
         <a
           [routerLink]="item.route"
-          routerLinkActive="bg-pink-50 dark:bg-pink-950/20 text-black! dark:text-white! font-semibold"
-          class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer text-sm"
+          routerLinkActive="bg-gray-100 dark:bg-slate-800 text-black! dark:text-white! font-semibold"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-md text-gray-600 dark:text-gray-400 hover:bg-pink-50 dark:hover:bg-pink-950/20 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer text-sm"
+          (click)="closeSidebar.emit()"
         >
           <i [class]="item.icon + ' text-lg w-5 text-center'"></i>
           <span>{{ item.label }}</span>
