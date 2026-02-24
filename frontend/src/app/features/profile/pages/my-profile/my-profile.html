@@ -1,0 +1,71 @@
+<div class="max-w-3xl mx-auto px-4 py-10">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-surface-900 dark:text-surface-0">Mi Perfil</h1>
+    <p class="text-surface-500 mt-1">Visualiza y edita tu información personal</p>
+  </div>
+
+  <!-- Profile Card -->
+  <div
+    class="bg-white dark:bg-surface-800 rounded-2xl p-8 shadow-sm border border-surface-100 dark:border-surface-700"
+  >
+    @if (currentUser()) {
+    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
+      <div
+        class="w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center shrink-0"
+      >
+        <i class="pi pi-user text-3xl text-primary-500"></i>
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold text-surface-900 dark:text-surface-0">
+          {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
+        </h2>
+        <p class="text-surface-500">{{ currentUser()?.email }}</p>
+        <p-tag
+          class="mt-2"
+          [value]="currentUser()?.role === 'admin' ? 'Administrador' : 'Usuario'"
+          [severity]="currentUser()?.role === 'admin' ? 'warn' : 'info'"
+        />
+      </div>
+    </div>
+
+    <p-divider />
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+      <div>
+        <label class="text-xs text-surface-400 uppercase font-semibold tracking-wider"
+          >Teléfono</label
+        >
+        <p class="text-surface-700 dark:text-surface-200 mt-1">
+          {{ currentUser()?.phone || 'No registrado' }}
+        </p>
+      </div>
+      <div>
+        <label class="text-xs text-surface-400 uppercase font-semibold tracking-wider"
+          >Dirección</label
+        >
+        <p class="text-surface-700 dark:text-surface-200 mt-1">
+          {{ currentUser()?.address || 'No registrada' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3 mt-6">
+      <p-button
+        label="Cambiar Contraseña"
+        icon="pi pi-lock"
+        severity="secondary"
+        [outlined]="true"
+        routerLink="/profile/change-password"
+      />
+      <p-button
+        label="Mis Adopciones"
+        icon="pi pi-heart"
+        severity="secondary"
+        [outlined]="true"
+        routerLink="/profile/adoptions"
+      />
+    </div>
+    }
+  </div>
+</div>
