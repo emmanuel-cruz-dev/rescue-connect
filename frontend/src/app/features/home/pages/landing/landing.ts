@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { HeroSection } from '../../components/hero-section/hero-section';
 import { FeaturedPets } from '../../components/featured-pets/featured-pets';
 import { HowItWorks } from '../../components/how-it-works/how-it-works';
@@ -10,8 +11,19 @@ import { Faq } from '../../components/faq/faq';
   imports: [HeroSection, FeaturedPets, HowItWorks, Testimonials, Faq],
   templateUrl: './landing.html',
 })
-export class Landing implements OnInit {
-  constructor() {}
+export class Landing implements AfterViewInit {
+  constructor(private route: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngAfterViewInit() {
+    this.route.fragment.subscribe((fragment) => {
+      if (fragment) {
+        const element = document.getElementById(fragment);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 0);
+        }
+      }
+    });
+  }
 }
