@@ -16,9 +16,11 @@
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
         <div class="flex flex-col gap-1">
-          <p-floatlabel variant="on">
-            <p-iconfield>
-              <p-inputicon class="pi pi-envelope" />
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-envelope"></i>
+            </p-inputgroup-addon>
+            <p-floatlabel variant="on">
               <input
                 pInputText
                 id="register-email"
@@ -27,9 +29,9 @@
                 class="w-full"
                 [invalid]="isInvalid('email')"
               />
-            </p-iconfield>
-            <label for="register-email">Correo Electrónico*</label>
-          </p-floatlabel>
+              <label for="register-email">Correo Electrónico*</label>
+            </p-floatlabel>
+          </p-inputgroup>
           @if (isInvalid('email')) { @if (registerForm.get('email')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             El correo electrónico es requerido
@@ -42,9 +44,11 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <p-floatlabel variant="on">
-            <p-iconfield>
-              <p-inputicon class="pi pi-lock" />
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-lock"></i>
+            </p-inputgroup-addon>
+            <p-floatlabel variant="on">
               <p-password
                 inputId="password"
                 formControlName="password"
@@ -58,9 +62,9 @@
                 mediumLabel="Medio"
                 strongLabel="Fuerte"
               />
-            </p-iconfield>
-            <label for="password">Contraseña*</label>
-          </p-floatlabel>
+              <label for="password">Contraseña*</label>
+            </p-floatlabel>
+          </p-inputgroup>
           @if (isInvalid('password')) { @if (registerForm.get('password')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             La contraseña es requerida
@@ -74,9 +78,11 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="flex flex-col gap-1">
-            <p-floatlabel variant="on">
-              <p-iconfield>
-                <p-inputicon class="pi pi-user" />
+            <p-inputgroup>
+              <p-inputgroup-addon>
+                <i class="pi pi-user"></i>
+              </p-inputgroup-addon>
+              <p-floatlabel variant="on">
                 <input
                   pInputText
                   id="firstName"
@@ -84,9 +90,9 @@
                   class="w-full"
                   [invalid]="isInvalid('firstName')"
                 />
-              </p-iconfield>
-              <label for="firstName">Nombre*</label>
-            </p-floatlabel>
+                <label for="firstName">Nombre*</label>
+              </p-floatlabel>
+            </p-inputgroup>
             @if (isInvalid('firstName')) {
             <p-message severity="error" size="small" variant="simple">
               El nombre es requerido
@@ -95,9 +101,11 @@
           </div>
 
           <div class="flex flex-col gap-1">
-            <p-floatlabel variant="on">
-              <p-iconfield>
-                <p-inputicon class="pi pi-user" />
+            <p-inputgroup>
+              <p-inputgroup-addon>
+                <i class="pi pi-user"></i>
+              </p-inputgroup-addon>
+              <p-floatlabel variant="on">
                 <input
                   pInputText
                   id="lastName"
@@ -105,9 +113,9 @@
                   class="w-full"
                   [invalid]="isInvalid('lastName')"
                 />
-              </p-iconfield>
-              <label for="lastName">Apellido*</label>
-            </p-floatlabel>
+                <label for="lastName">Apellido*</label>
+              </p-floatlabel>
+            </p-inputgroup>
             @if (isInvalid('lastName')) {
             <p-message severity="error" size="small" variant="simple">
               El apellido es requerido
@@ -117,9 +125,11 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <p-floatlabel variant="on">
-            <p-iconfield>
-              <p-inputicon class="pi pi-phone" />
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-phone"></i>
+            </p-inputgroup-addon>
+            <p-floatlabel variant="on">
               <input
                 pInputText
                 id="phone"
@@ -129,9 +139,9 @@
                 [invalid]="isInvalid('phone')"
                 autocomplete="tel"
               />
-            </p-iconfield>
-            <label for="phone">Teléfono*</label>
-          </p-floatlabel>
+              <label for="phone">Teléfono*</label>
+            </p-floatlabel>
+          </p-inputgroup>
           @if (isInvalid('phone')) { @if (registerForm.get('phone')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             El teléfono es requerido
@@ -144,9 +154,11 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <p-floatlabel variant="on">
-            <p-iconfield>
-              <p-inputicon class="pi pi-map-marker" />
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-map-marker"></i>
+            </p-inputgroup-addon>
+            <p-floatlabel variant="on">
               <input
                 pInputText
                 id="address"
@@ -155,9 +167,9 @@
                 [invalid]="isInvalid('address')"
                 autocomplete="address-line1"
               />
-            </p-iconfield>
-            <label for="address">Dirección*</label>
-          </p-floatlabel>
+              <label for="address">Dirección*</label>
+            </p-floatlabel>
+          </p-inputgroup>
           @if (isInvalid('address')) {
           <p-message severity="error" size="small" variant="simple">
             La dirección es requerida
