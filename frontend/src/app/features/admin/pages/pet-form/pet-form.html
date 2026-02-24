@@ -1,0 +1,33 @@
+<div class="p-6">
+  <div class="flex items-center gap-4 mb-8">
+    <p-button
+      icon="pi pi-arrow-left"
+      [text]="true"
+      [rounded]="true"
+      routerLink="/admin/pets"
+      styleClass="text-pink-600!"
+    />
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+        {{ isEditMode ? 'Editar Mascota' : 'Nueva Mascota' }}
+      </h1>
+      <p class="text-surface-400 mt-1">
+        {{
+          isEditMode
+            ? 'Modifica los datos de la mascota #' + petId
+            : 'Completa el formulario para registrar una nueva mascota'
+        }}
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center"
+  >
+    <i class="pi pi-file-edit text-5xl text-gray-300 dark:text-gray-600 mb-4 block"></i>
+    <p class="text-gray-400">Formulario de mascota.</p>
+    <p class="text-gray-300 dark:text-gray-600 text-sm mt-1">
+      Contenido del formulario de mascota.
+    </p>
+  </div>
+</div>
