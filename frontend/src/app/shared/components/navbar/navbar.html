@@ -23,8 +23,9 @@
         <a
           pRipple
           [routerLink]="item.routerLink"
-          routerLinkActive="text-primary font-medium"
-          class="flex items-center px-4 py-3 gap-2 text-surface-700 dark:text-surface-300 hover:text-primary transition-colors cursor-pointer"
+          routerLinkActive="text-primary font-medium bg-slate-100! dark:bg-slate-800!"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center px-4 py-3 gap-2 text-surface-700 dark:text-surface-300 hover:text-primary hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md! transition-colors cursor-pointer"
         >
           @if (item.icon) {
           <i [class]="item.icon"></i>
@@ -39,6 +40,7 @@
           <p-button
             label="Ingresar"
             [text]="true"
+            [icon]="'pi pi-sign-in'"
             routerLink="/auth/login"
             styleClass="text-pink-600!"
           />
