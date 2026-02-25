@@ -7,6 +7,8 @@ import { PetService } from '../../../pets/services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet, PetFilters } from '../../../../core/models/pet.model';
 
+type SizeSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
+
 @Component({
   selector: 'app-pets-management',
   imports: [RouterModule, FormsModule, PRIMENG_IMPORTS],
@@ -62,7 +64,7 @@ export class PetsManagement implements OnInit {
 
     if (event.sortField) {
       const field = Array.isArray(event.sortField) ? event.sortField[0] : event.sortField;
-      if (field === 'createdAt' || field === 'name' || field === 'birthDate') {
+      if (field === 'createdAt' || field === 'name' || field === 'birthDate' || field === 'size') {
         this.filters.sortBy = field;
       }
       this.filters.order = event.sortOrder === 1 ? 'asc' : 'desc';
@@ -129,8 +131,8 @@ export class PetsManagement implements OnInit {
     return type === 'perro' ? 'pi pi-heart-fill' : 'pi pi-star-fill';
   }
 
-  getSizeSeverity(size: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' {
-    const map: Record<string, 'success' | 'info' | 'warn' | 'danger' | 'secondary'> = {
+  getSizeSeverity(size: string): SizeSeverity {
+    const map: Record<string, SizeSeverity> = {
       pequeño: 'success',
       mediano: 'info',
       grande: 'warn',
