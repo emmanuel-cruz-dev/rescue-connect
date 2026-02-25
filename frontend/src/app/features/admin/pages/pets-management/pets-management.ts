@@ -1,10 +1,141 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { TableLazyLoadEvent } from 'primeng/table';
+import { PetService } from '../../../pets/services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { IPet, PetFilters } from '../../../../core/models/pet.model';
 
 @Component({
   selector: 'app-pets-management',
-  imports: [RouterModule, PRIMENG_IMPORTS],
+  imports: [RouterModule, FormsModule, PRIMENG_IMPORTS],
+  providers: [ConfirmationService],
   templateUrl: './pets-management.html',
 })
-export class PetsManagement {}
+export class PetsManagement implements OnInit {
+  private petService = inject(PetService);
+  private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
+
+  pets = this.petService.pets;
+  pagination = this.petService.pagination;
+  loading = this.petService.loading;
+
+  globalFilter = '';
+
+  petTypeOptions = [
+    { label: 'Todos', value: undefined },
+    { label: 'Perros', value: 'perro' },
+    { label: 'Gatos', value: 'gato' },
+  ];
+
+  filters: PetFilters = {
+    page: 1,
+    limit: 10,
+    sortBy: 'createdAt',
+    order: 'desc',
+  };
+
+  ngOnInit(): void {
+    this.loadPets();
+  }
+
+  loadPets(): void {
+    this.petService.getAllPets(this.filters).subscribe({
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudieron cargar las mascotas',
+        });
+      },
+    });
+  }
+
+  onLazyLoad(event: TableLazyLoadEvent): void {
+    const rows = event.rows ?? 10;
+    const first = event.first ?? 0;
+
+    this.filters.page = Math.floor(first / rows) + 1;
+    this.filters.limit = rows;
+
+    if (event.sortField) {
+      const field = Array.isArray(event.sortField) ? event.sortField[0] : event.sortField;
+      if (field === 'createdAt' || field === 'name' || field === 'birthDate') {
+        this.filters.sortBy = field;
+      }
+      this.filters.order = event.sortOrder === 1 ? 'asc' : 'desc';
+    }
+
+    this.loadPets();
+  }
+
+  onGlobalFilter(value: string): void {
+    this.filters.search = value.trim() || undefined;
+    this.filters.page = 1;
+    this.loadPets();
+  }
+
+  onTypeFilterChange(value: 'perro' | 'gato' | undefined): void {
+    this.filters.type = value;
+    this.filters.page = 1;
+    this.loadPets();
+  }
+
+  confirmDelete(pet: IPet): void {
+    this.confirmationService.confirm({
+      message: `¿Estás seguro de que querés eliminar a <strong>${pet.name}</strong>? Esta acción no se puede deshacer.`,
+      header: 'Confirmar eliminación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí, eliminar',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => this.deletePet(pet),
+    });
+  }
+
+  private deletePet(pet: IPet): void {
+    this.petService.deletePet(pet._id).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Eliminada',
+          detail: `${pet.name} fue eliminada correctamente`,
+        });
+        this.loadPets();
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'No se pudo eliminar la mascota',
+        });
+      },
+    });
+  }
+
+  getAgeFromBirthDate(birthDate: Date | string): string {
+    const birth = new Date(birthDate);
+    const now = new Date();
+    const months =
+      (now.getFullYear() - birth.getFullYear()) * 12 + (now.getMonth() - birth.getMonth());
+    if (months < 12) return `${months} mes${months !== 1 ? 'es' : ''}`;
+    const years = Math.floor(months / 12);
+    return `${years} año${years !== 1 ? 's' : ''}`;
+  }
+
+  getPetTypeIcon(type: string): string {
+    return type === 'perro' ? 'pi pi-heart-fill' : 'pi pi-star-fill';
+  }
+
+  getSizeSeverity(size: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' {
+    const map: Record<string, 'success' | 'info' | 'warn' | 'danger' | 'secondary'> = {
+      pequeño: 'success',
+      mediano: 'info',
+      grande: 'warn',
+      'extra grande': 'danger',
+    };
+    return map[size] ?? 'secondary';
+  }
+}
