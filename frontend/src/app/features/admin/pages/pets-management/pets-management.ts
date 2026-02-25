@@ -51,6 +51,7 @@ export class PetsManagement implements OnInit {
   }
 
   loadPets(): void {
+    this.petService.pets.set([]);
     this.petService.getAllPets(this.filters).subscribe({
       error: () => {
         this.messageService.add({
