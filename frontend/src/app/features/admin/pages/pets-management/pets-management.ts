@@ -130,7 +130,10 @@ export class PetsManagement implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       acceptLabel: 'Sí, eliminar',
       rejectLabel: 'Cancelar',
-      acceptButtonStyleClass: 'p-button-danger',
+      acceptButtonStyleClass:
+        'p-button-danger bg-red-600! border-red-600! hover:bg-red-700! text-white!',
+      rejectButtonStyleClass:
+        'p-button-text text-gray-500! bg-gray-100! hover:!bg-gray-200 dark:text-white! dark:bg-slate-800/20! dark:hover:bg-slate-800/30!',
       accept: () => this.deletePet(pet),
     });
   }
