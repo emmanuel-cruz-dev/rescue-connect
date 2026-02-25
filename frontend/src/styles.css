@@ -19,6 +19,7 @@
 @layer base {
   :root {
     --p-custom-bg: #ffffff;
+    --p-custom-active-bg: #f8fafc;
     --p-custom-text: #1e293b;
     --p-custom-border: #e2e8f0;
   }
@@ -28,6 +29,11 @@
     --p-custom-active-bg: #05091a;
     --p-custom-text: #f8fafc;
     --p-custom-border: rgba(255, 255, 255, 0.05);
+    --p-surface-0: #f8fafc;
+    --p-surface-50: #0f172a;
+    --p-surface-100: #090e1f;
+    --p-surface-900: #090e1f;
+    --p-surface-800: #05091a;
   }
 }
 
