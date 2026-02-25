@@ -70,10 +70,12 @@ class PetsModel {
     const skip = (pageNumber - 1) * limitNumber;
 
     const sortOrder = order === "asc" ? 1 : -1;
-    const sort: any = { [sortBy]: sortOrder };
+    const sort: any = {};
+
+    if (sortBy) sort[sortBy] = sortOrder;
 
     const [data, totalItems] = await Promise.all([
-      petModel.find(filter).sort(sort).skip(skip).limit(limit).lean(),
+      petModel.find(filter).sort(sort).skip(skip).limit(limitNumber).lean(),
       petModel.countDocuments(filter),
     ]);
 
