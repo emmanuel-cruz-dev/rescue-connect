@@ -1,4 +1,4 @@
-import { PetType, PetGender, PetSize } from '../enums/pet-type.enum';
+import { PetType, PetGender, PetSize, PetSortableFields } from '../enums/pet-type.enum';
 import { Pagination } from './api-response.model';
 
 export interface IPetImage {
@@ -62,7 +62,7 @@ export interface PetFilters {
   search?: string;
   isSterilized?: boolean;
   isVaccinated?: boolean;
-  sortBy?: 'createdAt' | 'name' | 'birthDate';
+  sortBy?: PetSortableFields;
   order?: 'asc' | 'desc';
 }
 
