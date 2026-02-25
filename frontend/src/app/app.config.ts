@@ -3,11 +3,11 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, HTTP_INTERCEPTORS, withInterceptorsFromDi } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
-import Aura from '@primeuix/themes/aura';
 
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { MyPreset } from './shared/primeng/my-preset';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
 
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: MyPreset,
         options: {
           darkModeSelector: '.dark-mode',
           cssLayer: {
