@@ -40,6 +40,7 @@
         </p-inputgroup>
 
         <p-select
+          [(ngModel)]="filters.type"
           [options]="petTypeOptions"
           optionLabel="label"
           optionValue="value"
@@ -47,10 +48,26 @@
           (onChange)="onTypeFilterChange($event.value)"
           class="w-40"
         />
-      </div>
-      <div class="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500">
-        <i class="pi pi-info-circle"></i>
-        <span>Hacé click en las columnas para ordenar</span>
+
+        <p-select
+          [(ngModel)]="filters.adopted"
+          [options]="adoptionStatusOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Adopción"
+          (onChange)="onAdoptionFilterChange($event.value)"
+          class="w-40"
+        />
+
+        @if (hasActiveFilters) {
+        <p-button
+          icon="pi pi-filter-slash"
+          label="Limpiar filtros"
+          severity="secondary"
+          variant="outlined"
+          (onClick)="resetFilters()"
+        />
+        }
       </div>
     </div>
 
