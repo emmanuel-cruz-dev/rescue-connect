@@ -103,7 +103,7 @@ export const GetPetsQuerySchema = z.object({
     .describe("Filtrar por vacunación"),
 
   sortBy: z
-    .enum(["createdAt", "name", "birthDate"])
+    .enum(["createdAt", "name", "birthDate", "size"])
     .default("createdAt")
     .describe("Campo por el cual ordenar"),
 
