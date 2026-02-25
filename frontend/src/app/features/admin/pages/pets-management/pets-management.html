@@ -1,8 +1,13 @@
 <div class="p-6">
+  <!-- Header -->
   <div class="flex items-center justify-between mb-8">
     <div>
       <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestión de Mascotas</h1>
-      <p class="text-gray-400 mt-1">Administra el catálogo de mascotas</p>
+      <p class="text-gray-400 mt-1">
+        @if (pagination()) {
+        {{ pagination()!.totalItems }} mascotas en total } @else { Administra el catálogo de
+        mascotas }
+      </p>
     </div>
     <p-button
       label="Agregar Mascota"
@@ -12,11 +17,236 @@
     />
   </div>
 
+  <!-- Table card -->
   <div
-    class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center"
+    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
   >
-    <i class="custom__pet-icon text-5xl text-gray-300 dark:text-gray-600 mb-4 block"></i>
-    <p class="text-gray-400">Tabla de mascotas.</p>
-    <p class="text-gray-300 dark:text-gray-600 text-sm mt-1">Contenido de la tabla de mascotas.</p>
+    <!-- Toolbar -->
+    <div
+      class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 gap-3 flex-wrap"
+    >
+      <div class="flex items-center gap-2">
+        <p-inputgroup class="w-72!">
+          <p-inputgroup-addon>
+            <i class="pi pi-search"></i>
+          </p-inputgroup-addon>
+          <input
+            pInputText
+            placeholder="Buscar por nombre"
+            type="text"
+            [(ngModel)]="globalFilter"
+            (input)="onGlobalFilter($any($event.target).value)"
+          />
+        </p-inputgroup>
+
+        <p-select
+          [options]="petTypeOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Tipo"
+          (onChange)="onTypeFilterChange($event.value)"
+          class="w-40"
+        />
+      </div>
+      <div class="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500">
+        <i class="pi pi-info-circle"></i>
+        <span>Hacé click en las columnas para ordenar</span>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <p-table
+      #dt
+      [value]="pets()"
+      [lazy]="true"
+      [loading]="loading()"
+      [totalRecords]="pagination()?.totalItems ?? 0"
+      [rows]="10"
+      [paginator]="true"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} mascotas"
+      (onLazyLoad)="onLazyLoad($event)"
+      dataKey="_id"
+      class="p-datatable-sm"
+      [tableStyle]="{ 'min-width': '56rem' }"
+      [size]="'large'"
+      showGridlines
+      stripedRows
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">
+            <div class="flex items-center gap-2">Nombre <p-sortIcon field="name" /></div>
+          </th>
+          <th class="font-semibold">Tipo/Género</th>
+          <th pSortableColumn="birthDate">
+            <div class="flex items-center gap-2">Edad <p-sortIcon field="birthDate" /></div>
+          </th>
+          <th class="font-semibold">Tamaño</th>
+          <th class="font-semibold">Estado</th>
+          <th class="font-semibold">Salud</th>
+          <th pSortableColumn="createdAt">
+            <div class="flex items-center gap-2">Registrada <p-sortIcon field="createdAt" /></div>
+          </th>
+          <th style="width: 8rem" class="font-semibold text-center">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-pet>
+        <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+          <!-- Imagen / Nombre -->
+          <td>
+            <div class="flex items-center gap-2">
+              <figure
+                class="w-8 h-8 rounded-full overflow-hidden bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
+              >
+                @if (pet.images?.length > 0) {
+                <img
+                  [src]="pet.images[0].url"
+                  [alt]="pet.name"
+                  class="w-full h-full object-cover"
+                />
+                } @else {
+                <i [class]="getPetTypeIcon(pet.type)" class="text-gray-300 dark:text-gray-600"></i>
+                }
+              </figure>
+              <span class="font-semibold text-gray-800 dark:text-white">{{ pet.name }}</span>
+            </div>
+          </td>
+
+          <!-- Tipo / Género -->
+          <td>
+            <div class="flex flex-col gap-1">
+              <span class="capitalize text-sm text-gray-800 dark:text-gray-300">{{
+                pet.type
+              }}</span>
+              <span
+                class="text-xs text-gray-700! dark:text-gray-400! capitalize flex items-center gap-1"
+              >
+                <i
+                  [class]="pet.gender === 'macho' ? 'pi pi-mars' : 'pi pi-venus'"
+                  class="text-xs"
+                ></i>
+                {{ pet.gender }}
+              </span>
+            </div>
+          </td>
+
+          <!-- Edad -->
+          <td>
+            <span class="text-sm text-gray-600 dark:text-gray-300">
+              {{ getAgeFromBirthDate(pet.birthDate) }}
+            </span>
+          </td>
+
+          <!-- Tamaño -->
+          <td>
+            <p-tag
+              [value]="pet.size | titlecase"
+              [severity]="getSizeSeverity(pet.size)"
+              class="text-xs capitalize"
+            />
+          </td>
+
+          <!-- Estado de adopción -->
+          <td>
+            @if (pet.adopted) {
+            <p-tag value="Adoptada" severity="success" class="text-xs" />
+            } @else {
+            <p-tag value="Disponible" severity="warn" class="text-xs" />
+            }
+          </td>
+
+          <!-- Salud -->
+          <td>
+            <div class="flex gap-1 flex-wrap">
+              @if (pet.isSterilized) {
+              <p-tag value="Esteril." severity="secondary" styleClass="text-xs!" />
+              } @if (pet.isVaccinated) {
+              <p-tag value="Vacunada" severity="info" styleClass="text-xs!" />
+              } @if (!pet.isSterilized && !pet.isVaccinated) {
+              <span class="text-xs text-gray-400">—</span>
+              }
+            </div>
+          </td>
+
+          <!-- Fecha registro -->
+          <td>
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+              {{ pet.createdAt | date : 'dd/MM/yyyy' }}
+            </span>
+          </td>
+
+          <!-- Acciones -->
+          <td>
+            <div class="flex items-center justify-center gap-1">
+              <p-button
+                icon="pi pi-pencil"
+                [rounded]="true"
+                variant="text"
+                severity="secondary"
+                size="small"
+                [routerLink]="['/admin/pets', pet._id, 'edit']"
+                pTooltip="Editar"
+                tooltipPosition="top"
+              />
+              <p-button
+                icon="pi pi-trash"
+                [rounded]="true"
+                variant="text"
+                severity="danger"
+                size="small"
+                (onClick)="confirmDelete(pet)"
+                pTooltip="Eliminar"
+                tooltipPosition="top"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- Loading skeleton -->
+      <ng-template pTemplate="loadingbody">
+        @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+        <tr>
+          @for (j of [1,2,3,4,5,6,7,8,9,10]; track j) {
+          <td><p-skeleton height="2rem" /></td>
+          }
+        </tr>
+        }
+      </ng-template>
+
+      <!-- Empty state -->
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="10">
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+              <div
+                class="w-20 h-20 rounded-full bg-gray-50 dark:bg-slate-800 flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-search text-3xl text-gray-300 dark:text-gray-600"></i>
+              </div>
+              <p class="text-gray-500 dark:text-gray-400 font-medium">No se encontraron mascotas</p>
+              <p class="text-gray-400 dark:text-gray-600 text-sm mt-1">
+                Probá con otros filtros o agregá una nueva mascota
+              </p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
 </div>
+
+<p-confirmDialog>
+  <ng-template pTemplate="message" let-message>
+    <div class="flex flex-col items-center gap-4 p-4 max-w-sm">
+      <div
+        class="w-16 h-16 rounded-full bg-red-50 dark:bg-red-950/30 flex items-center justify-center"
+      >
+        <i class="pi pi-exclamation-triangle text-3xl text-red-500"></i>
+      </div>
+      <p class="text-center text-gray-600 dark:text-gray-300" [innerHTML]="message.message"></p>
+    </div>
+  </ng-template>
+</p-confirmDialog>
