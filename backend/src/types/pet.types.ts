@@ -45,7 +45,7 @@ export interface IPetFilters {
 export interface IPetQueryParams extends IPetFilters {
   page: number;
   limit: number;
-  sortBy: "createdAt" | "name" | "birthDate";
+  sortBy: "createdAt" | "name" | "birthDate" | "size";
   order: "asc" | "desc";
 }
 
