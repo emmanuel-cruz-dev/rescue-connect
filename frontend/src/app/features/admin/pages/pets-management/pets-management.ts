@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { TableLazyLoadEvent } from 'primeng/table';
+import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { PetService } from '../../../pets/services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet, PetFilters } from '../../../../core/models/pet.model';
@@ -23,13 +23,20 @@ export class PetsManagement implements OnInit {
   pets = this.petService.pets;
   pagination = this.petService.pagination;
   loading = this.petService.loading;
+  @ViewChild('dt') dt!: Table;
 
   globalFilter = '';
 
   petTypeOptions = [
-    { label: 'Todos', value: undefined },
+    { label: 'Tipo', value: undefined },
     { label: 'Perros', value: 'perro' },
     { label: 'Gatos', value: 'gato' },
+  ];
+
+  adoptionStatusOptions = [
+    { label: 'Estado', value: undefined },
+    { label: 'Disponibles', value: false },
+    { label: 'Adoptadas', value: true },
   ];
 
   filters: PetFilters = {
@@ -83,6 +90,36 @@ export class PetsManagement implements OnInit {
     this.filters.type = value;
     this.filters.page = 1;
     this.loadPets();
+  }
+
+  onAdoptionFilterChange(value: boolean | undefined): void {
+    this.filters.adopted = value;
+    this.filters.page = 1;
+    this.loadPets();
+  }
+
+  resetFilters(): void {
+    this.globalFilter = '';
+
+    this.filters = {
+      page: 1,
+      limit: 10,
+      sortBy: 'createdAt',
+      order: 'desc',
+    };
+
+    this.dt.clear();
+    this.loadPets();
+  }
+
+  get hasActiveFilters(): boolean {
+    return (
+      !!this.globalFilter ||
+      this.filters.type !== undefined ||
+      this.filters.adopted !== undefined ||
+      this.filters.sortBy !== 'createdAt' ||
+      this.filters.order !== 'desc'
+    );
   }
 
   confirmDelete(pet: IPet): void {
