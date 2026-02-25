@@ -1,6 +1,5 @@
-<div class="p-6">
-  <!-- Header -->
-  <div class="flex items-center justify-between mb-8">
+<section class="p-6">
+  <header class="flex items-center justify-between mb-8">
     <div>
       <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestión de Mascotas</h1>
       <p class="text-gray-400 mt-1">
@@ -15,13 +14,11 @@
       routerLink="/admin/pets/new"
       styleClass="text-white! bg-pink-600! hover:bg-pink-700! border-pink-600! hover:border-pink-700! font-semibold!"
     />
-  </div>
+  </header>
 
-  <!-- Table card -->
-  <div
+  <main
     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
   >
-    <!-- Toolbar -->
     <div
       class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 gap-3 flex-wrap"
     >
@@ -71,7 +68,6 @@
       </div>
     </div>
 
-    <!-- Table -->
     <p-table
       #dt
       [value]="pets()"
@@ -116,7 +112,6 @@
 
       <ng-template pTemplate="body" let-pet>
         <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
-          <!-- Imagen / Nombre -->
           <td>
             <div class="flex items-center gap-2">
               <figure
@@ -136,7 +131,6 @@
             </div>
           </td>
 
-          <!-- Tipo / Género -->
           <td>
             <div class="flex flex-col gap-1">
               <span class="capitalize text-sm text-gray-800 dark:text-gray-300">{{
@@ -154,14 +148,12 @@
             </div>
           </td>
 
-          <!-- Edad -->
           <td>
             <span class="text-sm text-gray-600 dark:text-gray-300">
               {{ getAgeFromBirthDate(pet.birthDate) }}
             </span>
           </td>
 
-          <!-- Tamaño -->
           <td>
             <p-tag
               [value]="pet.size | titlecase"
@@ -170,7 +162,6 @@
             />
           </td>
 
-          <!-- Estado de adopción -->
           <td>
             @if (pet.adopted) {
             <p-tag value="Adoptada" severity="success" class="text-xs" />
@@ -179,7 +170,6 @@
             }
           </td>
 
-          <!-- Salud -->
           <td>
             <div class="flex gap-1 flex-wrap">
               @if (pet.isSterilized) {
@@ -192,14 +182,12 @@
             </div>
           </td>
 
-          <!-- Fecha registro -->
           <td>
             <span class="text-sm text-gray-500 dark:text-gray-400">
               {{ pet.createdAt | date : 'dd/MM/yyyy' }}
             </span>
           </td>
 
-          <!-- Acciones -->
           <td>
             <div class="flex items-center justify-center gap-1">
               <p-button
@@ -227,18 +215,16 @@
         </tr>
       </ng-template>
 
-      <!-- Loading skeleton -->
       <ng-template pTemplate="loadingbody">
-        @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+        @for (i of [1,2,3,4,5,6,7,8,9, 10]; track i) {
         <tr>
-          @for (j of [1,2,3,4,5,6,7,8,9,10]; track j) {
+          @for (j of [1,2,3,4,5,6,7,8]; track j) {
           <td><p-skeleton height="2rem" /></td>
           }
         </tr>
         }
       </ng-template>
 
-      <!-- Empty state -->
       <ng-template pTemplate="emptymessage">
         <tr>
           <td colspan="10">
@@ -257,8 +243,8 @@
         </tr>
       </ng-template>
     </p-table>
-  </div>
-</div>
+  </main>
+</section>
 
 <p-confirmDialog>
   <ng-template pTemplate="message" let-message>
