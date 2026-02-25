@@ -104,7 +104,7 @@
           <th class="font-semibold">Estado</th>
           <th class="font-semibold">Salud</th>
           <th pSortableColumn="createdAt">
-            <div class="flex items-center gap-2">Registrada <p-sortIcon field="createdAt" /></div>
+            <div class="flex items-center gap-2">Registro <p-sortIcon field="createdAt" /></div>
           </th>
           <th style="width: 8rem" class="font-semibold text-center">Acciones</th>
         </tr>
@@ -164,7 +164,7 @@
 
           <td>
             @if (pet.adopted) {
-            <p-tag value="Adoptada" severity="success" class="text-xs" />
+            <p-tag value="Adoptado" severity="success" class="text-xs" />
             } @else {
             <p-tag value="Disponible" severity="warn" class="text-xs" />
             }
@@ -173,9 +173,9 @@
           <td>
             <div class="flex gap-1 flex-wrap">
               @if (pet.isSterilized) {
-              <p-tag value="Esteril." severity="secondary" styleClass="text-xs!" />
+              <p-tag value="Esteril." severity="secondary" class="text-xs!" />
               } @if (pet.isVaccinated) {
-              <p-tag value="Vacunada" severity="info" styleClass="text-xs!" />
+              <p-tag value="Vacunado" severity="info" class="text-xs!" />
               } @if (!pet.isSterilized && !pet.isVaccinated) {
               <span class="text-xs text-gray-400">—</span>
               }
