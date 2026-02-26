@@ -5,6 +5,11 @@ import {
   ChangePasswordBodySchema,
 } from "../validators/auth.validator";
 import {
+  UserBodySchema,
+  UserIdSchema,
+  GetUsersQuerySchema,
+} from "../validators/user.validator";
+import {
   PetBodySchema,
   PetIdSchema,
   DeleteImageParamsSchema,
@@ -178,6 +183,207 @@ registry.registerPath({
   responses: {
     200: { description: "Mascotas obtenidas exitosamente" },
     401: { description: "No autenticado" },
+    404: { description: "Usuario no encontrado" },
+  },
+});
+
+/* ========= USERS ========= */
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/users",
+  tags: ["Users"],
+  summary: "Listar usuarios con filtros y paginación",
+  description: `Obtiene la lista de usuarios con múltiples opciones de filtrado y paginación. Solo accesible para administradores.
+
+**Filtros disponibles:**
+- role: Rol del usuario (admin/user)
+- isActive: Estado del usuario (true/false)
+- search: Búsqueda por nombre, apellido o email
+
+**Paginación:**
+- page: Número de página (default: 1)
+- limit: Elementos por página (default: 10, max: 100)
+
+**Ordenamiento:**
+- sortBy: Campo de ordenamiento (createdAt/firstName/lastName/email, default: createdAt)
+- order: Orden (asc/desc, default: desc)`,
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: GetUsersQuerySchema,
+  },
+  responses: {
+    200: {
+      description:
+        "Lista de usuarios obtenida exitosamente con información de paginación",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              status: { type: "string", example: "success" },
+              data: {
+                type: "array",
+                items: {
+                  type: "object",
+                  description: "Objeto de usuario (sin contraseña)",
+                },
+              },
+              pagination: {
+                type: "object",
+                properties: {
+                  currentPage: { type: "number", example: 1 },
+                  totalPages: { type: "number", example: 3 },
+                  totalItems: { type: "number", example: 25 },
+                  itemsPerPage: { type: "number", example: 10 },
+                  hasNextPage: { type: "boolean", example: true },
+                  hasPrevPage: { type: "boolean", example: false },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/users/{id}",
+  tags: ["Users"],
+  summary: "Obtener usuario por ID",
+  description: "Obtiene los detalles de un usuario específico (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: UserIdSchema,
+  },
+  responses: {
+    200: { description: "Usuario obtenido exitosamente" },
+    400: { description: "ID inválido" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Usuario no encontrado" },
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/api/v1/users",
+  tags: ["Users"],
+  summary: "Crear usuario",
+  description:
+    "Crea un nuevo usuario directamente desde el panel admin (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: UserBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    201: { description: "Usuario creado exitosamente" },
+    400: { description: "Datos inválidos" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    409: { description: "El email ya está registrado" },
+  },
+});
+
+registry.registerPath({
+  method: "put",
+  path: "/api/v1/users/{id}",
+  tags: ["Users"],
+  summary: "Actualizar usuario",
+  description:
+    "Actualiza los datos de un usuario existente (solo admin). No permite cambiar la contraseña desde este endpoint.",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: UserIdSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: UserBodySchema.omit({ password: true }).partial(),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "Usuario actualizado exitosamente" },
+    400: { description: "Datos inválidos" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Usuario no encontrado" },
+    409: { description: "El email ya está en uso" },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/api/v1/users/{id}/password",
+  tags: ["Users"],
+  summary: "Cambiar contraseña",
+  description:
+    "Permite al usuario autenticado cambiar su propia contraseña verificando la contraseña actual",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: UserIdSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: ChangePasswordBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "Contraseña actualizada exitosamente" },
+    400: { description: "La contraseña actual es incorrecta" },
+    401: { description: "No autenticado" },
+    404: { description: "Usuario no encontrado" },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/api/v1/users/{id}/deactivate",
+  tags: ["Users"],
+  summary: "Desactivar usuario",
+  description:
+    "Desactiva un usuario sin eliminarlo de la base de datos (soft delete, solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: UserIdSchema,
+  },
+  responses: {
+    200: { description: "Usuario desactivado exitosamente" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
+    404: { description: "Usuario no encontrado" },
+  },
+});
+
+registry.registerPath({
+  method: "delete",
+  path: "/api/v1/users/{id}",
+  tags: ["Users"],
+  summary: "Eliminar usuario",
+  description:
+    "Elimina permanentemente un usuario de la base de datos (solo admin)",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: UserIdSchema,
+  },
+  responses: {
+    200: { description: "Usuario eliminado exitosamente" },
+    400: { description: "ID inválido" },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
     404: { description: "Usuario no encontrado" },
   },
 });
