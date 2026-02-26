@@ -2,11 +2,7 @@ import { z } from "zod";
 import { registry } from "../docs/swagger";
 
 export const LoginBodySchema = z.object({
-  email: z
-    .string()
-    .email("Email inválido")
-    .toLowerCase()
-    .describe("Email del usuario"),
+  email: z.email("Email inválido").toLowerCase().describe("Email del usuario"),
   password: z
     .string()
     .min(1, "La contraseña es obligatoria")
@@ -14,11 +10,7 @@ export const LoginBodySchema = z.object({
 });
 
 export const RegisterBodySchema = z.object({
-  email: z
-    .string()
-    .email("Email inválido")
-    .toLowerCase()
-    .describe("Email del usuario"),
+  email: z.email("Email inválido").toLowerCase().describe("Email del usuario"),
   password: z
     .string()
     .min(8, "La contraseña debe tener al menos 8 caracteres")
