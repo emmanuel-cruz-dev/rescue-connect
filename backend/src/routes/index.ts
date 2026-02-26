@@ -2,8 +2,9 @@ import "../docs/swagger";
 import "../docs/routes.swagger";
 
 import express from "express";
-import petsRouter from "./pets.routes";
 import authRouter from "./auth.routes";
+import userRouter from "./user.routes";
+import petsRouter from "./pets.routes";
 import adoptionRouter from "./adoption.routes";
 import { swaggerUiHandler, swaggerUiServe } from "../docs/swagger";
 
@@ -18,6 +19,7 @@ router.get("/health", (_req, res) => {
 
 router.use("/docs", swaggerUiServe, swaggerUiHandler);
 router.use("/auth", authRouter);
+router.use("/users", userRouter);
 router.use("/pets", petsRouter);
 router.use("/adoptions", adoptionRouter);
 
