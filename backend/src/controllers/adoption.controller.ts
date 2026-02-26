@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import adoptionModel from "../models/adoption.model";
-import { AdoptionStatus } from "../types/adoption.types";
+import { AdoptionStatus } from "../types";
 
 class AdoptionController {
   async createRequest(req: Request, res: Response, next: NextFunction) {

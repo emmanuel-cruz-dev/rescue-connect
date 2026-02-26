@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import authModel from "../models/auth.model";
 import { JWTUtils } from "../utils/jwt.utils";
-import { IAuthResponse, IUserResponse } from "../types/user.types";
+import { IAuthResponse, IUserResponse } from "../types";
 
 class AuthController {
   async register(req: Request, res: Response, next: NextFunction) {

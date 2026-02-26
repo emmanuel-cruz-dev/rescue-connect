@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import petsModel from "../models/pets.model";
-import { IPetQueryParams } from "../types/pet.types";
+import { IPetQueryParams } from "../types";
 
 class PetsController {
   async getAll(req: Request, res: Response, next: NextFunction) {
