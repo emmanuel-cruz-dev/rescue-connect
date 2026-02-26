@@ -41,3 +41,13 @@ export interface IJWTPayload {
   email: string;
   role: string;
 }
+
+export interface IUserQueryParams {
+  page: number;
+  limit: number;
+  sortBy: "createdAt" | "firstName" | "lastName" | "email";
+  order: "asc" | "desc";
+  role?: "admin" | "user";
+  isActive?: boolean;
+  search?: string;
+}
