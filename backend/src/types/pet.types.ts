@@ -48,15 +48,3 @@ export interface IPetQueryParams extends IPetFilters {
   sortBy: "createdAt" | "name" | "birthDate" | "size";
   order: "asc" | "desc";
 }
-
-export interface IPaginatedResponse<T> {
-  data: T[];
-  pagination: {
-    currentPage: number;
-    totalPages: number;
-    totalItems: number;
-    itemsPerPage: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-  };
-}
