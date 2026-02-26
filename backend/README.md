@@ -43,6 +43,7 @@ Rescue Connect Backend es una API RESTful que permite gestionar el proceso de ad
 - **Sistema de adopción** de mascotas
 - **Gestión de imágenes** con Cloudinary
 - **Perfiles de usuario** con información de contacto
+- **Administración de usuarios** (CRUD completo para admins)
 - **Control de acceso basado en roles** (admin/user)
 
 ## 🛠 Tecnologías
@@ -144,6 +145,15 @@ El proyecto sigue una **arquitectura en capas** (Layered Architecture) con separ
 - Rechazo automático de otras solicitudes pendientes al aprobar una
 - Consulta de solicitudes por usuario o por mascota
 - Notas administrativas en revisiones
+
+### 🧑‍💼 Administración de Usuarios
+
+- CRUD completo de usuarios (solo admin)
+- Filtros por rol, estado activo y búsqueda por nombre/email
+- Paginación y ordenamiento
+- Desactivación de usuarios (soft delete)
+- Eliminación física (hard delete)
+- Cambio de contraseña verificando la contraseña actual
 
 ## 📦 Instalación
 
@@ -251,7 +261,8 @@ backend/
 │   ├── controllers/              # Controladores
 │   │   ├── adoption.controller.ts # Controlador de adopciones
 │   │   ├── auth.controller.ts    # Controlador de autenticación
-│   │   └── pets.controller.ts    # Controlador de mascotas
+│   │   ├── pets.controller.ts    # Controlador de mascotas
+│   │   └── users.controller.ts   # Controlador de usuarios
 │   │
 │   ├── docs/                     # Documentación Swagger
 │   │   ├── swagger.ts            # Configuración de Swagger
@@ -266,24 +277,29 @@ backend/
 │   ├── models/                   # Modelos (lógica de negocio)
 │   │   ├── adoption.model.ts     # Modelo de adopciones
 │   │   ├── auth.model.ts         # Modelo de autenticación
-│   │   └── pets.model.ts         # Modelo de mascotas
+│   │   ├── pets.model.ts         # Modelo de mascotas
+│   │   └── user.model.ts         # Modelo de administración de usuarios
 │   │
 │   ├── routes/                   # Definición de rutas
 │   │   ├── adoption.routes.ts    # Rutas de adopciones
 │   │   ├── auth.routes.ts        # Rutas de autenticación
 │   │   ├── index.ts              # Router principal
-│   │   └── pets.routes.ts        # Rutas de mascotas
+│   │   ├── pets.routes.ts        # Rutas de mascotas
+│   │   └── user.routes.ts        # Rutas de usuarios
 │   │
 │   ├── schemas/                  # Esquemas de Mongoose
 │   │   ├── adoption.schema.ts    # Esquema de solicitud de adopción
-│   │   ├── auth.schema.ts        # Esquema de usuario
-│   │   └── pets.schema.ts        # Esquema de mascota
+│   │   ├── auth.schema.ts        # Esquema de usuario (auth)
+│   │   ├── pets.schema.ts        # Esquema de mascota
+│   │   └── user.schema.ts        # Esquema de usuario (admin)
 │   │
 │   ├── services/                 # Servicios externos
 │   │   └── cloudinary.service.ts # Servicio de Cloudinary
 │   │
 │   ├── types/                    # Definiciones de tipos
 │   │   ├── adoption.types.ts     # Tipos de adopciones
+│   │   ├── common.types.ts       # Tipos compartidos
+│   │   ├── index.ts              # Re-exports de tipos
 │   │   ├── pet.types.ts          # Tipos de mascotas
 │   │   └── user.types.ts         # Tipos de usuarios
 │   │
@@ -293,7 +309,8 @@ backend/
 │   └── validators/               # Validadores Zod
 │       ├── adoption.validator.ts # Validadores de adopciones
 │       ├── auth.validator.ts     # Validadores de autenticación
-│       └── pet.validator.ts      # Validadores de mascotas
+│       ├── pet.validator.ts      # Validadores de mascotas
+│       └── user.validator.ts     # Validadores de usuarios
 │
 ├── .env                          # Variables de entorno (no versionado)
 ├── .env.example                  # Ejemplo de variables de entorno
@@ -325,16 +342,27 @@ backend/
 
 ### Mascotas (`/api/v1/pets`)
 
-| Método | Endpoint                | Descripción                                                 | Auth | Rol   |
-| ------ | ----------------------- | ----------------------------------------------------------- | ---- | ----- |
+| Método | Endpoint                | Descripción                                                    | Auth | Rol   |
+| ------ | ----------------------- | -------------------------------------------------------------- | ---- | ----- |
 | GET    | `/`                     | Listar todas las mascotas (acepta query `?adopted=true/false`) | No   | -     |
-| GET    | `/:id`                  | Obtener mascota por ID                                      | No   | -     |
-| POST   | `/`                     | Crear nueva mascota                                         | Sí   | admin |
-| PUT    | `/:id`                  | Actualizar mascota                                          | Sí   | admin |
-| DELETE | `/:id`                  | Eliminar mascota                                            | Sí   | admin |
-| POST   | `/:id/images`           | Subir imágenes                                              | Sí   | admin |
-| DELETE | `/:id/images/:publicId` | Eliminar imagen                                             | Sí   | admin |
+| GET    | `/:id`                  | Obtener mascota por ID                                         | No   | -     |
+| POST   | `/`                     | Crear nueva mascota                                            | Sí   | admin |
+| PUT    | `/:id`                  | Actualizar mascota                                             | Sí   | admin |
+| DELETE | `/:id`                  | Eliminar mascota                                               | Sí   | admin |
+| POST   | `/:id/images`           | Subir imágenes                                                 | Sí   | admin |
+| DELETE | `/:id/images/:publicId` | Eliminar imagen                                                | Sí   | admin |
 
+### Usuarios (`/api/v1/users`)
+
+| Método | Endpoint              | Descripción                                    | Auth | Rol        |
+| ------ | --------------------- | ---------------------------------------------- | ---- | ---------- |
+| GET    | `/`                   | Listar usuarios con filtros y paginación       | Sí   | admin      |
+| GET    | `/:id`                | Obtener usuario por ID                         | Sí   | admin      |
+| POST   | `/`                   | Crear usuario                                  | Sí   | admin      |
+| PUT    | `/:id`                | Actualizar usuario (sin contraseña)            | Sí   | admin      |
+| PATCH  | `/:id/password`       | Cambiar contraseña (verificando la actual)     | Sí   | user/admin |
+| PATCH  | `/:id/deactivate`     | Desactivar usuario (soft delete)               | Sí   | admin      |
+| DELETE | `/:id`                | Eliminar usuario permanentemente               | Sí   | admin      |
 
 ### Solicitudes de Adopción (`/api/v1/adoptions`)
 
@@ -441,7 +469,6 @@ GET /api/v1/pets?adopted=true
 GET /api/v1/pets?adopted=false
 ```
 
-
 #### Subir Imágenes de Mascota (Admin)
 
 ```bash
@@ -450,6 +477,64 @@ Authorization: Bearer <token>
 Content-Type: multipart/form-data
 
 images: [archivo1.jpg, archivo2.jpg]
+```
+
+#### Listar Usuarios con Filtros (Admin)
+
+```bash
+# Listar todos los usuarios
+GET /api/v1/users
+Authorization: Bearer <token>
+
+# Filtrar por rol
+GET /api/v1/users?role=admin
+
+# Filtrar usuarios inactivos
+GET /api/v1/users?isActive=false
+
+# Buscar por nombre o email
+GET /api/v1/users?search=juan
+
+# Paginación y ordenamiento
+GET /api/v1/users?page=2&limit=20&sortBy=createdAt&order=asc
+```
+
+#### Crear Usuario (Admin)
+
+```bash
+POST /api/v1/users
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "email": "nuevo@ejemplo.com",
+  "password": "password123",
+  "firstName": "María",
+  "lastName": "González",
+  "phone": "+54 11 9876-5432",
+  "address": "Av. Corrientes 1234, Buenos Aires",
+  "role": "user"
+}
+```
+
+#### Cambiar Contraseña de Usuario
+
+```bash
+PATCH /api/v1/users/:id/password
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "currentPassword": "password123",
+  "newPassword": "nuevaPassword456"
+}
+```
+
+#### Desactivar Usuario (Admin)
+
+```bash
+PATCH /api/v1/users/:id/deactivate
+Authorization: Bearer <token>
 ```
 
 #### Crear Solicitud de Adopción
@@ -511,12 +596,12 @@ Content-Type: application/json
 
 ```typescript
 interface IUser {
-  firstName: string; // Nombre (3-50 caracteres)
-  lastName: string; // Apellido (3-50 caracteres)
+  firstName: string; // Nombre (2-50 caracteres)
+  lastName: string; // Apellido (2-50 caracteres)
   email: string; // Email único (validado)
-  password: string; // Contraseña hasheada (8-50 caracteres)
+  password: string; // Contraseña hasheada (8-100 caracteres)
   phone: string; // Teléfono (8-50 caracteres)
-  address: string; // Dirección (opcional, max 200 caracteres)
+  address: string; // Dirección (2-200 caracteres)
   role: "admin" | "user"; // Rol del usuario (default: "user")
   isActive: boolean; // Estado de la cuenta (default: true)
   createdAt: Date; // Fecha de creación
@@ -546,10 +631,14 @@ interface IUser {
 interface IPet {
   name: string; // Nombre (3-50 caracteres)
   type: "perro" | "gato"; // Tipo de mascota
-  age: number; // Edad (0-30 años)
+  birthDate: Date; // Fecha de nacimiento
+  gender: "macho" | "hembra"; // Género
+  size: "pequeño" | "mediano" | "grande" | "extra grande"; // Tamaño
   breed: string; // Raza
-  description?: string; // Descripción (max 200 caracteres)
+  description?: string; // Descripción (max 500 caracteres)
   images?: IPetImage[]; // Array de imágenes
+  isSterilized: boolean; // Si está esterilizada (default: false)
+  isVaccinated: boolean; // Si está vacunada (default: false)
   adopted: boolean; // Estado de adopción (default: false)
   adoptedBy?: ObjectId; // ID del usuario adoptante
   createdAt: Date; // Fecha de creación
@@ -562,17 +651,11 @@ interface IPetImage {
 }
 ```
 
-**Validaciones:**
-
-- Nombre: 3-50 caracteres
-- Tipo: enum estricto
-- Edad: 0-30 años
-- Descripción: máximo 200 caracteres
-
 **Índices:**
 
 - `adoptedBy`: Para búsquedas por usuario
-- `adopted`: Para filtrar mascotas disponibles
+- `adopted`, `type`, `gender`, `size`: Para filtros combinados
+- `createdAt`, `birthDate`: Para ordenamiento
 
 ### Solicitud de Adopción (AdoptionRequest)
 
@@ -580,7 +663,7 @@ interface IPetImage {
 interface IAdoptionRequest {
   petId: ObjectId; // ID de la mascota
   userId: ObjectId; // ID del usuario solicitante
-  status: "pending" | "approved" | "rejected" | "cancelled"; // Estado de la solicitud
+  status: "pending" | "approved" | "rejected" | "cancelled"; // Estado
   message?: string; // Mensaje del solicitante (max 500 caracteres)
   adminNotes?: string; // Notas del administrador (max 500 caracteres)
   reviewedBy?: ObjectId; // ID del admin que revisó
@@ -739,131 +822,55 @@ Sube una imagen a Cloudinary con optimización automática.
 
 Sube múltiples imágenes en paralelo.
 
-**Parámetros:**
-
-- `files`: Array de archivos de Multer
-- `folder`: Carpeta en Cloudinary
-
-**Retorna:** Array de objetos `{ url, publicId }`
-
 #### `deleteImage(publicId)`
 
 Elimina una imagen de Cloudinary.
-
-**Parámetros:**
-
-- `publicId`: ID público de la imagen
 
 #### `deleteMultipleImages(publicIds)`
 
 Elimina múltiples imágenes en paralelo.
 
-**Parámetros:**
-
-- `publicIds`: Array de IDs públicos
-
 ## ✅ Validación
 
 El sistema utiliza **Zod** para validación de datos con tipado estático.
 
-### Validadores de Autenticación
+### Validadores de Autenticación (`src/validators/auth.validator.ts`)
 
-**Ubicación:** `src/validators/auth.validator.ts`
+- `registerSchema`: email, password, firstName, lastName, phone, address
+- `loginSchema`: email, password
+- `changePasswordSchema`: currentPassword, newPassword
 
-#### `registerSchema`
+### Validadores de Mascotas (`src/validators/pet.validator.ts`)
 
-```typescript
-{
-  email: string (email válido, lowercase),
-  password: string (8-100 caracteres),
-  firstName: string (2-50 caracteres),
-  lastName: string (2-50 caracteres),
-  phone: string (8-50 caracteres),
-  address: string (2-200 caracteres)
-}
-```
+- `createPetSchema`: name, type, birthDate, gender, size, breed, description, isSterilized, isVaccinated
+- `updatePetSchema`: todos los campos opcionales
+- `petIdSchema`: id (formato MongoDB ObjectId)
+- `getPetsSchema`: filtros, paginación y ordenamiento via query params
 
-#### `loginSchema`
+### Validadores de Usuarios (`src/validators/user.validator.ts`)
 
-```typescript
-{
-  email: string (email válido),
-  password: string (requerido)
-}
-```
+- `createUserSchema`: firstName, lastName, email, password, phone, address, role, isActive
+- `updateUserSchema`: todos los campos excepto password, todos opcionales
+- `updatePasswordSchema`: currentPassword, newPassword
+- `userIdSchema`: id (formato MongoDB ObjectId)
+- `getUsersSchema`: filtros (role, isActive, search), paginación y ordenamiento via query params
 
-#### `changePasswordSchema`
+### Validadores de Adopciones (`src/validators/adoption.validator.ts`)
 
-```typescript
-{
-  currentPassword: string (requerido),
-  newPassword: string (8-100 caracteres)
-}
-```
-
-### Validadores de Mascotas
-
-**Ubicación:** `src/validators/pet.validator.ts`
-
-#### `createPetSchema`
-
-```typescript
-{
-  name: string (2-50 caracteres),
-  type: "perro" | "gato",
-  age: number (0-30),
-  breed: string (2-50 caracteres),
-  description?: string (max 500 caracteres),
-  adopted?: boolean
-}
-```
-
-#### `updatePetSchema`
-
-Todos los campos de `createPetSchema` son opcionales.
-
-#### `petIdSchema`
-
-```typescript
-{
-  id: string (formato MongoDB ObjectId)
-}
-```
+- `createAdoptionRequestSchema`: message (opcional)
+- `reviewAdoptionRequestSchema`: adminNotes (opcional)
+- `adoptionStatusQuerySchema`: status, paginación
 
 ## ⚠️ Manejo de Errores
 
 ### Tipos de Errores
 
-1. **Errores de Validación (400)**
-
-   - Datos de entrada inválidos
-   - Formato de ID incorrecto
-   - Campos faltantes o con formato incorrecto
-
-2. **Errores de Autenticación (401)**
-
-   - Token no proporcionado
-   - Token inválido o expirado
-   - Credenciales incorrectas
-
-3. **Errores de Autorización (403)**
-
-   - Permisos insuficientes
-   - Cuenta desactivada
-
-4. **Errores de Recursos (404)**
-
-   - Usuario no encontrado
-   - Mascota no encontrada
-   - Imagen no encontrada
-
-5. **Errores de Conflicto (409)**
-
-   - Email ya registrado
-   - Registro duplicado
-
-6. **Errores del Servidor (500)**
-   - Error interno no manejado
+1. **Errores de Validación (400)** - Datos de entrada inválidos
+2. **Errores de Autenticación (401)** - Token no proporcionado, inválido o expirado
+3. **Errores de Autorización (403)** - Permisos insuficientes o cuenta desactivada
+4. **Errores de Recursos (404)** - Usuario, mascota o imagen no encontrada
+5. **Errores de Conflicto (409)** - Email ya registrado o duplicado
+6. **Errores del Servidor (500)** - Error interno no manejado
 
 ### Formato de Respuesta de Error
 
@@ -889,14 +896,6 @@ La documentación interactiva está disponible en:
 - **Desarrollo:** http://localhost:3000/api/v1/docs
 - **Producción:** https://rescue-connect-kkfo.onrender.com/api/v1/docs
 
-### Características de la Documentación
-
-- **Interfaz interactiva** para probar endpoints
-- **Autenticación JWT** integrada
-- **Esquemas de validación** detallados
-- **Ejemplos de requests y responses**
-- **Códigos de estado HTTP** documentados
-
 ### Uso de Swagger
 
 1. Acceder a `/api/v1/docs`
@@ -910,66 +909,27 @@ La documentación interactiva está disponible en:
 
 ### Medidas Implementadas
 
-1. **Contraseñas:**
-
-   - Hash con bcrypt
-   - Rounds configurables (default: 10)
-   - Nunca se devuelven en responses
-
-2. **JWT:**
-
-   - Secret configurable
-   - Expiración configurable (default: 1h)
-   - Verificación en cada request protegido
-
-3. **Validación:**
-
-   - Validación estricta de entrada con Zod
-   - Sanitización de datos
-   - Prevención de inyección
-
-4. **MongoDB:**
-
-   - Validación a nivel de esquema
-   - Índices únicos para prevenir duplicados
-   - Mongoose para prevenir inyección NoSQL
-
-5. **Archivos:**
-   - Validación de tipo MIME
-   - Límite de tamaño
-   - Límite de cantidad
+1. **Contraseñas:** Hash con bcrypt, nunca se devuelven en responses
+2. **JWT:** Secret y expiración configurables, verificación en cada request protegido
+3. **Validación:** Validación estricta de entrada con Zod, sanitización de datos
+4. **MongoDB:** Validación a nivel de esquema, índices únicos, Mongoose para prevenir inyección NoSQL
+5. **Archivos:** Validación de tipo MIME, límite de tamaño y cantidad
 
 ## 🚀 Despliegue
 
 ### Producción
 
-La aplicación está desplegada en **Render**:
-
-- URL: https://rescue-connect-kkfo.onrender.com
+La aplicación está desplegada en **Render**: https://rescue-connect-kkfo.onrender.com
 
 ### Variables de Entorno en Producción
 
-Asegurarse de configurar todas las variables de entorno en el panel de Render:
+Configurar en el panel de Render: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `BCRYPT_ROUNDS`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `PORT`
 
-- `MONGODB_URI`
-- `JWT_SECRET`
-- `JWT_EXPIRES_IN`
-- `BCRYPT_ROUNDS`
-- `CLOUDINARY_CLOUD_NAME`
-- `CLOUDINARY_API_KEY`
-- `CLOUDINARY_API_SECRET`
-- `PORT`
-
-### Build Command
+### Build & Start
 
 ```bash
-pnpm install && pnpm build
-```
-
-### Start Command
-
-```bash
-pnpm start
+pnpm install && pnpm build   # Build
+pnpm start                   # Start
 ```
 
 ## 📝 Notas Adicionales
@@ -978,18 +938,12 @@ pnpm start
 
 - [ ] Implementación de tests unitarios e integración
 - [ ] Sistema de refresh tokens
-- [ ] Paginación en listado de mascotas
-- [ ] Filtros y búsqueda avanzada
 - [ ] Sistema de notificaciones
 - [ ] Rate limiting
 - [ ] Logs estructurados
 
 ### Mejoras Futuras
 
-- Implementar caché con Redis
-- Agregar sistema de favoritos
-- Implementar soft delete
-- Agregar auditoría de cambios
 - Sistema de comentarios/reviews
 - Notificaciones por email
 
@@ -999,7 +953,6 @@ pnpm start
 
 - **Idioma:** Español para mensajes de usuario, inglés para código
 - **Formato:** Prettier (configuración por defecto)
-- **Linting:** ESLint (pendiente configuración)
 - **Commits:** Mensajes descriptivos en español
 
 ### Contribuir
