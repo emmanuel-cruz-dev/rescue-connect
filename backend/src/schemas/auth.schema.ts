@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import { IUserDocument } from "../types/user.types";
+import { IUserDocument } from "../types";
 import { config } from "../config/env";
 
 const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
