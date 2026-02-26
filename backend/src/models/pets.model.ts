@@ -6,7 +6,7 @@ import {
   IPetQueryParams,
   IPaginatedResponse,
   IPetDocument,
-} from "../types/pet.types";
+} from "../types";
 
 class PetsModel {
   async getAll(queryParams: IPetQueryParams) {

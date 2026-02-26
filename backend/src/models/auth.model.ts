@@ -1,6 +1,6 @@
 import userModel from "../schemas/auth.schema";
 import petModel from "../schemas/pets.schema";
-import { IUser, IUserDocument } from "../types/user.types";
+import { IUser, IUserDocument } from "../types";
 
 class AuthModel {
   async register(

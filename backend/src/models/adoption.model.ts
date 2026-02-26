@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import adoptionRequestModel from "../schemas/adoption.schema";
 import petModel from "../schemas/pets.schema";
 import userModel from "../schemas/auth.schema";
-import { AdoptionStatus } from "../types/adoption.types";
+import { AdoptionStatus } from "../types";
 
 class AdoptionModel {
   async createRequest(
