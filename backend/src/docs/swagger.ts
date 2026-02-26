@@ -20,6 +20,18 @@ registry.registerComponent("securitySchemes", "bearerAuth", {
 export const generateOpenApiDocument = () => {
   const generator = new OpenApiGeneratorV3(registry.definitions);
 
+  const isProduction = process.env.NODE_ENV === "production";
+
+  const servers = isProduction
+    ? [
+        { url: "https://rescue-connect-kkfo.onrender.com" },
+        { url: "http://localhost:3000" },
+      ]
+    : [
+        { url: "http://localhost:3000" },
+        { url: "https://rescue-connect-kkfo.onrender.com" },
+      ];
+
   return generator.generateDocument({
     openapi: "3.0.3",
     info: {
@@ -27,14 +39,7 @@ export const generateOpenApiDocument = () => {
       version: "1.0.0",
       description: "API REST con Node.js, Express, TS y MongoDB",
     },
-    servers: [
-      {
-        url: "https://rescue-connect-kkfo.onrender.com",
-      },
-      {
-        url: "http://localhost:3000",
-      },
-    ],
+    servers,
   });
 };
 
