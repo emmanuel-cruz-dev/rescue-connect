@@ -128,8 +128,9 @@ export class PetService {
 
   deleteImage(petId: string, publicId: string): Observable<ApiResponse<IPet>> {
     this.loading.set(true);
+    const encodedPublicId = encodeURIComponent(publicId);
     return this.apiService
-      .delete<ApiResponse<IPet>>(`/api/v1/pets/${petId}/images/${publicId}`)
+      .delete<ApiResponse<IPet>>(`/api/v1/pets/${petId}/images/${encodedPublicId}`)
       .pipe(
         tap(() => this.loading.set(false)),
         catchError((error) => {
