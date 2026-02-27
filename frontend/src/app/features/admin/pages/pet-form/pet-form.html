@@ -1,5 +1,5 @@
-<div class="p-6">
-  <div class="flex items-center gap-4 mb-8">
+<section class="p-6">
+  <header class="flex items-center gap-4 mb-8">
     <p-button
       icon="pi pi-arrow-left"
       [text]="true"
@@ -14,20 +14,282 @@
       <p class="text-surface-400 mt-1">
         {{
           isEditMode
-            ? 'Modifica los datos de la mascota #' + petId
+            ? 'Modifica los datos de la mascota'
             : 'Completa el formulario para registrar una nueva mascota'
         }}
       </p>
     </div>
-  </div>
+  </header>
 
+  @if (loadingPet()) {
   <div
-    class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center"
+    class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700"
   >
-    <i class="pi pi-file-edit text-5xl text-gray-300 dark:text-gray-600 mb-4 block"></i>
-    <p class="text-gray-400">Formulario de mascota.</p>
-    <p class="text-gray-300 dark:text-gray-600 text-sm mt-1">
-      Contenido del formulario de mascota.
-    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      @for (i of [1,2,3,4,5,6]; track i) {
+      <div class="flex flex-col gap-2">
+        <p-skeleton height="1rem" width="6rem" />
+        <p-skeleton height="2.5rem" />
+      </div>
+      }
+      <div class="md:col-span-2 flex flex-col gap-2">
+        <p-skeleton height="1rem" width="6rem" />
+        <p-skeleton height="5rem" />
+      </div>
+    </div>
   </div>
-</div>
+  } @else {
+  <form [formGroup]="petForm" (ngSubmit)="onSubmit()" novalidate>
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
+    >
+      <h2
+        class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2"
+      >
+        <i class="pi pi-info-circle text-pink-500"></i>
+        Información general
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Nombre <span class="text-red-500">*</span>
+          </label>
+          <input
+            pInputText
+            formControlName="name"
+            placeholder="Ej: Luna"
+            [class.ng-invalid]="f['name'].invalid && formSubmitted()"
+            [class.ng-dirty]="f['name'].invalid && formSubmitted()"
+          />
+          @if (f['name'].invalid && formSubmitted()) {
+          <small class="text-red-500">
+            @if (f['name'].errors?.['required']) { El nombre es obligatorio. } @else if
+            (f['name'].errors?.['minlength']) { Mínimo 2 caracteres. }
+          </small>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Tipo <span class="text-red-500">*</span>
+          </label>
+          <p-select
+            formControlName="type"
+            [options]="petTypeOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar tipo"
+            class="w-full"
+            [class.ng-invalid]="f['type'].invalid && formSubmitted()"
+            [class.ng-dirty]="f['type'].invalid && formSubmitted()"
+          />
+          @if (f['type'].invalid && formSubmitted()) {
+          <small class="text-red-500">El tipo es obligatorio.</small>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Fecha de nacimiento <span class="text-red-500">*</span>
+          </label>
+          <p-datepicker
+            formControlName="birthDate"
+            [showIcon]="true"
+            dateFormat="dd/mm/yy"
+            [maxDate]="today"
+            placeholder="dd/mm/aaaa"
+            appendTo="body"
+            [class.ng-invalid]="f['birthDate'].invalid && formSubmitted()"
+            [class.ng-dirty]="f['birthDate'].invalid && formSubmitted()"
+          />
+          @if (f['birthDate'].invalid && formSubmitted()) {
+          <small class="text-red-500">La fecha de nacimiento es obligatoria.</small>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Género <span class="text-red-500">*</span>
+          </label>
+          <p-select
+            formControlName="gender"
+            [options]="genderOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar género"
+            class="w-full"
+            [class.ng-invalid]="f['gender'].invalid && formSubmitted()"
+            [class.ng-dirty]="f['gender'].invalid && formSubmitted()"
+          />
+          @if (f['gender'].invalid && formSubmitted()) {
+          <small class="text-red-500">El género es obligatorio.</small>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Tamaño <span class="text-red-500">*</span>
+          </label>
+          <p-select
+            formControlName="size"
+            [options]="sizeOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar tamaño"
+            class="w-full"
+            [class.ng-invalid]="f['size'].invalid && formSubmitted()"
+            [class.ng-dirty]="f['size'].invalid && formSubmitted()"
+          />
+          @if (f['size'].invalid && formSubmitted()) {
+          <small class="text-red-500">El tamaño es obligatorio.</small>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Raza</label>
+          <input pInputText formControlName="breed" placeholder="Ej: Labrador" />
+        </div>
+
+        <div class="md:col-span-2 flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700 dark:text-gray-300"> Descripción </label>
+          <textarea
+            pInputText
+            formControlName="description"
+            rows="4"
+            placeholder="Describe la personalidad, historia y características de la mascota..."
+            class="resize-none w-full"
+          ></textarea>
+        </div>
+
+        <div class="md:col-span-2">
+          <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Estado de salud</h3>
+          <div class="flex flex-wrap gap-6">
+            <div class="flex items-center gap-2">
+              <p-checkbox formControlName="isSterilized" [binary]="true" inputId="isSterilized" />
+              <label
+                for="isSterilized"
+                class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+              >
+                Esterilizado/a
+              </label>
+            </div>
+            <div class="flex items-center gap-2">
+              <p-checkbox formControlName="isVaccinated" [binary]="true" inputId="isVaccinated" />
+              <label
+                for="isVaccinated"
+                class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+              >
+                Vacunado/a
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    @if (isEditMode) {
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
+    >
+      <h2
+        class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2"
+      >
+        <i class="pi pi-images text-pink-500"></i>
+        Imágenes
+      </h2>
+
+      @if (currentImages().length > 0) {
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6">
+        @for (image of currentImages(); track image._id) {
+        <div
+          class="relative group rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 aspect-square"
+        >
+          <img [src]="image.url" alt="Imagen de mascota" class="w-full h-full object-cover" />
+          <div
+            class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+          >
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              [rounded]="true"
+              size="small"
+              (onClick)="deleteImage(image.publicId)"
+              pTooltip="Eliminar imagen"
+              tooltipPosition="top"
+            />
+          </div>
+        </div>
+        }
+      </div>
+      } @else {
+      <div
+        class="flex flex-col items-center justify-center py-10 text-center mb-6 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700"
+      >
+        <i class="pi pi-images text-4xl text-gray-300 dark:text-gray-600 mb-2"></i>
+        <p class="text-gray-400 text-sm">No hay imágenes actualmente</p>
+      </div>
+      }
+
+      <div>
+        <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+          Agregar nuevas imágenes
+        </p>
+        <p-fileupload
+          mode="advanced"
+          [multiple]="true"
+          accept="image/*"
+          [auto]="false"
+          chooseLabel="Seleccionar imágenes"
+          [showUploadButton]="false"
+          [showCancelButton]="false"
+          (onSelect)="onFilesSelected($event)"
+          styleClass="w-full"
+        />
+      </div>
+    </div>
+    } @else {
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
+    >
+      <h2
+        class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2"
+      >
+        <i class="pi pi-images text-pink-500"></i>
+        Imágenes
+      </h2>
+      <p class="text-sm text-gray-400 mb-4">
+        Seleccioná imágenes para subir junto con la mascota (opcional).
+      </p>
+      <p-fileupload
+        mode="advanced"
+        [multiple]="true"
+        accept="image/*"
+        [auto]="false"
+        chooseLabel="Seleccionar imágenes"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        (onSelect)="onFilesSelected($event)"
+        styleClass="w-full"
+      />
+    </div>
+    }
+
+    <div class="flex items-center justify-end gap-3">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        variant="outlined"
+        routerLink="/admin/pets"
+        [disabled]="saving()"
+      />
+      <p-button
+        type="submit"
+        [label]="isEditMode ? 'Guardar cambios' : 'Crear mascota'"
+        [loading]="saving()"
+        styleClass="text-white! bg-pink-600! hover:bg-pink-700! border-pink-600! hover:border-pink-700! font-semibold!"
+      />
+    </div>
+  </form>
+  }
+</section>
