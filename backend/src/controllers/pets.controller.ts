@@ -30,8 +30,8 @@ class PetsController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const newPet = await petsModel.create(req.body);
-      res.status(201).json({ status: "success", data: { newPet } });
+      const pet = await petsModel.create(req.body);
+      res.status(201).json({ status: "success", data: { pet } });
     } catch (err) {
       next(err);
     }
@@ -41,7 +41,7 @@ class PetsController {
     try {
       const { id } = req.params;
       const updatedPet = await petsModel.update(id, req.body);
-      res.status(200).json({ status: "success", data: { updatedPet } });
+      res.status(200).json({ status: "success", data: { pet: updatedPet } });
     } catch (err) {
       next(err);
     }
