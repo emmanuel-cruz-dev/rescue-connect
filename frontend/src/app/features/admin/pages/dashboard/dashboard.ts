@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { AdminService } from '../../services/admin.service';
 import { PetService } from '../../../pets/services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
@@ -11,10 +12,12 @@ import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 })
 export class Dashboard implements OnInit {
   private authService = inject(AuthService);
+  private adminService = inject(AdminService);
   private petService = inject(PetService);
 
   currentUser = this.authService.currentUser;
 
+  totalUsers = signal(0);
   totalPets = signal(0);
   totalAdopted = signal(0);
 
@@ -26,7 +29,12 @@ export class Dashboard implements OnInit {
         icon: 'custom__pet-icon',
         color: 'text-pink-500',
       },
-      { label: 'Usuarios Activos', value: 0, icon: 'pi pi-users', color: 'text-blue-500' },
+      {
+        label: 'Usuarios Activos',
+        value: this.totalUsers(),
+        icon: 'pi pi-users',
+        color: 'text-blue-500',
+      },
       {
         label: 'Adopciones Totales',
         value: this.totalAdopted(),
@@ -47,6 +55,12 @@ export class Dashboard implements OnInit {
     this.petService.getAllPets({ page: 1, limit: 1, adopted: true }).subscribe({
       next: (res) => {
         if (res.pagination) this.totalAdopted.set(res.pagination.totalItems);
+      },
+    });
+
+    this.adminService.getAllUsers({ page: 1, limit: 1 }).subscribe({
+      next: (res) => {
+        if (res.pagination) this.totalUsers.set(res.pagination.totalItems);
       },
     });
   }
