@@ -8,6 +8,7 @@ import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { MyPreset } from './shared/primeng/my-preset';
+import { PRIME_NG_LOCALE_ES } from './shared/primeng/locale-es';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,6 +33,7 @@ export const appConfig: ApplicationConfig = {
           },
         },
       },
+      translation: PRIME_NG_LOCALE_ES,
     }),
 
     MessageService,
