@@ -110,6 +110,10 @@ class UsersModel {
     return authModel.deactivateUser(id.toString());
   }
 
+  async count(filter: Partial<IUser> = {}): Promise<number> {
+    return userModel.countDocuments(filter);
+  }
+
   async delete(id: string | Types.ObjectId): Promise<IUserDocument> {
     const user = await userModel
       .findByIdAndDelete({ _id: id })
