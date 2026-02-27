@@ -64,6 +64,14 @@ class UsersController {
   async deactivate(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+
+      if (req.user?.userId === id) {
+        return res.status(400).json({
+          status: "error",
+          message: "No puedes desactivar tu propia cuenta",
+        });
+      }
+
       const user = await usersModel.deactivate(id);
       res.status(200).json({ status: "success", data: { user } });
     } catch (err) {
@@ -74,10 +82,40 @@ class UsersController {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
+
+      if (req.user?.userId === id) {
+        return res.status(400).json({
+          status: "error",
+          message: "No puedes eliminar tu propia cuenta",
+        });
+      }
+
+      const userToDelete = await usersModel.findById(id);
+
+      if (!userToDelete) {
+        return res.status(404).json({
+          status: "error",
+          message: "Usuario no encontrado",
+        });
+      }
+
+      if (userToDelete.role === "admin") {
+        const adminCount = await usersModel.count({ role: "admin" });
+
+        if (adminCount <= 1) {
+          return res.status(400).json({
+            status: "error",
+            message: "No se puede eliminar el último administrador",
+          });
+        }
+      }
+
       await usersModel.delete(id);
-      res
-        .status(200)
-        .json({ status: "success", message: "Usuario eliminado exitosamente" });
+
+      res.status(200).json({
+        status: "success",
+        message: "Usuario eliminado exitosamente",
+      });
     } catch (err) {
       next(err);
     }
