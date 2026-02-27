@@ -9,6 +9,7 @@ import { ChipModule } from 'primeng/chip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DataViewModule } from 'primeng/dataview';
+import { DatePickerModule } from 'primeng/datepicker';
 import { DialogModule } from 'primeng/dialog';
 import { DividerModule } from 'primeng/divider';
 import { DrawerModule } from 'primeng/drawer';
@@ -47,6 +48,7 @@ export const PRIMENG_IMPORTS = [
   ChipModule,
   ConfirmDialogModule,
   DataViewModule,
+  DatePickerModule,
   DialogModule,
   DividerModule,
   DrawerModule,
