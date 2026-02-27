@@ -1,10 +1,8 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component, inject, signal, computed, effect } from '@angular/core';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { switchMap } from 'rxjs';
-import { MessageService } from 'primeng/api';
 import { PetService } from '../../services/pet.service';
 import { PetCard } from '../../components/pet-card/pet-card';
 import { PetFilters } from '../../components/pet-filters/pet-filters';
@@ -14,20 +12,13 @@ import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model
 
 @Component({
   selector: 'app-pet-list',
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    PetCard,
-    PetFilters,
-    PetCardSkeleton,
-    PRIMENG_IMPORTS,
-  ],
+  imports: [RouterModule, FormsModule, PetCard, PetFilters, PetCardSkeleton, PRIMENG_IMPORTS],
   templateUrl: './pet-list.html',
 })
 export class PetList {
   private petService = inject(PetService);
-  private messageService = inject(MessageService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   pets = this.petService.pets;
   pagination = this.petService.pagination;
@@ -36,27 +27,76 @@ export class PetList {
   filtersDrawerVisible = false;
   skeletons = Array(6).fill(0);
 
-  filters = signal<PetFiltersModel>({
-    page: 1,
-    limit: 6,
-    adopted: false,
-    sortBy: 'createdAt',
-    order: 'desc',
-  });
+  filters = signal<PetFiltersModel>(this.buildFiltersFromParams(this.route.snapshot.queryParams));
 
   constructor() {
+    let isFirst = true;
+    effect(() => {
+      const f = this.filters();
+      if (isFirst) {
+        isFirst = false;
+        return;
+      }
+      this.syncFiltersToUrl(f);
+    });
+
     toObservable(this.filters)
       .pipe(switchMap((filters) => this.petService.getAllPets(filters)))
       .subscribe({
-        error: (error) => {
-          console.error('Error al cargar mascotas:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'No se pudieron cargar las mascotas',
-          });
+        error: () => {
+          throw new Error('Error al cargar las mascotas');
         },
       });
+  }
+
+  private buildFiltersFromParams(params: Record<string, string>): PetFiltersModel {
+    const sortBy = (params['sortBy'] as PetFiltersModel['sortBy']) ?? 'createdAt';
+    const order = (params['order'] as PetFiltersModel['order']) ?? 'desc';
+
+    this.selectedSort = `${sortBy}_${order}`;
+
+    return {
+      page: params['page'] ? +params['page'] : 1,
+      limit: params['limit'] ? +params['limit'] : 6,
+      adopted: false,
+      sortBy,
+      order,
+      ...(params['search'] && { search: params['search'] }),
+      ...(params['type'] && { type: params['type'] as PetFiltersModel['type'] }),
+      ...(params['gender'] && { gender: params['gender'] as PetFiltersModel['gender'] }),
+      ...(params['size'] && { size: params['size'] as PetFiltersModel['size'] }),
+      ...(params['minAge'] && { minAge: +params['minAge'] }),
+      ...(params['maxAge'] && { maxAge: +params['maxAge'] }),
+      ...(params['isSterilized'] === 'true' && { isSterilized: true }),
+      ...(params['isVaccinated'] === 'true' && { isVaccinated: true }),
+    };
+  }
+
+  private syncFiltersToUrl(f: PetFiltersModel): void {
+    const queryParams: Record<string, string | number | undefined> = {
+      page: f.page !== 1 ? f.page : undefined,
+      limit: f.limit !== 6 ? f.limit : undefined,
+      sortBy: f.sortBy !== 'createdAt' ? f.sortBy : undefined,
+      order: f.order !== 'desc' ? f.order : undefined,
+      search: f.search || undefined,
+      type: f.type || undefined,
+      gender: f.gender || undefined,
+      size: f.size || undefined,
+      minAge: f.minAge ?? undefined,
+      maxAge: f.maxAge ?? undefined,
+      isSterilized: f.isSterilized ? 'true' : undefined,
+      isVaccinated: f.isVaccinated ? 'true' : undefined,
+    };
+
+    const cleanParams = Object.fromEntries(
+      Object.entries(queryParams).filter(([, v]) => v !== undefined)
+    );
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: cleanParams,
+      replaceUrl: true,
+    });
   }
 
   selectedSort = 'createdAt_desc';
@@ -123,7 +163,6 @@ export class PetList {
 
   goToPage(page: number): void {
     this.filters.update((current) => ({ ...current, page }));
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -138,14 +177,11 @@ export class PetList {
   }
 
   onPageChange(event: any): void {
-    const nextPage = event.page + 1;
-
     this.filters.update((current) => ({
       ...current,
-      page: nextPage,
+      page: event.page + 1,
       limit: event.rows,
     }));
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
