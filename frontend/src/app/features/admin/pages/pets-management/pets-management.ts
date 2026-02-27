@@ -54,11 +54,7 @@ export class PetsManagement implements OnInit {
     this.petService.pets.set([]);
     this.petService.getAllPets(this.filters).subscribe({
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudieron cargar las mascotas',
-        });
+        throw new Error('Error al cargar las mascotas');
       },
     });
   }
@@ -149,11 +145,7 @@ export class PetsManagement implements OnInit {
         this.loadPets();
       },
       error: () => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'No se pudo eliminar la mascota',
-        });
+        throw new Error('Error al eliminar el mascote');
       },
     });
   }
