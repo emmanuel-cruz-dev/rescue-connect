@@ -8,6 +8,24 @@ export interface IUser {
   phone: string;
   address: string;
   role: UserRole;
+  isActive: boolean;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface UserFilters {
+  page?: number;
+  limit?: number;
+  search?: string;
+  role?: UserRole;
+  isActive?: boolean;
+  sortBy?: 'createdAt' | 'firstName' | 'lastName' | 'email';
+  order?: 'asc' | 'desc';
+}
+
+export interface UserPagination {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  limit: number;
 }
