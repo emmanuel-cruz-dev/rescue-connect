@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../../core/services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
+import { NavButton } from './nav-button/nav-button';
 import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive, PRIMENG_IMPORTS],
+  imports: [RouterLink, RouterLinkActive, NavButton, PRIMENG_IMPORTS],
   templateUrl: './navbar.html',
 })
 export class Navbar implements OnInit {
   items: MenuItem[] = [];
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public authService: AuthService, public themeService: ThemeService) {}
 
   ngOnInit() {
     this.items = [
@@ -31,5 +33,9 @@ export class Navbar implements OnInit {
 
   toggleTheme() {
     this.themeService.toggleTheme();
+  }
+
+  logout() {
+    this.authService.logout().subscribe();
   }
 }
