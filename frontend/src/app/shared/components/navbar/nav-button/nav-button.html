@@ -1,0 +1,19 @@
+<p-button
+  [text]="true"
+  [icon]="icon"
+  [routerLink]="routerLink"
+  (onClick)="onClick()"
+  [title]="label"
+  [attr.aria-label]="label"
+  [styleClass]="baseStyle"
+  class="sm:hidden"
+/>
+<p-button
+  [text]="true"
+  [icon]="icon"
+  [label]="label"
+  [routerLink]="routerLink"
+  (onClick)="onClick()"
+  [styleClass]="baseStyle"
+  class="hidden sm:inline-flex"
+/>
