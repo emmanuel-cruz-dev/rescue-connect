@@ -1,14 +1,214 @@
-<div class="p-6">
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestión de Usuarios</h1>
-    <p class="text-gray-400 mt-1">Administra los usuarios registrados en la plataforma</p>
-  </div>
+<section class="p-6">
+  <header class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestión de Usuarios</h1>
+      <p class="text-gray-400 mt-1">
+        @if (pagination()) {
+        {{ pagination()!.totalItems }} usuarios en total } @else { Administra los usuarios
+        registrados }
+      </p>
+    </div>
+    <p-button
+      label="Agregar Usuario"
+      icon="pi pi-plus"
+      routerLink="/admin/users/new"
+      styleClass="text-white! bg-pink-600! hover:bg-pink-700! border-pink-600! hover:border-pink-700! font-semibold!"
+    />
+  </header>
 
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center"
+  <main
+    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
   >
-    <i class="pi pi-users text-5xl text-gray-300 dark:text-gray-600 mb-4 block"></i>
-    <p class="text-gray-400">Tabla de usuarios.</p>
-    <p class="text-gray-300 dark:text-gray-600 text-sm mt-1">Contenido de la tabla de usuarios.</p>
-  </div>
-</div>
+    <div
+      class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 gap-3 flex-wrap"
+    >
+      <div class="flex items-center gap-2">
+        <p-inputgroup class="w-72!">
+          <p-inputgroup-addon><i class="pi pi-search"></i></p-inputgroup-addon>
+          <input
+            pInputText
+            placeholder="Buscar por nombre o email"
+            type="text"
+            [(ngModel)]="globalFilter"
+            (input)="onGlobalFilter($any($event.target).value)"
+          />
+        </p-inputgroup>
+
+        <p-select
+          [(ngModel)]="filters.role"
+          [options]="roleOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Rol"
+          (onChange)="onRoleFilterChange($event.value)"
+          class="w-36"
+        />
+
+        <p-select
+          [(ngModel)]="filters.isActive"
+          [options]="statusOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Estado"
+          (onChange)="onStatusFilterChange($event.value)"
+          class="w-36"
+        />
+
+        @if (hasActiveFilters) {
+        <p-button
+          icon="pi pi-filter-slash"
+          label="Limpiar filtros"
+          severity="secondary"
+          variant="outlined"
+          (onClick)="resetFilters()"
+        />
+        }
+      </div>
+    </div>
+
+    <p-table
+      #dt
+      [value]="users()"
+      [lazy]="true"
+      [loading]="loading()"
+      [totalRecords]="pagination()?.totalItems ?? 0"
+      [rows]="10"
+      [paginator]="true"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} usuarios"
+      (onLazyLoad)="onLazyLoad($event)"
+      dataKey="_id"
+      class="p-datatable-sm"
+      [tableStyle]="{ 'min-width': '52rem' }"
+      [size]="'large'"
+      showGridlines
+      stripedRows
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="firstName">
+            <div class="flex items-center gap-2">Nombre <p-sortIcon field="firstName" /></div>
+          </th>
+          <th pSortableColumn="email">
+            <div class="flex items-center gap-2">Email <p-sortIcon field="email" /></div>
+          </th>
+          <th class="font-semibold">Teléfono</th>
+          <th class="font-semibold">Rol</th>
+          <th class="font-semibold">Estado</th>
+          <th pSortableColumn="createdAt">
+            <div class="flex items-center gap-2">Registro <p-sortIcon field="createdAt" /></div>
+          </th>
+          <th style="width: 7rem" class="font-semibold text-center">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-user>
+        <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+          <td>
+            <div class="flex flex-col">
+              <span class="font-semibold text-gray-800 dark:text-white">
+                {{ user.firstName }} {{ user.lastName }}
+              </span>
+            </div>
+          </td>
+
+          <td>
+            <span class="text-sm text-gray-600 dark:text-gray-300">{{ user.email }}</span>
+          </td>
+
+          <td>
+            <span class="text-sm text-gray-600 dark:text-gray-300">
+              {{ user.phone || '—' }}
+            </span>
+          </td>
+
+          <td>
+            <p-tag
+              [value]="user.role === 'admin' ? 'Admin' : 'Usuario'"
+              [severity]="getRoleSeverity(user.role)"
+              class="text-xs capitalize"
+            />
+          </td>
+
+          <td>
+            @if (user.isActive) {
+            <p-tag value="Activo" severity="success" class="text-xs" />
+            } @else {
+            <p-tag value="Inactivo" severity="danger" class="text-xs" />
+            }
+          </td>
+
+          <td>
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+              {{ user.createdAt | date : 'dd/MM/yyyy' }}
+            </span>
+          </td>
+
+          <td>
+            <div class="flex items-center justify-center gap-1">
+              <p-button
+                icon="pi pi-pencil"
+                [rounded]="true"
+                variant="text"
+                severity="secondary"
+                size="small"
+                [routerLink]="['/admin/users', user._id, 'edit']"
+                pTooltip="Editar"
+                tooltipPosition="top"
+              />
+              <p-button
+                icon="pi pi-trash"
+                [rounded]="true"
+                variant="text"
+                severity="danger"
+                size="small"
+                (onClick)="confirmDelete(user)"
+                pTooltip="Eliminar"
+                tooltipPosition="top"
+              />
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="loadingbody">
+        @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+        <tr>
+          @for (j of [1,2,3,4,5,6,7]; track j) {
+          <td><p-skeleton height="2rem" /></td>
+          }
+        </tr>
+        }
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+              <div
+                class="w-20 h-20 rounded-full bg-gray-50 dark:bg-slate-800 flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-users text-3xl text-gray-300 dark:text-gray-600"></i>
+              </div>
+              <p class="text-gray-500 dark:text-gray-400 font-medium">No se encontraron usuarios</p>
+              <p class="text-gray-400 dark:text-gray-600 text-sm mt-1">Probá con otros filtros</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </main>
+</section>
+
+<p-confirmDialog>
+  <ng-template pTemplate="message" let-message>
+    <div class="flex flex-col items-center gap-4 p-4 max-w-sm">
+      <div
+        class="w-16 h-16 rounded-full bg-red-50 dark:bg-red-950/30 flex items-center justify-center"
+      >
+        <i class="pi pi-exclamation-triangle text-3xl text-red-500"></i>
+      </div>
+      <p class="text-center text-gray-600 dark:text-gray-300" [innerHTML]="message.message"></p>
+    </div>
+  </ng-template>
+</p-confirmDialog>
