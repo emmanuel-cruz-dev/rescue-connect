@@ -13,7 +13,7 @@
               class="w-full object-cover"
             />
           </figure>
-          <span class="text-lg font-semibold text-surface-900 dark:text-surface-0">
+          <span class="sm:text-lg font-semibold text-surface-900 dark:text-surface-0">
             Rescue Connect
           </span>
         </a>
@@ -37,13 +37,21 @@
 
       <ng-template #end>
         <div class="flex items-center gap-2">
-          <p-button
-            label="Ingresar"
-            [text]="true"
-            [icon]="'pi pi-sign-in'"
-            routerLink="/auth/login"
-            styleClass="text-pink-600!"
+          @if (authService.isAuthenticated()) {
+          <app-nav-button
+            [label]="authService.isAdmin() ? 'Dashboard' : 'Mi perfil'"
+            [icon]="authService.isAdmin() ? 'pi pi-th-large' : 'pi pi-user'"
+            [routerLink]="authService.isAdmin() ? '/admin/dashboard' : '/profile'"
           />
+          <app-nav-button
+            label="Salir"
+            icon="pi pi-sign-out"
+            styleClass="text-red-500!"
+            (clicked)="logout()"
+          />
+          } @else {
+          <app-nav-button label="Ingresar" icon="pi pi-sign-in" routerLink="/auth/login" />
+          }
           <p-button
             [text]="true"
             [rounded]="true"
