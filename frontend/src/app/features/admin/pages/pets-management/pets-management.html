@@ -124,7 +124,7 @@
                   class="w-full h-full object-cover"
                 />
                 } @else {
-                <i [class]="getPetTypeIcon(pet.type)" class="text-gray-300 dark:text-gray-600"></i>
+                <lucide-angular [img]="getPetTypeIcon(pet.type)" size="14" />
                 }
               </figure>
               <span class="font-semibold text-gray-800 dark:text-white">{{ pet.name }}</span>
