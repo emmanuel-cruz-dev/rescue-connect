@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 import userModel from "../schemas/user.schema";
 import authModel from "./auth.model";
+import adoptionRequestModel from "../schemas/adoption.schema";
 import {
   IUser,
   IUserQueryParams,
@@ -122,6 +123,16 @@ class UsersModel {
     if (!user) {
       throw new Error("User not found");
     }
+
+    await adoptionRequestModel.deleteMany({
+      userId: id,
+      status: { $in: ["pending", "cancelled"] },
+    });
+
+    await adoptionRequestModel.updateMany(
+      { userId: id, status: { $in: ["approved", "rejected"] } },
+      { $set: { userId: null } }
+    );
 
     return user;
   }
