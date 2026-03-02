@@ -1,8 +1,10 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
+import { LucideAngularModule, FishIcon, BoneIcon } from 'lucide-angular';
 import { PetService } from '../../../pets/services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet, PetFilters } from '../../../../core/models/pet.model';
@@ -11,14 +13,17 @@ type SizeSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
 
 @Component({
   selector: 'app-pets-management',
-  imports: [RouterModule, FormsModule, PRIMENG_IMPORTS],
+  imports: [RouterModule, FormsModule, LucideAngularModule, PRIMENG_IMPORTS],
   providers: [ConfirmationService],
   templateUrl: './pets-management.html',
 })
-export class PetsManagement implements OnInit {
+export class PetsManagement implements OnInit, OnDestroy {
   private petService = inject(PetService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private globalSearchSubject = new Subject<string>();
+  readonly Fish = FishIcon;
+  readonly Bone = BoneIcon;
 
   pets = this.petService.pets;
   pagination = this.petService.pagination;
@@ -47,6 +52,12 @@ export class PetsManagement implements OnInit {
   };
 
   ngOnInit(): void {
+    this.globalSearchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe((value) => {
+      this.filters.search = value || undefined;
+      this.filters.page = 1;
+      this.loadPets();
+    });
+
     this.loadPets();
   }
 
@@ -78,9 +89,8 @@ export class PetsManagement implements OnInit {
   }
 
   onGlobalFilter(value: string): void {
-    this.filters.search = value.trim() || undefined;
-    this.filters.page = 1;
-    this.loadPets();
+    const cleanedValue = value.trim().replace(/\s+/g, ' ');
+    this.globalSearchSubject.next(cleanedValue);
   }
 
   onTypeFilterChange(value: 'perro' | 'gato' | undefined): void {
@@ -160,8 +170,8 @@ export class PetsManagement implements OnInit {
     return `${years} año${years !== 1 ? 's' : ''}`;
   }
 
-  getPetTypeIcon(type: string): string {
-    return type === 'perro' ? 'pi pi-heart-fill' : 'pi pi-star-fill';
+  getPetTypeIcon(type: string) {
+    return type === 'perro' ? this.Bone : this.Fish;
   }
 
   getSizeSeverity(size: string): SizeSeverity {
@@ -172,5 +182,9 @@ export class PetsManagement implements OnInit {
       'extra grande': 'danger',
     };
     return map[size] ?? 'secondary';
+  }
+
+  ngOnDestroy(): void {
+    this.globalSearchSubject.complete();
   }
 }
