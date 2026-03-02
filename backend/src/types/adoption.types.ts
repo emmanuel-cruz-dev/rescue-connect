@@ -17,3 +17,19 @@ export interface IAdoptionRequestDocument extends IAdoptionRequest, Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IAdoptionFilters {
+  status?: AdoptionStatus;
+  petId?: Types.ObjectId | string;
+  userId?: Types.ObjectId | string;
+  reviewedBy?: Types.ObjectId | string;
+  fromDate?: Date;
+  toDate?: Date;
+}
+
+export interface IAdoptionQueryParams extends IAdoptionFilters {
+  page: number;
+  limit: number;
+  sortBy: "createdAt" | "reviewedAt" | "status";
+  order: "asc" | "desc";
+}
