@@ -12,6 +12,21 @@ export const AdoptionStatusQuerySchema = z.object({
   status: AdoptionStatusSchema.optional(),
 });
 
+export const GetAdoptionRequestsQuerySchema = z.object({
+  page: z.coerce.number().min(1).default(1),
+  limit: z.coerce.number().min(1).max(100).default(10),
+
+  sortBy: z.enum(["createdAt", "reviewedAt", "status"]).default("createdAt"),
+  order: z.enum(["asc", "desc"]).default("desc"),
+
+  status: z.enum(["pending", "approved", "rejected", "cancelled"]).optional(),
+  petId: z.string().optional(),
+  userId: z.string().optional(),
+  reviewedBy: z.string().optional(),
+  fromDate: z.coerce.date().optional(),
+  toDate: z.coerce.date().optional(),
+});
+
 export const CreateAdoptionRequestBodySchema = z.object({
   message: z
     .string()
