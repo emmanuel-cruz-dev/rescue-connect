@@ -1,8 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 import adoptionModel from "../models/adoption.model";
-import { AdoptionStatus } from "../types";
+import { AdoptionStatus, IAdoptionQueryParams } from "../types";
 
 class AdoptionController {
+  async getAll(req: Request, res: Response, next: NextFunction) {
+    try {
+      const queryParams = req.query as unknown as IAdoptionQueryParams;
+      const result = await adoptionModel.getAll(queryParams);
+
+      res.status(200).json({
+        status: "success",
+        data: result.data,
+        pagination: result.pagination,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async createRequest(req: Request, res: Response, next: NextFunction) {
     try {
       const { petId } = req.params;
@@ -25,24 +40,6 @@ class AdoptionController {
         status: "success",
         message: "Solicitud de adopción creada exitosamente",
         data: { request },
-      });
-    } catch (err) {
-      next(err);
-    }
-  }
-
-  async getAllRequests(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { status } = req.query;
-
-      const requests = await adoptionModel.getAllRequests(
-        status as AdoptionStatus
-      );
-
-      res.status(200).json({
-        status: "success",
-        data: { requests },
-        count: requests.length,
       });
     } catch (err) {
       next(err);
