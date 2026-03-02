@@ -21,6 +21,7 @@ import {
   ReviewAdoptionRequestBodySchema,
   AdoptionRequestIdParamsSchema,
   AdoptionStatusQuerySchema,
+  GetAdoptionRequestsQuerySchema,
 } from "../validators/adoption.validator";
 
 /* ========= SYSTEM ========= */
@@ -680,15 +681,105 @@ registry.registerPath({
   method: "get",
   path: "/api/v1/adoptions/requests",
   tags: ["Adoptions"],
-  summary: "Obtener todas las solicitudes (Admin)",
-  description:
-    "Obtiene todas las solicitudes de adopción. Puede filtrar por estado (solo admin)",
+  summary: "Listar solicitudes de adopción con filtros y paginación (Admin)",
+  description: `Obtiene la lista de solicitudes de adopción con múltiples opciones de filtrado y paginación.
+
+**Filtros disponibles:**
+- status: Estado de la solicitud (pending/approved/rejected/cancelled)
+- petId: ID de la mascota
+- userId: ID del usuario solicitante
+- reviewedBy: ID del admin que revisó la solicitud
+- fromDate: Fecha de creación desde (ISO 8601)
+- toDate: Fecha de creación hasta (ISO 8601)
+
+**Paginación:**
+- page: Número de página (default: 1)
+- limit: Elementos por página (default: 10, max: 100)
+
+**Ordenamiento:**
+- sortBy: Campo de ordenamiento (createdAt/reviewedAt/status, default: createdAt)
+- order: Orden (asc/desc, default: desc)`,
   security: [{ bearerAuth: [] }],
   request: {
-    query: AdoptionStatusQuerySchema,
+    query: GetAdoptionRequestsQuerySchema,
   },
   responses: {
-    200: { description: "Solicitudes obtenidas exitosamente" },
+    200: {
+      description:
+        "Lista de solicitudes obtenida exitosamente con información de paginación",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              success: { type: "boolean", example: true },
+              data: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    _id: {
+                      type: "string",
+                      example: "64f1a2b3c4d5e6f7a8b9c0d1",
+                    },
+                    petId: {
+                      type: "object",
+                      properties: {
+                        _id: { type: "string" },
+                        name: { type: "string", example: "Firulais" },
+                        type: { type: "string", example: "perro" },
+                        breed: { type: "string", example: "mestizo" },
+                        images: { type: "array", items: { type: "object" } },
+                      },
+                    },
+                    userId: {
+                      type: "object",
+                      properties: {
+                        _id: { type: "string" },
+                        name: { type: "string", example: "Juan Pérez" },
+                        email: { type: "string", example: "juan@email.com" },
+                      },
+                    },
+                    status: { type: "string", example: "pending" },
+                    message: {
+                      type: "string",
+                      example: "Me gustaría adoptar esta mascota",
+                    },
+                    adminNotes: {
+                      type: "string",
+                      example: "Solicitud aprobada",
+                    },
+                    reviewedBy: {
+                      type: "object",
+                      properties: {
+                        _id: { type: "string" },
+                        name: { type: "string", example: "Admin" },
+                        email: { type: "string", example: "admin@email.com" },
+                      },
+                    },
+                    reviewedAt: { type: "string", format: "date-time" },
+                    createdAt: { type: "string", format: "date-time" },
+                    updatedAt: { type: "string", format: "date-time" },
+                  },
+                },
+              },
+              pagination: {
+                type: "object",
+                properties: {
+                  currentPage: { type: "number", example: 1 },
+                  totalPages: { type: "number", example: 5 },
+                  totalItems: { type: "number", example: 47 },
+                  itemsPerPage: { type: "number", example: 10 },
+                  hasNextPage: { type: "boolean", example: true },
+                  hasPrevPage: { type: "boolean", example: false },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    400: { description: "Parámetros de consulta inválidos" },
     401: { description: "No autenticado" },
     403: { description: "No autorizado (requiere rol admin)" },
   },
