@@ -1,6 +1,7 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { AdminService } from '../../services/admin.service';
@@ -17,6 +18,7 @@ export class UsersManagement implements OnInit {
   private adminService = inject(AdminService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
+  private globalSearchSubject = new Subject<string>();
 
   users = this.adminService.users;
   pagination = this.adminService.pagination;
@@ -45,6 +47,12 @@ export class UsersManagement implements OnInit {
   };
 
   ngOnInit(): void {
+    this.globalSearchSubject.pipe(debounceTime(400), distinctUntilChanged()).subscribe((value) => {
+      this.filters.search = value || undefined;
+      this.filters.page = 1;
+      this.loadUsers();
+    });
+
     this.loadUsers();
   }
 
@@ -80,9 +88,8 @@ export class UsersManagement implements OnInit {
   }
 
   onGlobalFilter(value: string): void {
-    this.filters.search = value.trim() || undefined;
-    this.filters.page = 1;
-    this.loadUsers();
+    const cleanedValue = value.trim().replace(/\s+/g, ' ');
+    this.globalSearchSubject.next(cleanedValue);
   }
 
   onRoleFilterChange(value: 'user' | 'admin' | undefined): void {
@@ -148,5 +155,9 @@ export class UsersManagement implements OnInit {
 
   getRoleSeverity(role: string): 'danger' | 'info' {
     return role === 'admin' ? 'danger' : 'info';
+  }
+
+  ngOnDestroy(): void {
+    this.globalSearchSubject.complete();
   }
 }
