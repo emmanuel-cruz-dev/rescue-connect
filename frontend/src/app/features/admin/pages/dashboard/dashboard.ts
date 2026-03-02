@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AdminService } from '../../services/admin.service';
 import { PetService } from '../../../pets/services/pet.service';
+import { AdoptionService } from '../../../adoptions/services/adoption.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
@@ -14,12 +15,14 @@ export class Dashboard implements OnInit {
   private authService = inject(AuthService);
   private adminService = inject(AdminService);
   private petService = inject(PetService);
+  private adoptionService = inject(AdoptionService);
 
   currentUser = this.authService.currentUser;
 
   totalUsers = signal(0);
   totalPets = signal(0);
   totalAdopted = signal(0);
+  totalPending = signal(0);
 
   get stats() {
     return [
@@ -41,7 +44,12 @@ export class Dashboard implements OnInit {
         icon: 'pi pi-home',
         color: 'text-green-500',
       },
-      { label: 'Solicitudes Pendientes', value: 0, icon: 'pi pi-clock', color: 'text-orange-500' },
+      {
+        label: 'Solicitudes Pendientes',
+        value: this.totalPending(),
+        icon: 'pi pi-clock',
+        color: 'text-orange-500',
+      },
     ];
   }
 
@@ -61,6 +69,12 @@ export class Dashboard implements OnInit {
     this.adminService.getAllUsers({ page: 1, limit: 1 }).subscribe({
       next: (res) => {
         if (res.pagination) this.totalUsers.set(res.pagination.totalItems);
+      },
+    });
+
+    this.adoptionService.getAllRequests({ page: 1, limit: 1, status: 'pending' }).subscribe({
+      next: (res) => {
+        if (res.pagination) this.totalPending.set(res.pagination.totalItems);
       },
     });
   }
