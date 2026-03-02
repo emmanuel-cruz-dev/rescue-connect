@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AdminService } from '../../services/admin.service';
 import { PetService } from '../../../pets/services/pet.service';
@@ -54,27 +55,24 @@ export class Dashboard implements OnInit {
   }
 
   ngOnInit(): void {
-    this.petService.getAllPets({ page: 1, limit: 1 }).subscribe({
+    forkJoin({
+      pets: this.petService.getAllPets({ page: 1, limit: 1 }),
+      adopted: this.petService.getAllPets({ page: 1, limit: 1, adopted: true }),
+      users: this.adminService.getAllUsers({ page: 1, limit: 1 }),
+      pending: this.adoptionService.getAllRequests({ page: 1, limit: 1, status: 'PENDING' } as any),
+    }).subscribe({
       next: (res) => {
-        if (res.pagination) this.totalPets.set(res.pagination.totalItems);
+        this.totalPets.set(res.pets.pagination?.totalItems ?? 0);
+        this.totalAdopted.set(res.adopted.pagination?.totalItems ?? 0);
+        this.totalUsers.set(res.users.pagination?.totalItems ?? 0);
+        this.totalPending.set(res.pending.pagination?.totalItems ?? 0);
       },
-    });
-
-    this.petService.getAllPets({ page: 1, limit: 1, adopted: true }).subscribe({
-      next: (res) => {
-        if (res.pagination) this.totalAdopted.set(res.pagination.totalItems);
-      },
-    });
-
-    this.adminService.getAllUsers({ page: 1, limit: 1 }).subscribe({
-      next: (res) => {
-        if (res.pagination) this.totalUsers.set(res.pagination.totalItems);
-      },
-    });
-
-    this.adoptionService.getAllRequests({ page: 1, limit: 1, status: 'pending' }).subscribe({
-      next: (res) => {
-        if (res.pagination) this.totalPending.set(res.pagination.totalItems);
+      error: (err) => {
+        console.error('Error fetching dashboard data:', err);
+        this.totalPets.set(0);
+        this.totalAdopted.set(0);
+        this.totalUsers.set(0);
+        this.totalPending.set(0);
       },
     });
   }
