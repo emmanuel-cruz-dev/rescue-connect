@@ -28,7 +28,7 @@ router.get(
   "/requests",
   authenticate,
   authorize("admin"),
-  adoptionController.getAllRequests
+  adoptionController.getAll
 );
 router.get(
   "/requests/:requestId",
