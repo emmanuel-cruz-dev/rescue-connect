@@ -2,9 +2,80 @@ import { Types } from "mongoose";
 import adoptionRequestModel from "../schemas/adoption.schema";
 import petModel from "../schemas/pets.schema";
 import userModel from "../schemas/auth.schema";
-import { AdoptionStatus } from "../types";
+import {
+  AdoptionStatus,
+  IAdoptionQueryParams,
+  IPaginatedResponse,
+  IAdoptionRequestDocument,
+} from "../types";
 
 class AdoptionModel {
+  async getAll(queryParams: IAdoptionQueryParams) {
+    const {
+      page,
+      limit,
+      sortBy,
+      order,
+      status,
+      petId,
+      userId,
+      reviewedBy,
+      fromDate,
+      toDate,
+    } = queryParams;
+
+    const filter: any = {};
+
+    if (status) filter.status = status;
+    if (petId) filter.petId = new Types.ObjectId(petId as string);
+    if (userId) filter.userId = new Types.ObjectId(userId as string);
+    if (reviewedBy)
+      filter.reviewedBy = new Types.ObjectId(reviewedBy as string);
+
+    if (fromDate !== undefined || toDate !== undefined) {
+      filter.createdAt = {};
+      if (fromDate) filter.createdAt.$gte = fromDate;
+      if (toDate) filter.createdAt.$lte = toDate;
+    }
+
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const sortOrder = order === "asc" ? 1 : -1;
+    const sort: any = {};
+    if (sortBy) sort[sortBy] = sortOrder;
+
+    const [data, totalItems] = await Promise.all([
+      adoptionRequestModel
+        .find(filter)
+        .populate("petId", "name type breed images")
+        .populate("userId", "name email")
+        .populate("reviewedBy", "name email")
+        .sort(sort)
+        .skip(skip)
+        .limit(limitNumber)
+        .lean(),
+      adoptionRequestModel.countDocuments(filter),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / limitNumber);
+
+    const response: IPaginatedResponse<IAdoptionRequestDocument> = {
+      data: data as IAdoptionRequestDocument[],
+      pagination: {
+        currentPage: pageNumber,
+        totalPages,
+        totalItems,
+        itemsPerPage: limitNumber,
+        hasNextPage: pageNumber < totalPages,
+        hasPrevPage: pageNumber > 1,
+      },
+    };
+
+    return response;
+  }
+
   async createRequest(
     petId: string | Types.ObjectId,
     userId: string | Types.ObjectId,
@@ -46,17 +117,6 @@ class AdoptionModel {
       { path: "petId", select: "name type breed images" },
       { path: "userId", select: "name email" },
     ]);
-  }
-
-  async getAllRequests(status?: AdoptionStatus) {
-    const filter = status ? { status } : {};
-
-    return await adoptionRequestModel
-      .find(filter)
-      .populate("petId", "name type breed images")
-      .populate("userId", "name email")
-      .populate("reviewedBy", "name email")
-      .sort({ createdAt: -1 });
   }
 
   async getUserRequests(
