@@ -1,6 +1,7 @@
 <aside
   class="flex flex-col h-full w-64 bg-white dark:bg-slate-900 border-r border-gray-100 dark:border-gray-700 shadow-sm"
 >
+  @if (showHeader()) {
   <div
     class="flex items-center justify-between px-3 py-5 border-b border-gray-100 dark:border-gray-700"
   >
@@ -25,8 +26,9 @@
       aria-label="Cambiar tema"
     />
   </div>
+  }
 
-  <nav class="flex-1 px-3 py-4 overflow-y-auto">
+  <nav class="flex-1 px-3 py-5 overflow-y-auto">
     <ul class="space-y-1">
       @for (item of navItems; track item.route) {
       <li>
