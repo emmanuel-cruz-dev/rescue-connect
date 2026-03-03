@@ -5,6 +5,8 @@ import { PetForm } from './pages/pet-form/pet-form';
 import { UsersManagement } from './pages/users-management/users-management';
 import { UserForm } from './pages/user-form/user-form';
 import { AdoptionsManagement } from './pages/adoptions-management/adoptions-management';
+import { MyProfile } from '../profile/pages/my-profile/my-profile';
+import { ChangePassword } from '../profile/pages/change-password/change-password';
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -51,5 +53,15 @@ export const ADMIN_ROUTES: Routes = [
     path: 'adoptions',
     component: AdoptionsManagement,
     title: 'Gestión de Adopciones - Admin',
+  },
+  {
+    path: 'me',
+    component: MyProfile,
+    title: 'Mi Perfil - Admin',
+  },
+  {
+    path: 'change-password',
+    component: ChangePassword,
+    title: 'Cambiar Contraseña - Admin',
   },
 ];
