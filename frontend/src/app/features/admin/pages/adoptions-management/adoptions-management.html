@@ -1,16 +1,235 @@
-<div class="p-6">
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestión de Adopciones</h1>
-    <p class="text-surface-400 mt-1">Administra las solicitudes y adopciones registradas</p>
-  </div>
+<section class="p-6">
+  <header class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Solicitudes de Adopción</h1>
+      <p class="text-gray-400 mt-1">
+        @if (pagination()) {
+        {{ pagination()!.totalItems }} solicitudes en total } @else { Administra las solicitudes de
+        adopción }
+      </p>
+    </div>
+  </header>
 
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 text-center"
+  <main
+    class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
   >
-    <i class="pi pi-home text-5xl text-gray-300 dark:text-gray-600 mb-4 block"></i>
-    <p class="text-gray-400">Tabla de adopciones.</p>
-    <p class="text-gray-300 dark:text-gray-600 text-sm mt-1">
-      Contenido de la tabla de adopciones.
-    </p>
-  </div>
-</div>
+    <div
+      class="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-800 gap-3 flex-wrap"
+    >
+      <div class="flex items-center gap-2">
+        <p-select
+          [(ngModel)]="filters.status"
+          [options]="statusOptions"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Estado"
+          (onChange)="onStatusFilterChange($event.value)"
+          class="w-44"
+        />
+
+        @if (hasActiveFilters) {
+        <p-button
+          icon="pi pi-filter-slash"
+          label="Limpiar filtros"
+          severity="secondary"
+          variant="outlined"
+          (onClick)="resetFilters()"
+        />
+        }
+      </div>
+    </div>
+
+    <p-table
+      #dt
+      [value]="requests()"
+      [lazy]="true"
+      [loading]="loading()"
+      [totalRecords]="pagination()?.totalItems ?? 0"
+      [rows]="10"
+      [paginator]="true"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} solicitudes"
+      (onLazyLoad)="onLazyLoad($event)"
+      dataKey="_id"
+      class="p-datatable-sm"
+      [tableStyle]="{ 'min-width': '56rem' }"
+      [size]="'large'"
+      showGridlines
+      stripedRows
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="font-semibold">Mascota</th>
+          <th class="font-semibold">Solicitante</th>
+          <th class="font-semibold">Mensaje</th>
+          <th pSortableColumn="status">
+            <div class="flex items-center gap-2">Estado <p-sortIcon field="status" /></div>
+          </th>
+          <th pSortableColumn="createdAt">
+            <div class="flex items-center gap-2">Fecha <p-sortIcon field="createdAt" /></div>
+          </th>
+          <th pSortableColumn="reviewedAt">
+            <div class="flex items-center gap-2">Revisada <p-sortIcon field="reviewedAt" /></div>
+          </th>
+          <th style="width: 8rem" class="font-semibold text-center">Acciones</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-req>
+        <tr class="hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors">
+          <td>
+            <div class="flex items-center gap-2">
+              <figure
+                class="w-8 h-8 rounded-full overflow-hidden bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
+              >
+                @if (req.petId?.images?.length > 0) {
+                <img
+                  [src]="req.petId.images[0].url"
+                  [alt]="req.petId.name"
+                  class="w-full h-full object-cover"
+                />
+                } @else {
+                <i class="pi pi-heart text-xs text-gray-400"></i>
+                }
+              </figure>
+              <div class="flex flex-col">
+                <span class="font-semibold text-gray-800 dark:text-white text-sm">
+                  {{ req.petId?.name ?? '—' }}
+                </span>
+                <span class="text-xs text-gray-400 capitalize"
+                  >{{ req.petId?.type }} · {{ req.petId?.breed }}</span
+                >
+              </div>
+            </div>
+          </td>
+
+          <td>
+            @if (req.userId) {
+            <div class="flex flex-col">
+              <span class="text-sm font-medium text-gray-800 dark:text-white">{{
+                req.userId.name
+              }}</span>
+              <span class="text-xs text-gray-400">{{ req.userId.email }}</span>
+            </div>
+            } @else {
+            <span class="text-xs text-gray-400 italic">Usuario eliminado</span>
+            }
+          </td>
+
+          <td>
+            @if (req.message) {
+            <span
+              class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 max-w-xs block"
+              [pTooltip]="req.message"
+              tooltipPosition="top"
+            >
+              {{ req.message }}
+            </span>
+            } @else {
+            <span class="text-xs text-gray-400">—</span>
+            }
+          </td>
+
+          <td>
+            <p-tag
+              [value]="getStatusLabel(req.status)"
+              [severity]="getStatusSeverity(req.status)"
+              class="text-xs"
+            />
+          </td>
+
+          <td>
+            <span class="text-sm text-gray-500 dark:text-gray-400">
+              {{ req.createdAt | date : 'dd/MM/yyyy' }}
+            </span>
+          </td>
+
+          <td>
+            @if (req.reviewedAt) {
+            <div class="flex flex-col">
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                {{ req.reviewedAt | date : 'dd/MM/yyyy' }}
+              </span>
+              @if (req.reviewedBy) {
+              <span class="text-xs text-gray-400">{{ req.reviewedBy.email }}</span>
+              }
+            </div>
+            } @else {
+            <span class="text-xs text-gray-400">—</span>
+            }
+          </td>
+
+          <td>
+            <div class="flex items-center justify-center gap-1">
+              @if (req.status === 'pending') {
+              <p-button
+                icon="pi pi-check"
+                [rounded]="true"
+                variant="text"
+                severity="success"
+                size="small"
+                (onClick)="confirmApprove(req)"
+                pTooltip="Aprobar"
+                tooltipPosition="top"
+              />
+              <p-button
+                icon="pi pi-times"
+                [rounded]="true"
+                variant="text"
+                severity="danger"
+                size="small"
+                (onClick)="confirmReject(req)"
+                pTooltip="Rechazar"
+                tooltipPosition="top"
+              />
+              } @else {
+              <span class="text-xs text-gray-400 px-2">—</span>
+              }
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="loadingbody">
+        @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+        <tr>
+          @for (j of [1,2,3,4,5,6,7]; track j) {
+          <td><p-skeleton height="2rem" /></td>
+          }
+        </tr>
+        }
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">
+            <div class="flex flex-col items-center justify-center py-16 text-center">
+              <div
+                class="w-20 h-20 rounded-full bg-gray-50 dark:bg-slate-800 flex items-center justify-center mb-4"
+              >
+                <i class="pi pi-inbox text-3xl text-gray-300 dark:text-gray-600"></i>
+              </div>
+              <p class="text-gray-500 dark:text-gray-400 font-medium">
+                No se encontraron solicitudes
+              </p>
+              <p class="text-gray-400 dark:text-gray-600 text-sm mt-1">Probá con otros filtros</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </main>
+</section>
+
+<p-confirmDialog>
+  <ng-template pTemplate="message" let-message>
+    <div class="flex flex-col items-center gap-4 p-4 max-w-sm">
+      <div
+        class="w-16 h-16 rounded-full bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center"
+      >
+        <i class="pi pi-exclamation-triangle text-3xl text-amber-500"></i>
+      </div>
+      <p class="text-center text-gray-600 dark:text-gray-300" [innerHTML]="message.message"></p>
+    </div>
+  </ng-template>
+</p-confirmDialog>
