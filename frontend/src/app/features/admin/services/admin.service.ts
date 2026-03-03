@@ -1,8 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { ApiService } from '../../../core/services/api.service';
-import { PaginatedApiResponse } from '../../../core/models/api-response.model';
-import { IUser, UserFilters, UserPagination } from '../../../core/models/user.model';
+import { PaginatedApiResponse, IUser, UserFilters, UserPagination } from '../../../core/models';
 
 @Injectable({
   providedIn: 'root',
