@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
+import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
+import { ProfileLayout } from './layouts/profile-layout/profile-layout';
 import { EmptyLayout } from './layouts/empty-layout/empty-layout';
-import { guestGuard } from './core/guards/guest.guard';
+import { authGuard, adminGuard, guestGuard } from './core/guards';
 
 export const routes: Routes = [
   {
@@ -16,6 +18,29 @@ export const routes: Routes = [
       {
         path: 'pets',
         loadChildren: () => import('./features/pets/pet.routes').then((m) => m.PETS_ROUTES),
+      },
+    ],
+  },
+  {
+    path: 'profile',
+    component: ProfileLayout,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('./features/profile/profile.routes').then((m) => m.PROFILE_ROUTES),
+      },
+    ],
+  },
+  {
+    path: 'admin',
+    component: DashboardLayout,
+    canActivate: [adminGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
       },
     ],
   },
