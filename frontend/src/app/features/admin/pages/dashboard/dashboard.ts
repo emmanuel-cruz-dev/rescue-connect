@@ -59,7 +59,7 @@ export class Dashboard implements OnInit {
       pets: this.petService.getAllPets({ page: 1, limit: 1 }),
       adopted: this.petService.getAllPets({ page: 1, limit: 1, adopted: true }),
       users: this.adminService.getAllUsers({ page: 1, limit: 1 }),
-      pending: this.adoptionService.getAllRequests({ page: 1, limit: 1, status: 'PENDING' } as any),
+      pending: this.adoptionService.getAllRequests({ page: 1, limit: 1, status: 'pending' }),
     }).subscribe({
       next: (res) => {
         this.totalPets.set(res.pets.pagination?.totalItems ?? 0);
