@@ -1,14 +1,15 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-import { ApiService } from '../../../core/services/api.service';
-import { ApiResponse, PaginatedApiResponse } from '../../../core/models/api-response.model';
+import { ApiService } from '../../../core/services';
 import {
+  ApiResponse,
+  PaginatedApiResponse,
   IAdoptionRequest,
   AdoptionRequestFilters,
   AdoptionRequestPagination,
   CreateAdoptionRequestData,
   ReviewAdoptionRequestData,
-} from '../../../core/models/adoption-request.model';
+} from '../../../core/models';
 
 @Injectable({
   providedIn: 'root',

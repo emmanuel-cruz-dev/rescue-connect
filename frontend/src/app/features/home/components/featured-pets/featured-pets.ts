@@ -5,7 +5,7 @@ import { PetService } from '../../../pets/services/pet.service';
 import { PetCard } from '../../../pets/components/pet-card/pet-card';
 import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton/pet-card-skeleton';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { IPet } from '../../../../core/models/pet.model';
+import { IPet } from '../../../../core/models';
 
 @Component({
   selector: 'app-featured-pets',
