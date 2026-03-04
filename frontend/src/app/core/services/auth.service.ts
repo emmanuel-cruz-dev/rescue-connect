@@ -11,6 +11,7 @@ import {
   RegisterData,
   UpdateProfileData,
   ChangePasswordData,
+  UpdateProfileResponse,
 } from '../models';
 
 @Injectable({
@@ -83,15 +84,17 @@ export class AuthService {
     );
   }
 
-  updateProfile(data: UpdateProfileData): Observable<ApiResponse<IUser>> {
-    return this.apiService.put<ApiResponse<IUser>>('/api/v1/auth/profile', data).pipe(
-      tap((response) => {
-        if (response.status === 'success' && response.data) {
-          this.storageService.saveUser(response.data);
-          this.setCurrentUser(response.data);
-        }
-      })
-    );
+  updateProfile(data: UpdateProfileData): Observable<ApiResponse<UpdateProfileResponse>> {
+    return this.apiService
+      .put<ApiResponse<UpdateProfileResponse>>('/api/v1/auth/profile', data)
+      .pipe(
+        tap((response) => {
+          if (response.status === 'success' && response.data) {
+            this.storageService.saveUser(response.data.user);
+            this.setCurrentUser(response.data.user);
+          }
+        })
+      );
   }
 
   changePassword(data: ChangePasswordData): Observable<ApiResponse<any>> {
