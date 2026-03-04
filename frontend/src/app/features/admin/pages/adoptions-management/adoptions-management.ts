@@ -5,11 +5,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import {
-  IAdoptionRequest,
-  AdoptionRequestFilters,
-  AdoptionStatus,
-} from '../../../../core/models/adoption-request.model';
+import { IAdoptionRequest, AdoptionRequestFilters, AdoptionStatus } from '../../../../core/models';
 
 type StatusSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
 

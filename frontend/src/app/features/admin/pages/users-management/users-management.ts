@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -6,7 +6,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { AdminService } from '../../services/admin.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { IUser, UserFilters } from '../../../../core/models/user.model';
+import { IUser, UserFilters } from '../../../../core/models';
 
 @Component({
   selector: 'app-users-management',

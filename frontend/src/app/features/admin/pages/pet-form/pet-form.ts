@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MessageService } from 'primeng/api';
 import { PetService } from '../../../pets/services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { IPetImage } from '../../../../core/models/pet.model';
+import { IPetImage } from '../../../../core/models';
 
 @Component({
   selector: 'app-pet-form',

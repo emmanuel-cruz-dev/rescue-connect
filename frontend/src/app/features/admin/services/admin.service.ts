@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-import { ApiService } from '../../../core/services/api.service';
+import { ApiService } from '../../../core/services';
 import { PaginatedApiResponse, IUser, UserFilters, UserPagination } from '../../../core/models';
 
 @Injectable({

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthService } from '../../../../core/services';
 import { AdminService } from '../../services/admin.service';
 import { PetService } from '../../../pets/services/pet.service';
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
