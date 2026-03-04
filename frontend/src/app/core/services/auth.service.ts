@@ -97,8 +97,8 @@ export class AuthService {
       );
   }
 
-  changePassword(data: ChangePasswordData): Observable<ApiResponse<any>> {
-    return this.apiService.post<ApiResponse<any>>('/api/v1/auth/change-password', data);
+  changePassword(data: ChangePasswordData): Observable<{ status: string; message: string }> {
+    return this.apiService.post('/api/v1/auth/change-password', data);
   }
 
   logout(): Observable<ApiResponse<any>> {
