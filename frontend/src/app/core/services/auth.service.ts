@@ -1,17 +1,17 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
-import { ApiService } from './api.service';
 import { StorageService } from './storage.service';
-import { IUser } from '../models/user.model';
-import { LoginResponse } from '../models/auth-response.model';
-import { ApiResponse } from '../models/api-response.model';
+import { ApiService } from './api.service';
 import {
+  IUser,
+  LoginResponse,
+  ApiResponse,
   LoginData,
   RegisterData,
   UpdateProfileData,
   ChangePasswordData,
-} from '../models/auth.model';
+} from '../models';
 
 @Injectable({
   providedIn: 'root',
