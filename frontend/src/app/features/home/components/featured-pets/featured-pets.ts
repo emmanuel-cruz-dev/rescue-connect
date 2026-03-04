@@ -7,6 +7,12 @@ import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet } from '../../../../core/models';
 
+interface ResponsiveOptions {
+  breakpoint: string;
+  numVisible: number;
+  numScroll: number;
+}
+
 @Component({
   selector: 'app-featured-pets',
   imports: [RouterModule, PetCard, SectionHeader, PetCardSkeleton, PRIMENG_IMPORTS],
@@ -17,7 +23,7 @@ export class FeaturedPets implements OnInit {
 
   featuredPets = signal<IPet[]>([]);
   loading = signal<boolean>(false);
-  responsiveOptions: any[] | undefined;
+  responsiveOptions: ResponsiveOptions[] = [];
 
   ngOnInit(): void {
     this.loading.set(true);
