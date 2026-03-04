@@ -29,3 +29,7 @@ export interface UserPagination {
   currentPage: number;
   limit: number;
 }
+
+export interface UpdateProfileResponse {
+  user: IUser;
+}
