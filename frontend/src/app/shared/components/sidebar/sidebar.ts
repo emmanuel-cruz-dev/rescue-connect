@@ -1,7 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 import { RouterModule, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
-import { ThemeService } from '../../../core/services/theme.service';
+import { AuthService, ThemeService } from '../../../core/services';
 import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
 
 interface NavItem {

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { AuthService } from '../../../core/services/auth.service';
-import { ThemeService } from '../../../core/services/theme.service';
+import { AuthService, ThemeService } from '../../../core/services';
 import { NavButton } from './nav-button/nav-button';
 import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
 
