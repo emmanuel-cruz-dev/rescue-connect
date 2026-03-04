@@ -31,8 +31,11 @@ export const RegisterBodySchema = z.object({
   phone: z
     .string()
     .min(8, "El número de teléfono debe tener al menos 8 caracteres")
-    .max(50, "El número de teléfono no puede superar 50 caracteres")
     .trim()
+    .regex(
+      /^\+?(?:54\s?)?(?:9\s?)?(?:11|[2368]\d)[\s\-]?\d{4}[\s\-]?\d{4}$/,
+      "Teléfono inválido. Ingrese un número argentino válido (ej: +54 11 4323-5554)"
+    )
     .describe("Número de teléfono"),
   address: z
     .string()
@@ -63,7 +66,6 @@ export const ChangePasswordBodySchema = z.object({
 
 registry.register("LoginBody", LoginBodySchema);
 registry.register("RegisterBody", RegisterBodySchema);
-registry.register("UserId", UserIdSchema);
 registry.register("ChangePasswordBody", ChangePasswordBodySchema);
 
 export const loginSchema = z.object({
