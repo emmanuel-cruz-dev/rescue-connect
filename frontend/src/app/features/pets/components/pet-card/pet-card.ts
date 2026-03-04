@@ -8,7 +8,7 @@ import {
   HeartHandshakeIcon,
 } from 'lucide-angular';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { IPet } from '../../../../core/models/pet.model';
+import { IPet } from '../../../../core/models';
 import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
 
 @Component({

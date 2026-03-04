@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, FishIcon, BoneIcon } from 'lucide-angular';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { PetFilters as PetFiltersModel } from '../../../../core/models/pet.model';
+import { PetFilters as PetFiltersModel } from '../../../../core/models';
 
 @Component({
   selector: 'app-pet-filters',

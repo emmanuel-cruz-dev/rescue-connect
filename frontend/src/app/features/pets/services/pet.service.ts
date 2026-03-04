@@ -1,14 +1,15 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-import { ApiService } from '../../../core/services/api.service';
-import { ApiResponse, PaginatedApiResponse } from '../../../core/models/api-response.model';
+import { ApiService } from '../../../core/services';
 import {
+  ApiResponse,
+  PaginatedApiResponse,
   IPet,
   CreatePetData,
   UpdatePetData,
   PetFilters,
   PetPagination,
-} from '../../../core/models/pet.model';
+} from '../../../core/models';
 
 @Injectable({
   providedIn: 'root',
