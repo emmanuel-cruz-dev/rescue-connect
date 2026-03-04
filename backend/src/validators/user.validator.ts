@@ -9,7 +9,14 @@ export const UserBodySchema = z.object({
     .string()
     .min(8, "La contraseña no puede ser menor de 8 caracteres")
     .describe("Contraseña del usuario"),
-  phone: z.string().min(6).max(20).describe("Teléfono del usuario"),
+  phone: z
+    .string()
+    .trim()
+    .regex(
+      /^\+?(?:54\s?)?(?:9\s?)?(?:11|[2368]\d)[\s\-]?\d{4}[\s\-]?\d{4}$/,
+      "Teléfono inválido. Ingrese un número argentino válido (ej: +54 11 4323-5554)"
+    )
+    .describe("Teléfono del usuario"),
   address: z.string().min(5).max(100).describe("Dirección del usuario"),
   role: z.enum(["admin", "user"]).default("user").describe("Rol del usuario"),
   isActive: z.boolean().default(true).describe("Si el usuario está activo"),
