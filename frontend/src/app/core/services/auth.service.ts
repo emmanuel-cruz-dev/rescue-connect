@@ -12,6 +12,7 @@ import {
   UpdateProfileData,
   ChangePasswordData,
   UpdateProfileResponse,
+  IPet,
 } from '../models';
 
 @Injectable({
@@ -120,8 +121,8 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
-  getMyPets(): Observable<ApiResponse<any[]>> {
-    return this.apiService.get<ApiResponse<any[]>>('/api/v1/auth/my-pets');
+  getMyPets(): Observable<ApiResponse<{ pets: IPet[] }>> {
+    return this.apiService.get<ApiResponse<{ pets: IPet[] }>>('/api/v1/auth/my-pets');
   }
 
   isLoggedIn(): boolean {
