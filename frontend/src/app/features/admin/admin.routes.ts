@@ -17,51 +17,51 @@ export const ADMIN_ROUTES: Routes = [
   {
     path: 'dashboard',
     component: Dashboard,
-    title: 'Dashboard - Admin',
+    title: 'Dashboard',
   },
   {
     path: 'pets',
     component: PetsManagement,
-    title: 'Gestión de Mascotas - Admin',
+    title: 'Gestión de Mascotas',
   },
   {
     path: 'pets/new',
     component: PetForm,
-    title: 'Nueva Mascota - Admin',
+    title: 'Nueva Mascota',
   },
   {
     path: 'pets/:id/edit',
     component: PetForm,
-    title: 'Editar Mascota - Admin',
+    title: 'Editar Mascota',
   },
   {
     path: 'users',
     component: UsersManagement,
-    title: 'Gestión de Usuarios - Admin',
+    title: 'Gestión de Usuarios',
   },
   {
     path: 'users/new',
     component: UserForm,
-    title: 'Nuevo Usuario - Admin',
+    title: 'Nuevo Usuario',
   },
   {
     path: 'users/:id/edit',
     component: UserForm,
-    title: 'Editar Usuario - Admin',
+    title: 'Editar Usuario',
   },
   {
     path: 'adoptions',
     component: AdoptionsManagement,
-    title: 'Gestión de Adopciones - Admin',
+    title: 'Gestión de Adopciones',
   },
   {
     path: 'me',
     component: MyProfile,
-    title: 'Mi Perfil - Admin',
+    title: 'Mi Perfil',
   },
   {
     path: 'change-password',
     component: ChangePassword,
-    title: 'Cambiar Contraseña - Admin',
+    title: 'Cambiar Contraseña',
   },
 ];
