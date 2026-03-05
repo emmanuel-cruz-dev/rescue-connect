@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withInMemoryScrolling, TitleStrategy } from '@angular/router';
 import { provideHttpClient, HTTP_INTERCEPTORS, withInterceptorsFromDi } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
@@ -7,6 +7,7 @@ import { MessageService } from 'primeng/api';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { AppTitleStrategy } from './core/strategies/title.strategy';
 import { MyPreset } from './shared/primeng/my-preset';
 import { PRIME_NG_LOCALE_ES } from './shared/primeng/locale-es';
 
@@ -20,6 +21,12 @@ export const appConfig: ApplicationConfig = {
         anchorScrolling: 'enabled',
       })
     ),
+
+    {
+      provide: TitleStrategy,
+      useClass: AppTitleStrategy,
+    },
+
     provideHttpClient(withInterceptorsFromDi()),
 
     providePrimeNG({
