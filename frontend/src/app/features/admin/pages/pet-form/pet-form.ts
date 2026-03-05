@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
@@ -12,12 +12,13 @@ import { IPetImage } from '../../../../core/models';
   templateUrl: './pet-form.html',
   providers: [MessageService],
 })
-export class PetForm implements OnInit {
+export class PetForm implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private petService = inject(PetService);
   private messageService = inject(MessageService);
+  private timeoutRef: ReturnType<typeof setTimeout> | null = null;
 
   isEditMode = !!this.route.snapshot.paramMap.get('id');
   petId = this.route.snapshot.paramMap.get('id');
@@ -107,16 +108,13 @@ export class PetForm implements OnInit {
         next: () => {
           if (this.pendingFiles.length > 0) {
             this.petService.uploadImages(this.petId!, this.pendingFiles).subscribe({
-              next: () => this.onSuccess('Mascota actualizada correctamente'),
-              error: () => {
-                this.saving.set(false);
-                this.messageService.add({
-                  severity: 'warn',
-                  summary: 'Advertencia',
-                  detail: 'Mascota guardada, pero hubo un error al subir las imágenes',
-                });
-                this.router.navigate(['/admin/pets']);
+              next: (response) => {
+                const updatedPet = response?.data;
+                if (updatedPet?.images) this.currentImages.set(updatedPet.images);
+                this.pendingFiles = [];
+                this.onSuccess('Mascota actualizada correctamente');
               },
+              error: () => this.handleUploadError(),
             });
           } else {
             this.onSuccess('Mascota actualizada correctamente');
@@ -130,16 +128,13 @@ export class PetForm implements OnInit {
           const newPetId = response.data.pet._id;
           if (this.pendingFiles.length > 0 && newPetId) {
             this.petService.uploadImages(newPetId, this.pendingFiles).subscribe({
-              next: () => this.onSuccess('Mascota creada correctamente'),
-              error: () => {
-                this.saving.set(false);
-                this.messageService.add({
-                  severity: 'warn',
-                  summary: 'Advertencia',
-                  detail: 'Mascota creada, pero hubo un error al subir las imágenes',
-                });
-                this.router.navigate(['/admin/pets']);
+              next: (response) => {
+                const updatedPet = response?.data;
+                if (updatedPet?.images) this.currentImages.set(updatedPet.images);
+                this.pendingFiles = [];
+                this.onSuccess('Mascota creada correctamente');
               },
+              error: () => this.handleUploadError(),
             });
           } else {
             this.onSuccess('Mascota creada correctamente');
@@ -171,12 +166,28 @@ export class PetForm implements OnInit {
   private onSuccess(detail: string): void {
     this.saving.set(false);
     this.messageService.add({ severity: 'success', summary: 'Éxito', detail, life: 2000 });
-    setTimeout(() => this.router.navigate(['/admin/pets']), 1500);
+    this.timeoutRef = setTimeout(() => this.router.navigate(['/admin/pets']), 1500);
+  }
+
+  private handleUploadError() {
+    this.saving.set(false);
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Advertencia',
+      detail: 'Mascota guardada, pero hubo un error al subir las imágenes',
+    });
+    this.timeoutRef = setTimeout(() => this.router.navigate(['/admin/pets']), 1500);
   }
 
   private onError(err: any): void {
     this.saving.set(false);
     const detail = err?.error?.message ?? err?.message ?? 'Ocurrió un error inesperado';
     this.messageService.add({ severity: 'error', summary: 'Error', detail });
+  }
+
+  ngOnDestroy(): void {
+    if (this.timeoutRef) {
+      clearTimeout(this.timeoutRef);
+    }
   }
 }
