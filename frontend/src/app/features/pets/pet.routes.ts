@@ -6,9 +6,11 @@ export const PETS_ROUTES: Routes = [
   {
     path: '',
     component: PetList,
+    title: 'Mascotas disponibles',
   },
   {
     path: ':id',
     component: PetDetail,
+    title: 'Detalle de mascota',
   },
 ];

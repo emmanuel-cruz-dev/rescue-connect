@@ -6,9 +6,11 @@ export const AUTH_ROUTES: Routes = [
   {
     path: 'login',
     component: Login,
+    title: 'Iniciar sesión',
   },
   {
     path: 'register',
     component: Register,
+    title: 'Registrarse',
   },
 ];
