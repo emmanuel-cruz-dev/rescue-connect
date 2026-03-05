@@ -1,18 +1,27 @@
 <section class="p-6">
   <header class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Mis Adopciones</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">
+      Mis Adopciones @if (pets().length > 0) {
+      <span class="text-2xl font-semibold">({{ pets().length }})</span>
+      }
+    </h1>
     <p class="text-gray-400 mt-1">Mascotas que adoptaste a través de Rescue Connect</p>
   </header>
 
-  <main
+  @if (loading()) {
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+    <app-pet-card-skeleton [count]="3" />
+  </div>
+  } @else if (pets().length === 0) {
+  <div
     class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
   >
     <div class="flex flex-col items-center px-8 py-16 text-center">
-      <figure
+      <div
         class="w-20 h-20 rounded-full bg-pink-50 dark:bg-pink-950/30 flex items-center justify-center mb-4"
       >
         <i class="pi pi-heart text-3xl text-pink-500"></i>
-      </figure>
+      </div>
       <p class="text-gray-600 dark:text-gray-300 font-medium">
         Todavía no adoptaste ninguna mascota
       </p>
@@ -24,5 +33,12 @@
         styleClass="text-white! px-8! bg-pink-600! hover:bg-pink-700! border-pink-600! hover:border-pink-700! font-semibold!"
       />
     </div>
-  </main>
+  </div>
+  } @else {
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+    @for (pet of pets(); track pet._id) {
+    <app-pet-card [pet]="pet" [showAdoptButton]="false" />
+    }
+  </div>
+  }
 </section>
