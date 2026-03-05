@@ -1,4 +1,5 @@
 export const PRIME_NG_LOCALE_ES = {
+  pending: 'Pendiente',
   firstDayOfWeek: 1,
   dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
   dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
