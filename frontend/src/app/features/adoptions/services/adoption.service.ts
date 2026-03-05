@@ -93,7 +93,18 @@ export class AdoptionService {
         data ?? {}
       )
       .pipe(
-        tap(() => this.loading.set(false)),
+        tap((response) => {
+          if (response?.data) {
+            this.requests.update((requests) =>
+              requests.map((r) => (r._id === requestId ? response.data : r))
+            );
+
+            if (this.selectedRequest()?._id === requestId) {
+              this.selectedRequest.set(response.data);
+            }
+          }
+          this.loading.set(false);
+        }),
         catchError((error) => {
           console.error('Error approving request:', error);
           this.loading.set(false);
@@ -113,7 +124,18 @@ export class AdoptionService {
         data ?? {}
       )
       .pipe(
-        tap(() => this.loading.set(false)),
+        tap((response) => {
+          if (response?.data) {
+            this.requests.update((requests) =>
+              requests.map((r) => (r._id === requestId ? response.data : r))
+            );
+
+            if (this.selectedRequest()?._id === requestId) {
+              this.selectedRequest.set(response.data);
+            }
+          }
+          this.loading.set(false);
+        }),
         catchError((error) => {
           console.error('Error rejecting request:', error);
           this.loading.set(false);
@@ -160,7 +182,18 @@ export class AdoptionService {
     return this.apiService
       .patch<ApiResponse<IAdoptionRequest>>(`/api/v1/adoptions/requests/${requestId}/cancel`, {})
       .pipe(
-        tap(() => this.loading.set(false)),
+        tap((response) => {
+          if (response?.data) {
+            this.requests.update((requests) =>
+              requests.map((r) => (r._id === requestId ? response.data : r))
+            );
+
+            if (this.selectedRequest()?._id === requestId) {
+              this.selectedRequest.set(response.data);
+            }
+          }
+          this.loading.set(false);
+        }),
         catchError((error) => {
           console.error('Error cancelling request:', error);
           this.loading.set(false);
