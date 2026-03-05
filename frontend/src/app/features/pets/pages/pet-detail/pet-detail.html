@@ -46,17 +46,17 @@
             [fallbackImage]="getPlaceholderImage()"
             [imageHeight]="420"
           />
-          <div>
-            @if (pet()!.adopted) {
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-              <span
-                class="bg-white text-gray-800 font-bold text-lg px-6 py-2 rounded-full shadow-lg rotate-[-8deg]"
-              >
-                ¡Ya adoptado! 🐾
-              </span>
-            </div>
-            }
+
+          @if (pet()!.adopted) {
+          <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <span
+              class="flex items-center gap-2 bg-white text-gray-800 font-bold text-lg px-6 py-2 rounded-full shadow-lg rotate-[-8deg]"
+            >
+              ¡Ya adoptado!
+              <lucide-angular [img]="PawPrintIcon" size="20" />
+            </span>
           </div>
+          }
         </div>
       </div>
 
