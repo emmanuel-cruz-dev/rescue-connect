@@ -9,6 +9,7 @@ import {
   AdoptionRequestPagination,
   CreateAdoptionRequestData,
   ReviewAdoptionRequestData,
+  MyAdoptionRequestsResponse,
 } from '../../../core/models';
 
 @Injectable({
@@ -161,20 +162,24 @@ export class AdoptionService {
       );
   }
 
-  getMyRequests(): Observable<ApiResponse<IAdoptionRequest[]>> {
+  getMyRequests(): Observable<ApiResponse<MyAdoptionRequestsResponse>> {
     this.loading.set(true);
-    return this.apiService.get<any>('/api/v1/adoptions/my-requests').pipe(
-      tap((response) => {
-        if (Array.isArray(response.data)) this.myRequests.set(response.data);
-        this.loading.set(false);
-      }),
-      catchError((error) => {
-        console.error('Error fetching my requests:', error);
-        this.loading.set(false);
-        this.myRequests.set([]);
-        return throwError(() => error);
-      })
-    );
+    return this.apiService
+      .get<ApiResponse<MyAdoptionRequestsResponse>>('/api/v1/adoptions/my-requests')
+      .pipe(
+        tap((response) => {
+          if (response.status === 'success') {
+            this.myRequests.set(response.data.requests);
+            this.loading.set(false);
+          }
+        }),
+        catchError((error) => {
+          console.error('Error fetching my requests:', error);
+          this.loading.set(false);
+          this.myRequests.set([]);
+          return throwError(() => error);
+        })
+      );
   }
 
   cancelRequest(requestId: string): Observable<ApiResponse<IAdoptionRequest>> {
@@ -184,9 +189,11 @@ export class AdoptionService {
       .pipe(
         tap((response) => {
           if (response?.data) {
-            this.requests.update((requests) =>
-              requests.map((r) => (r._id === requestId ? response.data : r))
-            );
+            const updater = (requests: IAdoptionRequest[]) =>
+              requests.map((r) => (r._id === requestId ? response.data : r));
+
+            this.requests.update(updater);
+            this.myRequests.update(updater);
 
             if (this.selectedRequest()?._id === requestId) {
               this.selectedRequest.set(response.data);
