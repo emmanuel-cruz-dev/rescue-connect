@@ -12,6 +12,7 @@ export interface ApiResponse<T> {
   message?: string;
   data: T;
   error?: string;
+  count?: number;
 }
 
 export interface PaginatedApiResponse<T> extends ApiResponse<T> {
