@@ -30,7 +30,7 @@ export const GetAdoptionRequestsQuerySchema = z.object({
 export const CreateAdoptionRequestBodySchema = z.object({
   message: z
     .string()
-    .max(500, "El mensaje no puede superar 500 caracteres")
+    .max(300, "El mensaje no puede superar 300 caracteres")
     .optional()
     .describe("Mensaje opcional del usuario explicando por qué quiere adoptar"),
 });
@@ -42,7 +42,7 @@ export const CreateAdoptionRequestParamsSchema = z.object({
 export const ReviewAdoptionRequestBodySchema = z.object({
   adminNotes: z
     .string()
-    .max(500, "Las notas no pueden superar 500 caracteres")
+    .max(300, "Las notas no pueden superar 300 caracteres")
     .optional()
     .describe("Notas del administrador sobre la decisión"),
 });
@@ -70,5 +70,5 @@ export const adoptionRequestIdSchema = z.object({
 });
 
 export const getAdoptionRequestsQuerySchema = z.object({
-  query: AdoptionStatusQuerySchema,
+  query: GetAdoptionRequestsQuerySchema,
 });
