@@ -43,7 +43,7 @@ const petSchema = new mongoose.Schema<IPetDocument>(
     description: {
       type: String,
       trim: true,
-      maxlength: [200, "La descripción no puede superar 200 caracteres"],
+      maxlength: [300, "La descripción no puede superar 300 caracteres"],
     },
     images: [
       {
