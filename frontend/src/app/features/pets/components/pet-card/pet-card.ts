@@ -13,7 +13,7 @@ import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
 
 @Component({
   selector: 'app-pet-card',
-  imports: [PRIMENG_IMPORTS, LucideAngularModule],
+  imports: [LucideAngularModule, PRIMENG_IMPORTS],
   templateUrl: './pet-card.html',
 })
 export class PetCard {
