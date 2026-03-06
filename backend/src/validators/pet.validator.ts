@@ -12,14 +12,13 @@ export const PetBodySchema = z.object({
   size: z.enum(["pequeño", "mediano", "grande", "extra grande"]),
   breed: z
     .string()
-    .min(2)
     .max(50)
     .optional()
-    .or(z.literal("").transform(() => undefined))
+    .transform((val) => (val === "" ? undefined : val))
     .describe("Raza de la mascota"),
   description: z
     .string()
-    .max(500)
+    .max(300)
     .optional()
     .describe("Descripción de la mascota"),
   isSterilized: z
