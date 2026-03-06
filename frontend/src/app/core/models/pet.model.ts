@@ -20,7 +20,7 @@ export interface IPet {
   isVaccinated: boolean;
   adopted: boolean;
   adoptedBy: string | null;
-  images: IPetImage[];
+  images?: IPetImage[];
   createdAt: string;
   updatedAt: string;
   __v: number;
