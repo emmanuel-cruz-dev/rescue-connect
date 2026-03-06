@@ -6,11 +6,11 @@ export type AdoptionStatus = 'pending' | 'approved' | 'rejected' | 'cancelled';
 export interface IAdoptionRequest {
   _id: string;
   petId: Pick<IPet, '_id' | 'name' | 'type' | 'breed' | 'images'>;
-  userId: Pick<IUser, '_id' | 'firstName' | 'lastName' | 'email'> | null;
+  userId: string;
   status: AdoptionStatus;
   message?: string;
   adminNotes?: string;
-  reviewedBy: Pick<IUser, '_id' | 'firstName' | 'lastName' | 'email'> | null;
+  reviewedBy: Pick<IUser, '_id' | 'email'> | null;
   reviewedAt: string | null;
   createdAt: string;
   updatedAt: string;
