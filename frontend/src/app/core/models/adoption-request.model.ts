@@ -45,3 +45,7 @@ export interface CreateAdoptionRequestData {
 export interface ReviewAdoptionRequestData {
   adminNotes?: string;
 }
+
+export interface MyAdoptionRequestsResponse {
+  requests: IAdoptionRequest[];
+}
