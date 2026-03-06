@@ -101,7 +101,12 @@ export class PetForm implements OnInit, OnDestroy {
     if (this.petForm.invalid) return;
 
     this.saving.set(true);
-    const formValue = this.petForm.value;
+
+    const formValue = { ...this.petForm.value };
+
+    if (!formValue.breed || formValue.breed.trim() === '') {
+      delete formValue.breed;
+    }
 
     if (this.isEditMode && this.petId) {
       this.petService.updatePet(this.petId, formValue).subscribe({
