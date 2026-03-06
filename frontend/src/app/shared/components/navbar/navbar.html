@@ -1,66 +1,67 @@
-<div class="fixed top-0 left-0 right-0 z-50">
-  <p-menubar
-    [model]="items"
-    class="min-h-16 rounded-none px-4 sm:px-6 xl:px-8 shadow-lg bg-white/70! backdrop-blur-md! dark:bg-slate-900/60! dark:backdrop-blur-md border-0! border-b! border-white/20! dark:border-white/10!"
-  >
-    <ng-template #start>
-      <a routerLink="/" class="flex items-center gap-2">
-        <figure class="flex items-center justify-center w-9 h-9">
-          <img
-            src="/assets/images/logos/logo.png"
-            alt="Rescue Connect logo"
-            class="w-full object-cover"
+<div
+  class="fixed top-0 left-0 right-0 z-50 shadow-lg bg-white/70! backdrop-blur-md! dark:bg-slate-900/60! dark:backdrop-blur-md border-0! border-b! border-white/20! dark:border-white/10!"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 xl:px-8">
+    <p-menubar [model]="items" class="min-h-16 rounded-none border-0 bg-transparent">
+      <ng-template #start>
+        <a routerLink="/" class="flex items-center gap-2">
+          <figure class="flex items-center justify-center w-9 h-9">
+            <img
+              src="/assets/images/logos/logo.png"
+              alt="Rescue Connect logo"
+              class="w-full object-cover"
+            />
+          </figure>
+          <span class="sm:text-lg font-semibold text-surface-900 dark:text-surface-0">
+            Rescue Connect
+          </span>
+        </a>
+      </ng-template>
+
+      <ng-template #item let-item>
+        <a
+          pRipple
+          [routerLink]="item.routerLink"
+          routerLinkActive="text-primary font-medium bg-slate-100! dark:bg-slate-800!"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center px-4 py-3 gap-2 text-surface-700 dark:text-surface-300 hover:text-primary hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md! transition-colors cursor-pointer"
+        >
+          @if (item.icon) {
+          <i [class]="item.icon"></i>
+          }
+
+          <span>{{ item.label }}</span>
+        </a>
+      </ng-template>
+
+      <ng-template #end>
+        <div class="flex items-center gap-2">
+          @if (authService.isAuthenticated()) {
+          <app-nav-button
+            [label]="authService.isAdmin() ? 'Dashboard' : 'Mi perfil'"
+            [icon]="authService.isAdmin() ? 'pi pi-th-large' : 'pi pi-user'"
+            [routerLink]="authService.isAdmin() ? '/admin/dashboard' : '/profile'"
           />
-        </figure>
-        <span class="sm:text-lg font-semibold text-surface-900 dark:text-surface-0">
-          Rescue Connect
-        </span>
-      </a>
-    </ng-template>
-
-    <ng-template #item let-item>
-      <a
-        pRipple
-        [routerLink]="item.routerLink"
-        routerLinkActive="text-primary font-medium bg-slate-100! dark:bg-slate-800!"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="flex items-center px-4 py-3 gap-2 text-surface-700 dark:text-surface-300 hover:text-primary hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md! transition-colors cursor-pointer"
-      >
-        @if (item.icon) {
-        <i [class]="item.icon"></i>
-        }
-
-        <span>{{ item.label }}</span>
-      </a>
-    </ng-template>
-
-    <ng-template #end>
-      <div class="flex items-center gap-2">
-        @if (authService.isAuthenticated()) {
-        <app-nav-button
-          [label]="authService.isAdmin() ? 'Dashboard' : 'Mi perfil'"
-          [icon]="authService.isAdmin() ? 'pi pi-th-large' : 'pi pi-user'"
-          [routerLink]="authService.isAdmin() ? '/admin/dashboard' : '/profile'"
-        />
-        <app-nav-button
-          label="Salir"
-          icon="pi pi-sign-out"
-          styleClass="text-red-500!"
-          (clicked)="logout()"
-        />
-        } @else {
-        <app-nav-button label="Ingresar" icon="pi pi-sign-in" routerLink="/auth/login" />
-        }
-        <p-button
-          [text]="true"
-          [rounded]="true"
-          (onClick)="toggleTheme()"
-          [icon]="themeService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-          class="bg-gray-200/40 dark:bg-slate-800 rounded-full"
-          severity="secondary"
-          aria-label="Cambiar tema"
-        />
-      </div>
-    </ng-template>
-  </p-menubar>
+          <app-nav-button
+            label="Salir"
+            icon="pi pi-sign-out"
+            styleClass="text-red-500!"
+            (clicked)="logout()"
+          />
+          } @else {
+          <app-nav-button label="Ingresar" icon="pi pi-sign-in" routerLink="/auth/login" />
+          }
+          <p-button
+            [text]="true"
+            [rounded]="true"
+            (onClick)="toggleTheme()"
+            [icon]="themeService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+            class="bg-gray-200/40 dark:bg-slate-800 rounded-full"
+            severity="secondary"
+            aria-label="Cambiar tema"
+          />
+        </div>
+      </ng-template>
+    </p-menubar>
+  </div>
 </div>
