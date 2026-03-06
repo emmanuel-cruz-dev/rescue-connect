@@ -34,8 +34,8 @@ class AdoptionModel {
 
     if (fromDate !== undefined || toDate !== undefined) {
       filter.createdAt = {};
-      if (fromDate) filter.createdAt.$gte = fromDate;
-      if (toDate) filter.createdAt.$lte = toDate;
+      if (fromDate) filter.createdAt.$gte = new Date(fromDate);
+      if (toDate) filter.createdAt.$lte = new Date(toDate);
     }
 
     const pageNumber = Number(page);
@@ -132,7 +132,8 @@ class AdoptionModel {
       .find(filter)
       .populate("petId", "name type breed images")
       .populate("reviewedBy", "name email")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
   }
 
   async getPetRequests(petId: string | Types.ObjectId) {
@@ -140,7 +141,8 @@ class AdoptionModel {
       .find({ petId })
       .populate("userId", "name email")
       .populate("reviewedBy", "name email")
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .lean();
   }
 
   async getRequestById(requestId: string | Types.ObjectId) {
@@ -148,7 +150,8 @@ class AdoptionModel {
       .findById(requestId)
       .populate("petId", "name type breed images")
       .populate("userId", "name email")
-      .populate("reviewedBy", "name email");
+      .populate("reviewedBy", "name email")
+      .lean();
 
     if (!request) {
       throw new Error("Adoption request not found");
