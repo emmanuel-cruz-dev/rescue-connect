@@ -1,9 +1,17 @@
 <app-navbar />
-<main class="grid grid-cols-1 lg:grid-cols-2 w-full">
-  <figure class="h-full hidden lg:block opacity-70">
-    <img src="assets/images/auth/auth-banner.webp" alt="Logo" class="w-full h-full object-cover" />
-  </figure>
-  <div>
-    <router-outlet />
+<main
+  class="bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="grid grid-cols-1 lg:grid-cols-2 items-center w-full min-h-screen max-w-7xl m-auto">
+    <figure class="h-full hidden lg:block opacity-70">
+      <img
+        src="assets/images/auth/auth-banner.webp"
+        alt="Logo"
+        class="w-full h-full object-cover"
+      />
+    </figure>
+    <div>
+      <router-outlet />
+    </div>
   </div>
 </main>
