@@ -2,7 +2,7 @@ import { z } from "zod";
 import { registry } from "../docs/swagger";
 
 export const PetBodySchema = z.object({
-  name: z.string().min(2).max(50).describe("Nombre de la mascota"),
+  name: z.string().min(3).max(50).describe("Nombre de la mascota"),
   type: z.enum(["perro", "gato"]).describe("Tipo de mascota"),
   birthDate: z.coerce
     .date()
