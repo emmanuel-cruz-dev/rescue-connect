@@ -4,10 +4,11 @@ import { registry } from "../docs/swagger";
 export const UserBodySchema = z.object({
   firstName: z.string().min(3).max(50).describe("Nombre del usuario"),
   lastName: z.string().min(3).max(50).describe("Apellido del usuario"),
-  email: z.email().describe("Email del usuario"),
+  email: z.email().min(5).max(254).describe("Email del usuario"),
   password: z
     .string()
     .min(8, "La contraseña no puede ser menor de 8 caracteres")
+    .max(100, "La contraseña no puede ser más de 100 caracteres")
     .describe("Contraseña del usuario"),
   phone: z
     .string()
@@ -75,7 +76,8 @@ export const updatePasswordSchema = z.object({
     currentPassword: z.string().min(1, "La contraseña actual es requerida"),
     newPassword: z
       .string()
-      .min(8, "La nueva contraseña debe tener al menos 8 caracteres"),
+      .min(8, "La nueva contraseña debe tener al menos 8 caracteres")
+      .max(100, "La nueva contraseña no puede ser más de 100 caracteres"),
   }),
   params: UserIdSchema,
 });
