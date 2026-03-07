@@ -25,6 +25,8 @@
                 formControlName="email"
                 type="email"
                 class="w-full"
+                maxlength="254"
+                minlength="5"
                 [invalid]="isInvalid('email')"
               />
               <label for="register-email">Correo Electrónico*</label>
@@ -53,6 +55,8 @@
                 [toggleMask]="true"
                 [feedback]="true"
                 class="w-full"
+                [minlength]="8"
+                [maxlength]="100"
                 inputStyleClass="w-full"
                 [invalid]="isInvalid('password')"
                 promptLabel="Ingresa tu contraseña"
@@ -71,6 +75,10 @@
           <p-message severity="error" size="small" variant="simple">
             La contraseña debe tener al menos 8 caracteres
           </p-message>
+          } @if (registerForm.get('password')?.errors?.['maxlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            La contraseña no puede ser más de 100 caracteres
+          </p-message>
           } }
         </div>
 
@@ -86,16 +94,27 @@
                   id="firstName"
                   formControlName="firstName"
                   class="w-full"
+                  minlength="3"
+                  maxlength="50"
                   [invalid]="isInvalid('firstName')"
                 />
                 <label for="firstName">Nombre*</label>
               </p-floatlabel>
             </p-inputgroup>
-            @if (isInvalid('firstName')) {
+            @if (isInvalid('firstName')) { @if (registerForm.get('firstName')?.errors?.['required'])
+            {
             <p-message severity="error" size="small" variant="simple">
               El nombre es requerido
             </p-message>
-            }
+            } @if (registerForm.get('firstName')?.errors?.['minlength']) {
+            <p-message severity="error" size="small" variant="simple">
+              El nombre debe tener al menos 3 caracteres
+            </p-message>
+            } @if (registerForm.get('firstName')?.errors?.['maxlength']) {
+            <p-message severity="error" size="small" variant="simple">
+              El nombre no puede ser más de 50 caracteres
+            </p-message>
+            }}
           </div>
 
           <div class="flex flex-col gap-1">
@@ -109,16 +128,26 @@
                   id="lastName"
                   formControlName="lastName"
                   class="w-full"
+                  minlength="3"
+                  maxlength="50"
                   [invalid]="isInvalid('lastName')"
                 />
                 <label for="lastName">Apellido*</label>
               </p-floatlabel>
             </p-inputgroup>
-            @if (isInvalid('lastName')) {
+            @if (isInvalid('lastName')) { @if (registerForm.get('lastName')?.errors?.['required']) {
             <p-message severity="error" size="small" variant="simple">
               El apellido es requerido
             </p-message>
-            }
+            } @if (registerForm.get('lastName')?.errors?.['minlength']) {
+            <p-message severity="error" size="small" variant="simple">
+              El apellido debe tener al menos 3 caracteres
+            </p-message>
+            } @if (registerForm.get('lastName')?.errors?.['maxlength']) {
+            <p-message severity="error" size="small" variant="simple">
+              El apellido no puede ser más de 50 caracteres
+            </p-message>
+            }}
           </div>
         </div>
 
@@ -134,6 +163,8 @@
                 formControlName="phone"
                 type="tel"
                 class="w-full"
+                minlength="10"
+                maxlength="20"
                 [invalid]="isInvalid('phone')"
                 autocomplete="tel"
               />
@@ -146,9 +177,17 @@
           </p-message>
           } @if (registerForm.get('phone')?.errors?.['minlength']) {
           <p-message severity="error" size="small" variant="simple">
-            El teléfono debe tener al menos 8 dígitos
+            El teléfono debe tener al menos 10 dígitos
           </p-message>
-          } }
+          } @if (registerForm.get('phone')?.errors?.['maxlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            El teléfono no puede superar 20 caracteres
+          </p-message>
+          } @if (registerForm.get('phone')?.errors?.['pattern']) {
+          <p-message severity="error" size="small" variant="simple">
+            Ingresa un número argentino válido (ej: +54 11 4323-5554)
+          </p-message>
+          }}
         </div>
 
         <div class="flex flex-col gap-1">
@@ -161,6 +200,8 @@
                 pInputText
                 id="address"
                 formControlName="address"
+                maxlength="100"
+                minlength="5"
                 class="w-full"
                 [invalid]="isInvalid('address')"
                 autocomplete="address-line1"
@@ -168,11 +209,19 @@
               <label for="address">Dirección*</label>
             </p-floatlabel>
           </p-inputgroup>
-          @if (isInvalid('address')) {
+          @if (isInvalid('address')) { @if (registerForm.get('address')?.errors?.['required']) {
           <p-message severity="error" size="small" variant="simple">
             La dirección es requerida
           </p-message>
-          }
+          } @if (registerForm.get('address')?.errors?.['minlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            La dirección debe tener al menos 5 caracteres
+          </p-message>
+          } @if (registerForm.get('address')?.errors?.['maxlength']) {
+          <p-message severity="error" size="small" variant="simple">
+            La dirección no puede ser más de 100 caracteres
+          </p-message>
+          }}
         </div>
 
         <p-button
