@@ -21,12 +21,23 @@ export class Register {
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
     this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.minLength(8)]],
-      address: ['', Validators.required],
+      email: [
+        '',
+        [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(254)],
+      ],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(100)]],
+      firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      lastName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(20),
+          Validators.pattern(/^\+?(?:54\s?)?(?:9\s?)?(?:11|[2368]\d)[\s\-]?\d{4}[\s\-]?\d{4}$/),
+        ],
+      ],
+      address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
     });
   }
 
