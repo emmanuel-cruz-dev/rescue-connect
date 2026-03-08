@@ -94,9 +94,7 @@
                 <span class="font-semibold text-gray-800 dark:text-white text-sm">
                   {{ req.petId?.name ?? '—' }}
                 </span>
-                <span class="text-xs text-gray-400 capitalize"
-                  >{{ req.petId?.type }} · {{ req.petId?.breed }}</span
-                >
+                <span class="text-xs text-gray-400 capitalize">{{ req.petId?.type }}</span>
               </div>
             </div>
           </td>
@@ -117,7 +115,7 @@
           <td>
             @if (req.message) {
             <span
-              class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 max-w-xs block"
+              class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2! max-w-xs block"
               [pTooltip]="req.message"
               tooltipPosition="top"
             >
