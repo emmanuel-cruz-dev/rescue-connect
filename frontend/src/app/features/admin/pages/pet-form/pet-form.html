@@ -61,6 +61,7 @@
             pInputText
             formControlName="name"
             placeholder="Ej: Luna"
+            maxlength="50"
             [class.ng-invalid]="f['name'].invalid && formSubmitted()"
             [class.ng-dirty]="f['name'].invalid && formSubmitted()"
           />
@@ -159,9 +160,13 @@
             pInputText
             formControlName="description"
             rows="4"
+            maxlength="300"
             placeholder="Describe la personalidad, historia y características de la mascota..."
             class="resize-none w-full"
           ></textarea>
+          <div class="flex justify-end text-xs text-gray-400 mt-1">
+            {{ f['description'].value?.length || 0 }}/300
+          </div>
         </div>
 
         <div class="md:col-span-2">
