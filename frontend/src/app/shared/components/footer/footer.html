@@ -23,6 +23,9 @@
         <div class="flex gap-2">
           @for (social of socialLinks; track social.icon) {
           <a
+            [pTooltip]="social.label"
+            tooltipPosition="top"
+            tooltipStyleClass="max-w-md"
             [href]="social.url"
             target="_blank"
             rel="noopener noreferrer"
