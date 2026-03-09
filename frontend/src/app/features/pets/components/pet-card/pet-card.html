@@ -108,7 +108,6 @@
   </div>
 
   <ng-template #footer>
-    @if (!showAdminActions) {
     <div class="flex gap-3 mt-4">
       <p-button
         label="Ver más"
@@ -118,9 +117,8 @@
         (onClick)="viewDetails()"
       />
 
-      @if (showAdoptButton && !pet.adopted) {
+      @if (canAdopt) {
       <p-button
-        label="Adoptar"
         styleClass="flex-1 bg-pink-600! hover:bg-pink-700! border-0! text-white!"
         (onClick)="onAdopt()"
       >
@@ -131,29 +129,5 @@
       </p-button>
       }
     </div>
-    } @if (showAdminActions) {
-    <div class="flex gap-3 mt-4">
-      <p-button
-        label="Ver"
-        icon="pi pi-eye"
-        [outlined]="true"
-        styleClass="flex-1 text-sky-700 border-sky-600 hover:bg-sky-50 dark:text-sky-400 dark:border-sky-600 dark:hover:bg-sky-900/20"
-        (onClick)="viewDetails()"
-      />
-      <p-button
-        label="Editar"
-        icon="pi pi-pencil"
-        [outlined]="true"
-        styleClass="flex-1 text-gray-700 border-gray-600 hover:bg-gray-50 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-800"
-        (onClick)="onEdit()"
-      />
-      <p-button
-        icon="pi pi-trash"
-        [outlined]="true"
-        styleClass="text-red-600 border-red-600 hover:bg-red-50 dark:text-red-400 dark:border-red-600 dark:hover:bg-red-900/20"
-        (onClick)="onDelete()"
-      />
-    </div>
-    }
   </ng-template>
 </p-card>
