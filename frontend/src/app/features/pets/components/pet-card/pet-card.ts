@@ -7,6 +7,7 @@ import {
   DogIcon,
   HeartHandshakeIcon,
 } from 'lucide-angular';
+import { AuthService } from '../../../../core/services';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet } from '../../../../core/models';
 import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
@@ -18,19 +19,21 @@ import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
 })
 export class PetCard {
   @Input({ required: true }) pet!: IPet;
-  @Input() showAdoptButton = true;
-  @Input() showAdminActions = false;
 
   @Output() adopt = new EventEmitter<string>();
-  @Output() edit = new EventEmitter<string>();
-  @Output() delete = new EventEmitter<string>();
 
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   readonly CatIcon = CatIcon;
   readonly DogIcon = DogIcon;
   readonly PawPrintIcon = PawPrintIcon;
   readonly HeartHandshakeIcon = HeartHandshakeIcon;
+
+  get canAdopt(): boolean {
+    const user = this.authService.getCurrentUser();
+    return !!user && user.role === 'user' && !this.pet.adopted;
+  }
 
   get mainImage(): string {
     if (this.pet.images && this.pet.images.length > 0) {
@@ -89,13 +92,5 @@ export class PetCard {
 
   onAdopt(): void {
     this.adopt.emit(this.pet._id);
-  }
-
-  onEdit(): void {
-    this.edit.emit(this.pet._id);
-  }
-
-  onDelete(): void {
-    this.delete.emit(this.pet._id);
   }
 }
