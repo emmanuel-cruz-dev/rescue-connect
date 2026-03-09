@@ -7,7 +7,7 @@ import {
   DogIcon,
   HeartHandshakeIcon,
 } from 'lucide-angular';
-import { AuthService } from '../../../../core/services';
+import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet } from '../../../../core/models';
 import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
@@ -20,19 +20,16 @@ import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
 export class PetCard {
   @Input({ required: true }) pet!: IPet;
 
-  @Output() adopt = new EventEmitter<string>();
-
   private router = inject(Router);
-  private authService = inject(AuthService);
+  adoptionFlow = inject(AdoptionFlowService);
 
   readonly CatIcon = CatIcon;
   readonly DogIcon = DogIcon;
   readonly PawPrintIcon = PawPrintIcon;
   readonly HeartHandshakeIcon = HeartHandshakeIcon;
 
-  get canAdopt(): boolean {
-    const user = this.authService.getCurrentUser();
-    return !!user && user.role === 'user' && !this.pet.adopted;
+  get canAdopt() {
+    return this.adoptionFlow.canAdopt(this.pet);
   }
 
   get mainImage(): string {
@@ -90,7 +87,7 @@ export class PetCard {
     this.router.navigate(['/pets', this.pet._id]);
   }
 
-  onAdopt(): void {
-    this.adopt.emit(this.pet._id);
+  onAdopt() {
+    this.adoptionFlow.openDialog(this.pet);
   }
 }
