@@ -5,3 +5,10 @@
   </main>
   <app-footer />
 </div>
+<app-adoption-dialog
+  [petName]="adoptionFlow.petName()"
+  [(visible)]="adoptionFlow.dialogVisible"
+  [loading]="adoptionFlow.loading()"
+  (confirmed)="adoptionFlow.submit($event)"
+  (cancelled)="adoptionFlow.cancel()"
+/>
