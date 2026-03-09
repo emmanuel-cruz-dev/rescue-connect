@@ -49,12 +49,12 @@
 
           @if (pet()!.adopted) {
           <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span
-              class="flex items-center gap-2 bg-white text-gray-800 font-bold text-lg px-6 py-2 rounded-full shadow-lg rotate-[-8deg]"
+            <p-chip
+              class="font-bold text-lg px-6 py-2 rounded-full bg-white text-gray-800 shadow-lg rotate-[-8deg]"
             >
               ¡Ya adoptado!
               <lucide-angular [img]="PawPrintIcon" size="20" />
-            </span>
+            </p-chip>
           </div>
           }
         </div>
@@ -85,32 +85,32 @@
           enterClass="animate-enter fade-in-0 zoom-in-90 animate-duration-1000 animate-delay-600"
           class="flex flex-wrap gap-2"
         >
-          <span
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-pink-50 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 border border-pink-100 dark:border-pink-900"
+          <p-chip
+            class="font-medium text-sm flex items-center gap-1.5 rounded-full bg-pink-50 dark:bg-pink-950/40 text-pink-700! dark:text-pink-300! border border-pink-100! dark:border-pink-900!"
           >
             <i class="pi pi-calendar text-xs"></i>
             {{ getAgeLabel() }}
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
+          </p-chip>
+          <p-chip
+            class="font-medium text-sm flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700! dark:text-slate-300! border border-slate-200! dark:border-slate-700!"
           >
             <i class="pi pi-expand text-xs"></i>
             {{ getSizeLabel() }}
-          </span>
+          </p-chip>
           @if (pet()!.isVaccinated) {
-          <span
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-300 border border-green-100 dark:border-green-900"
+          <p-chip
+            class="font-medium text-sm flex items-center gap-1.5 rounded-full bg-green-50 dark:bg-green-950/40 text-green-700! dark:text-green-300! border border-green-100! dark:border-green-900!"
+            label="Vacunado"
           >
             <i class="pi pi-shield text-xs"></i>
-            Vacunado
-          </span>
+          </p-chip>
           } @if (pet()!.isSterilized) {
-          <span
-            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900"
+          <p-chip
+            class="font-medium text-sm flex items-center gap-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-700! dark:text-blue-300! border border-blue-100! dark:border-blue-900!"
+            label="Esterilizado"
           >
             <i class="pi pi-check-circle text-xs"></i>
-            Esterilizado
-          </span>
+          </p-chip>
           }
         </div>
 
@@ -144,47 +144,58 @@
           >
             Ficha
           </h2>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
+          <ul class="grid grid-cols-2 gap-4">
+            <li>
               <p class="text-xs text-gray-400 dark:text-gray-500 mb-0.5">Género</p>
               <p class="font-medium text-gray-800 dark:text-gray-200 capitalize">
                 {{ pet()!.gender }}
               </p>
-            </div>
-            <div>
+            </li>
+            <li>
               <p class="text-xs text-gray-400 dark:text-gray-500 mb-0.5">Tamaño</p>
               <p class="font-medium text-gray-800 dark:text-gray-200">{{ getSizeLabel() }}</p>
-            </div>
-            <div>
+            </li>
+            <li>
               <p class="text-xs text-gray-400 dark:text-gray-500 mb-0.5">Raza</p>
               <p class="font-medium text-gray-800 dark:text-gray-200 capitalize">
                 {{ pet()!.breed || 'Mestizo' }}
               </p>
-            </div>
-            <div>
+            </li>
+            <li>
               <p class="text-xs text-gray-400 dark:text-gray-500 mb-0.5">Especie</p>
               <p class="font-medium text-gray-800 dark:text-gray-200">
                 {{ pet()!.type === 'perro' ? 'Perro' : 'Gato' }}
               </p>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
 
-        @if (!pet()!.adopted) {
+        @if (canAdopt) {
         <p-button
           styleClass="w-full bg-pink-600! hover:bg-pink-700! border-0! text-white! py-3! text-base! font-semibold! rounded-xl!"
+          (onClick)="onAdopt()"
         >
           <ng-template pTemplate="content">
             <lucide-angular [img]="PawPrintIcon" size="20" />
             <span class="ml-2">Quiero adoptar a {{ pet()!.name }}</span>
           </ng-template>
         </p-button>
-        } @else {
+        } @else if (pet()!.adopted) {
         <div
           class="w-full text-center py-3 px-4 rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-400 font-medium border border-gray-200 dark:border-gray-700"
         >
           Este compañero ya encontró su hogar
         </div>
+        } @else if (!isLoggedIn) {
+        <p-button
+          styleClass="w-full bg-pink-600! hover:bg-pink-700! border-0! text-white! py-3! text-base! font-semibold! rounded-xl!"
+          [routerLink]="'/auth/login'"
+        >
+          <ng-template pTemplate="content">
+            <i class="pi pi-sign-in"></i>
+            <span class="ml-2">Iniciar sesión para adoptar a {{ pet()!.name }}</span>
+          </ng-template>
+        </p-button>
         }
       </div>
     </div>
