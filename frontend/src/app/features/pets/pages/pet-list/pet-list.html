@@ -130,7 +130,7 @@
           class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5"
         >
           @for (pet of pets(); track pet._id) {
-          <app-pet-card [pet]="pet" [showAdoptButton]="false" />
+          <app-pet-card [pet]="pet" />
           }
         </div>
 
