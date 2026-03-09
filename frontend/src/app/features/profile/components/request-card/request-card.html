@@ -53,7 +53,12 @@
       </div>
 
       @if (request.message) {
-      <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 italic flex-1">
+      <p
+        [pTooltip]="request.message"
+        tooltipPosition="top"
+        tooltipStyleClass="max-w-md"
+        class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 italic flex-1"
+      >
         "{{ request.message }}"
       </p>
       }
