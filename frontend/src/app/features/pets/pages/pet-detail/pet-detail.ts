@@ -1,20 +1,24 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, PawPrintIcon } from 'lucide-angular';
+import { AuthService } from '../../../../core/services';
 import { PetService } from '../../services/pet.service';
+import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
 import { PetGallery, GalleryImage } from '../../../../shared/components/pet-gallery/pet-gallery';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { PetSize } from '../../../../core/enums/pet-type.enum';
 
 @Component({
   selector: 'app-pet-detail',
-  imports: [PRIMENG_IMPORTS, LucideAngularModule, PetGallery],
+  imports: [RouterModule, LucideAngularModule, PetGallery, PRIMENG_IMPORTS],
   templateUrl: './pet-detail.html',
 })
 export class PetDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private petService = inject(PetService);
+  private authService = inject(AuthService);
+  adoptionFlow = inject(AdoptionFlowService);
 
   pet = this.petService.selectedPet;
   loading = this.petService.loading;
@@ -28,6 +32,14 @@ export class PetDetail implements OnInit {
     if (!p || !p.images?.length) return this.getPlaceholderImage();
     return p.images[this.selectedImageIndex()]?.url ?? this.getPlaceholderImage();
   });
+
+  get canAdopt() {
+    return this.adoptionFlow.canAdopt(this.pet()!);
+  }
+
+  get isLoggedIn(): boolean {
+    return !!this.authService.getCurrentUser();
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -85,6 +97,10 @@ export class PetDetail implements OnInit {
       alt: p.name,
     }));
   });
+
+  onAdopt() {
+    this.adoptionFlow.openDialog(this.pet()!);
+  }
 
   goBack(): void {
     this.router.navigate(['/pets']);
