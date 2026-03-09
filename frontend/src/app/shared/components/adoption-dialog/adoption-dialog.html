@@ -1,0 +1,67 @@
+<p-dialog
+  [visible]="visible"
+  (visibleChange)="visibleChange.emit($event); onHide()"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="w-full max-w-md!"
+  [header]="'Solicitar adopción'"
+>
+  <div class="space-y-5">
+    <div
+      class="flex items-center gap-3 p-4 rounded-xl bg-pink-50 dark:bg-pink-950/20 border border-pink-100 dark:border-pink-900"
+    >
+      <figure
+        class="w-10 h-10 rounded-full bg-pink-100 dark:bg-pink-900/50 flex items-center justify-center shrink-0"
+      >
+        <lucide-angular [img]="PawPrintIcon" size="20" class="text-pink-600 dark:text-pink-400" />
+      </figure>
+      <p class="text-sm text-gray-700 dark:text-gray-300 leading-snug">
+        Estás por solicitar adoptar a
+        <span class="font-semibold text-gray-900 dark:text-white capitalize">{{ petName }}</span
+        >. El equipo revisará tu solicitud y se pondrá en contacto en breve.
+      </p>
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        Mensaje para el equipo
+        <span class="ml-1 text-xs text-gray-400 dark:text-gray-500 font-normal">(opcional)</span>
+      </label>
+      <textarea
+        pTextarea
+        [ngModel]="message()"
+        (ngModelChange)="message.set($event)"
+        rows="4"
+        maxlength="300"
+        placeholder="Contanos un poco sobre vos, tu hogar, experiencia con mascotas..."
+        class="w-full resize-none text-sm p-2 px-3 mt-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-pink-600! focus:border-pink-600!"
+        [disabled]="loading"
+      ></textarea>
+      <div class="flex justify-end text-xs text-gray-400 mt-1">{{ message().length || 0 }}/300</div>
+    </div>
+  </div>
+
+  <ng-template #footer>
+    <div class="flex gap-3 justify-end">
+      <p-button
+        label="Cancelar"
+        [outlined]="true"
+        styleClass="border-gray-300! text-gray-600! hover:bg-gray-50! dark:border-gray-600! dark:text-gray-300! dark:hover:bg-gray-800!"
+        (onClick)="onCancel()"
+        [disabled]="loading"
+      />
+      <p-button
+        styleClass="bg-pink-600! hover:bg-pink-700! border-0! text-white!"
+        (onClick)="onConfirm()"
+        [loading]="loading"
+        [disabled]="loading"
+      >
+        <ng-template pTemplate="content">
+          {{ loading ? 'Enviando...' : 'Enviar solicitud' }}
+        </ng-template>
+      </p-button>
+    </div>
+  </ng-template>
+</p-dialog>
