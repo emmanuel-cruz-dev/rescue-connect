@@ -55,7 +55,7 @@
 
 /* --- Pet filters end --- */
 
-/* --- Pet icon start --- */
+/* --- Custom icon start --- */
 
 .custom__pet-icon {
   display: inline-block;
@@ -72,4 +72,19 @@
   mask-position: center;
 }
 
-/* --- Pet icon end --- */
+.custom__adoption-icon {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  background-color: currentColor;
+  -webkit-mask-image: url('/assets/images/icons/adoption-icon.svg');
+  mask-image: url('/assets/images/icons/adoption-icon.svg');
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* --- Custom icon end --- */
