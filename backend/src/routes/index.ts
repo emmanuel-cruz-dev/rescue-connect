@@ -6,6 +6,7 @@ import authRouter from "./auth.routes";
 import userRouter from "./user.routes";
 import petsRouter from "./pets.routes";
 import adoptionRouter from "./adoption.routes";
+import adminRouter from "./admin.routes";
 import { swaggerUiHandler, swaggerUiServe } from "../docs/swagger";
 
 const router = express();
@@ -22,5 +23,6 @@ router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/pets", petsRouter);
 router.use("/adoptions", adoptionRouter);
+router.use("/admin", adminRouter);
 
 export default router;
