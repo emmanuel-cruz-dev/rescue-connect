@@ -1,7 +1,15 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 import { ApiService } from '../../../core/services';
-import { PaginatedApiResponse, IUser, UserFilters, UserPagination } from '../../../core/models';
+import {
+  PaginatedApiResponse,
+  IUser,
+  UserFilters,
+  UserPagination,
+  ApiResponse,
+  AdoptionStatsMonthly,
+  DashboardStats,
+} from '../../../core/models';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +20,18 @@ export class AdminService {
   public users = signal<IUser[]>([]);
   public pagination = signal<UserPagination | null>(null);
   public loading = signal<boolean>(false);
+
+  getDashboardStats(): Observable<ApiResponse<DashboardStats>> {
+    return this.apiService.get<ApiResponse<DashboardStats>>('/api/v1/admin/dashboard');
+  }
+
+  getMonthlyStats(year?: number): Observable<ApiResponse<AdoptionStatsMonthly[]>> {
+    const params = year ? { year } : {};
+    return this.apiService.get<ApiResponse<AdoptionStatsMonthly[]>>(
+      '/api/v1/adoptions/stats/monthly',
+      params
+    );
+  }
 
   getAllUsers(filters?: UserFilters): Observable<PaginatedApiResponse<IUser[]>> {
     this.loading.set(true);
