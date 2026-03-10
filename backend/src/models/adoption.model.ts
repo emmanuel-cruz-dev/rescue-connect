@@ -269,6 +269,66 @@ class AdoptionModel {
       { path: "userId", select: "name email" },
     ]);
   }
+
+  async getMonthlyStats(year?: number) {
+    const targetYear = year || new Date().getFullYear();
+    const startDate = new Date(targetYear, 0, 1);
+    const endDate = new Date(targetYear + 1, 0, 1);
+
+    const stats = await adoptionRequestModel.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: startDate, $lt: endDate },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            month: { $month: "$createdAt" },
+            status: "$status",
+          },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.month",
+          statuses: {
+            $push: {
+              k: "$_id.status",
+              v: "$count",
+            },
+          },
+          total: { $sum: "$count" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          month: "$_id",
+          statuses: { $arrayToObject: "$statuses" },
+          total: 1,
+        },
+      },
+      {
+        $sort: { month: 1 },
+      },
+    ]);
+
+    const formattedStats = Array.from({ length: 12 }, (_, i) => {
+      const monthStats = stats.find((s) => s.month === i + 1);
+      return {
+        month: i + 1,
+        total: monthStats?.total || 0,
+        approved: monthStats?.statuses?.approved || 0,
+        pending: monthStats?.statuses?.pending || 0,
+        rejected: monthStats?.statuses?.rejected || 0,
+        cancelled: monthStats?.statuses?.cancelled || 0,
+      };
+    });
+
+    return formattedStats;
+  }
 }
 
 export default new AdoptionModel();
