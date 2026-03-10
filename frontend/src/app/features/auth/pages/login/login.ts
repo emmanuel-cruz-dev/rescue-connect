@@ -58,9 +58,21 @@ export class Login {
         },
         error: (error) => {
           this.isLoading = false;
+          this.formSubmitted = false;
           this.cd.detectChanges();
 
-          this.loginForm.patchValue({ password: '' });
+          const errorMessage = error?.error?.message || 'Credenciales inválidas';
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error de autenticación',
+            detail: errorMessage,
+            life: 4000,
+          });
+
+          this.loginForm.get('password')?.setValue('', { emitEvent: false });
+          this.loginForm.get('password')?.markAsUntouched();
+          this.loginForm.get('password')?.markAsPristine();
         },
       });
     } else {
