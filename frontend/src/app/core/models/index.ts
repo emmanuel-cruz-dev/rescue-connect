@@ -4,3 +4,4 @@ export * from './auth-response.model';
 export * from './auth.model';
 export * from './pet.model';
 export * from './user.model';
+export * from './dashboard.model';
