@@ -57,5 +57,11 @@ router.patch(
   validate(reviewAdoptionRequestSchema),
   adoptionController.rejectRequest
 );
+router.get(
+  "/stats/monthly",
+  authenticate,
+  authorize("admin"),
+  adoptionController.getMonthlyStats
+);
 
 export default router;
