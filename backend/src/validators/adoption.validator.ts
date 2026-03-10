@@ -51,9 +51,14 @@ export const AdoptionRequestIdParamsSchema = z.object({
   requestId: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID de solicitud inválido"),
 });
 
+export const MonthlyStatsQuerySchema = z.object({
+  year: z.coerce.number().min(2000).max(2100).optional(),
+});
+
 registry.register("CreateAdoptionRequestBody", CreateAdoptionRequestBodySchema);
 registry.register("ReviewAdoptionRequestBody", ReviewAdoptionRequestBodySchema);
 registry.register("AdoptionStatusQuery", AdoptionStatusQuerySchema);
+registry.register("MonthlyStatsQuery", MonthlyStatsQuerySchema);
 
 export const createAdoptionRequestSchema = z.object({
   params: CreateAdoptionRequestParamsSchema,
