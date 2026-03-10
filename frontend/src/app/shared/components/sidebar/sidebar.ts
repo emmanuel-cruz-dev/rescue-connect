@@ -24,10 +24,10 @@ export class Sidebar {
   currentUser = this.authService.currentUser;
 
   adminNavItems: NavItem[] = [
-    { label: 'Dashboard', icon: 'pi pi-th-large', route: '/admin/dashboard' },
+    { label: 'Dashboard', icon: 'pi pi-objects-column', route: '/admin/dashboard' },
     { label: 'Mascotas', icon: 'custom__pet-icon', route: '/admin/pets' },
     { label: 'Usuarios', icon: 'pi pi-users', route: '/admin/users' },
-    { label: 'Adopciones', icon: 'pi pi-home', route: '/admin/adoptions' },
+    { label: 'Adopciones', icon: 'custom__adoption-icon', route: '/admin/adoptions' },
     { label: 'Mi Perfil', icon: 'pi pi-user', route: '/admin/me' },
     { label: 'Seguridad', icon: 'pi pi-lock', route: '/admin/change-password' },
   ];
@@ -35,7 +35,7 @@ export class Sidebar {
   userNavItems: NavItem[] = [
     { label: 'Mi Perfil', icon: 'pi pi-user', route: '/profile/me' },
     { label: 'Mis Solicitudes', icon: 'pi pi-inbox', route: '/profile/my-requests' },
-    { label: 'Mis Adopciones', icon: 'pi pi-heart', route: '/profile/adoptions' },
+    { label: 'Mis Adopciones', icon: 'custom__adoption-icon', route: '/profile/adoptions' },
     { label: 'Seguridad', icon: 'pi pi-lock', route: '/profile/change-password' },
   ];
 
