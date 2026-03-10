@@ -184,6 +184,20 @@ class AdoptionController {
       next(err);
     }
   }
+
+  async getMonthlyStats(req: Request, res: Response, next: NextFunction) {
+    try {
+      const year = req.query.year ? parseInt(req.query.year as string, 10) : undefined;
+      const stats = await adoptionModel.getMonthlyStats(year);
+
+      res.status(200).json({
+        status: "success",
+        data: stats,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new AdoptionController();
