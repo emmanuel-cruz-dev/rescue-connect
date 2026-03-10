@@ -22,6 +22,7 @@ import {
   AdoptionRequestIdParamsSchema,
   AdoptionStatusQuerySchema,
   GetAdoptionRequestsQuerySchema,
+  MonthlyStatsQuerySchema,
 } from "../validators/adoption.validator";
 
 /* ========= SYSTEM ========= */
@@ -185,6 +186,47 @@ registry.registerPath({
     200: { description: "Mascotas obtenidas exitosamente" },
     401: { description: "No autenticado" },
     404: { description: "Usuario no encontrado" },
+  },
+});
+
+/* ========= ADMIN ========= */
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/admin/dashboard",
+  tags: ["Admin"],
+  summary: "Estadísticas del dashboard",
+  description:
+    "Obtiene estadísticas generales para el panel de administración. Solo accesible para administradores.",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: {
+      description: "Estadísticas obtenidas exitosamente",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              status: { type: "string", example: "success" },
+              data: {
+                type: "object",
+                properties: {
+                  users: { type: "number", example: 54 },
+                  pets: { type: "number", example: 32 },
+                  adopted: { type: "number", example: 18 },
+                  availablePets: { type: "number", example: 14 },
+                  pendingRequests: { type: "number", example: 6 },
+                  approvedRequests: { type: "number", example: 20 },
+                  rejectedRequests: { type: "number", example: 3 },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
   },
 });
 
@@ -880,5 +922,51 @@ registry.registerPath({
     401: { description: "No autenticado" },
     403: { description: "No autorizado (requiere rol admin)" },
     404: { description: "Solicitud no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/adoptions/stats/monthly",
+  tags: ["Adoptions"],
+  summary: "Estadísticas mensuales de adopciones (Admin)",
+  description: `Obtiene las estadísticas de solicitudes de adopción agrupadas por mes para un año específico.
+
+**Query params:**
+- year: Año a consultar (default: año actual)`,
+  security: [{ bearerAuth: [] }],
+  request: {
+    query: MonthlyStatsQuerySchema,
+  },
+  responses: {
+    200: {
+      description: "Estadísticas mensuales obtenidas exitosamente",
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              status: { type: "string", example: "success" },
+              data: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    month: { type: "number", example: 1 },
+                    total: { type: "number", example: 5 },
+                    approved: { type: "number", example: 3 },
+                    pending: { type: "number", example: 1 },
+                    rejected: { type: "number", example: 1 },
+                    cancelled: { type: "number", example: 0 },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    401: { description: "No autenticado" },
+    403: { description: "No autorizado (requiere rol admin)" },
   },
 });
