@@ -5,6 +5,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
+import { ChartModule } from 'primeng/chart';
 import { ChipModule } from 'primeng/chip';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -45,6 +46,7 @@ export const PRIMENG_IMPORTS = [
   CardModule,
   CarouselModule,
   CheckboxModule,
+  ChartModule,
   ChipModule,
   ConfirmDialogModule,
   DataViewModule,
