@@ -49,3 +49,12 @@ export interface ReviewAdoptionRequestData {
 export interface MyAdoptionRequestsResponse {
   requests: IAdoptionRequest[];
 }
+
+export interface AdoptionStatsMonthly {
+  month: number;
+  total: number;
+  approved: number;
+  pending: number;
+  rejected: number;
+  cancelled: number;
+}
