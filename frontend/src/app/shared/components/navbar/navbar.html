@@ -39,7 +39,7 @@
           @if (authService.isAuthenticated()) {
           <app-nav-button
             [label]="authService.isAdmin() ? 'Dashboard' : 'Mi perfil'"
-            [icon]="authService.isAdmin() ? 'pi pi-th-large' : 'pi pi-user'"
+            [icon]="authService.isAdmin() ? 'pi pi-objects-column' : 'pi pi-user'"
             [routerLink]="authService.isAdmin() ? '/admin/dashboard' : '/profile'"
           />
           <app-nav-button
