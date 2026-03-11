@@ -116,6 +116,17 @@ export class AuthService {
     );
   }
 
+  forgotPassword(email: string): Observable<{ status: string; message: string }> {
+    return this.apiService.post('/api/v1/auth/forgot-password', { email });
+  }
+
+  resetPassword(
+    token: string,
+    newPassword: string
+  ): Observable<{ status: string; message: string }> {
+    return this.apiService.post(`/api/v1/auth/reset-password/${token}`, { newPassword });
+  }
+
   logoutLocal(): void {
     this.clearSession();
     this.router.navigate(['/auth/login']);
