@@ -1,57 +1,236 @@
-<section class="p-6">
-  <header class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
-    <p class="text-gray-400 mt-1">
-      Bienvenido de nuevo, {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
-    </p>
+<section class="p-6 space-y-6">
+  <header class="flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
+      <p class="text-gray-400 mt-1">
+        Bienvenido de nuevo,
+        <span class="text-gray-600 dark:text-gray-300 font-medium">
+          {{ currentUser()?.firstName }} {{ currentUser()?.lastName }}
+        </span>
+      </p>
+    </div>
+
+    <p-chip
+      class="flex items-center gap-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800"
+    >
+      <i class="pi pi-calendar text-xs"></i>
+      <span class="first-letter:uppercase text-sm">
+        {{ formattedToday }}
+      </span>
+    </p-chip>
   </header>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
     @for (stat of stats; track stat.label) {
     <div
-      class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700"
+      class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4"
     >
-      <div class="flex items-center justify-between mb-4">
-        <i [class]="stat.icon + ' text-2xl ' + stat.color"></i>
-        <span class="text-3xl font-bold text-gray-800 dark:text-white">{{ stat.value }}</span>
+      <figure class="p-3 rounded-xl {{ stat.bg }} shrink-0">
+        <i [class]="stat.icon + ' text-xl ' + stat.color"></i>
+      </figure>
+      <div class="min-w-0">
+        <p class="text-2xl font-bold text-gray-800 dark:text-white leading-none">
+          {{ stat.value }}
+        </p>
+        <p class="text-gray-400 text-xs font-medium mt-1 truncate">{{ stat.label }}</p>
       </div>
-      <p class="text-gray-400 text-sm font-medium">{{ stat.label }}</p>
     </div>
     }
   </div>
 
-  <div
-    class="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-700"
-  >
-    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Acciones Rápidas</h2>
-    <div class="flex flex-wrap gap-3">
-      <p-button
-        label="Agregar Mascota"
-        icon="pi pi-plus"
-        routerLink="/admin/pets/new"
-        styleClass="text-white! bg-pink-600! hover:bg-pink-700! border-pink-600! hover:border-pink-700! font-semibold!"
-      />
-      <p-button
-        label="Ver Mascotas"
-        icon="custom__pet-icon"
-        routerLink="/admin/pets"
-        [outlined]="true"
-        styleClass="text-gray-600! dark:text-gray-300! border-gray-200! dark:border-gray-700! hover:bg-gray-50! dark:hover:bg-slate-800! font-semibold!"
-      />
-      <p-button
-        label="Ver Usuarios"
-        icon="pi pi-users"
-        routerLink="/admin/users"
-        [outlined]="true"
-        styleClass="text-gray-600! dark:text-gray-300! border-gray-200! dark:border-gray-700! hover:bg-gray-50! dark:hover:bg-slate-800! font-semibold!"
-      />
-      <p-button
-        label="Ver Adopciones"
-        icon="pi pi-home"
-        routerLink="/admin/adoptions"
-        [outlined]="true"
-        styleClass="text-gray-600! dark:text-gray-300! border-gray-200! dark:border-gray-700! hover:bg-gray-50! dark:hover:bg-slate-800! font-semibold!"
-      />
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700"
+    >
+      <div class="mb-4">
+        <h2 class="text-sm font-semibold text-gray-800 dark:text-white">Estado de Mascotas</h2>
+        <p class="text-xs text-gray-400">Adoptadas vs disponibles</p>
+      </div>
+      <div class="relative h-52 w-full">
+        <p-chart
+          type="doughnut"
+          [data]="doughnutData()"
+          [options]="doughnutOptions"
+          height="100%"
+        />
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+          style="padding-bottom: 30px"
+        >
+          <p class="text-2xl font-bold text-gray-800 dark:text-white leading-none">
+            {{ totalPets() }}
+          </p>
+          <p class="text-[10px] text-gray-400 uppercase tracking-wider">Mascotas</p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700"
+    >
+      <div class="flex items-start justify-between mb-4">
+        <div>
+          <h2 class="text-sm font-semibold text-gray-800 dark:text-white">
+            Solicitudes de Adopción
+          </h2>
+          <p class="text-xs text-gray-400">Métricas por estado</p>
+        </div>
+        <span
+          class="text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2.5 py-1 rounded-lg shrink-0"
+        >
+          {{ currentMonthRequests() }} este mes
+        </span>
+      </div>
+      <div class="h-52">
+        <p-chart type="bar" [data]="barData()" [options]="barOptions" class="w-full h-full" />
+      </div>
+    </div>
+
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700"
+    >
+      <div class="flex items-start justify-between mb-4">
+        <div>
+          <h2 class="text-sm font-semibold text-gray-800 dark:text-white">Solicitudes Mensuales</h2>
+          <p class="text-xs text-gray-400">Evolución de solicitudes en el año</p>
+        </div>
+        <span
+          class="text-xs font-semibold text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-900/20 px-2.5 py-1 rounded-lg shrink-0"
+        >
+          {{ totalYearAdoptions() }} este año
+        </span>
+      </div>
+      <div class="h-52 w-full">
+        <p-chart type="line" [data]="lineData()" [options]="lineOptions" height="100%" />
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+    <div
+      class="xl:col-span-2 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
+    >
+      <div
+        class="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between"
+      >
+        <h2 class="text-base font-semibold text-gray-800 dark:text-white">
+          Últimas solicitudes de adopción
+        </h2>
+        <a
+          routerLink="/admin/adoptions"
+          class="flex items-center gap-2 text-sm font-medium text-pink-500 dark:text-pink-400 hover:text-pink-600 dark:hover:text-pink-500 transition-colors duration-300"
+          >Ver todas
+          <i class="pi pi-arrow-right text-sm"></i>
+        </a>
+      </div>
+
+      <p-table [value]="recentAdoptions()" [rows]="5" stripedRows showGridlines rowHover>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Mascota</th>
+            <th>Solicitante</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-adoption>
+          <tr>
+            <td class="font-medium text-gray-700 dark:text-gray-200 text-sm">
+              {{ adoption.petId.name }}
+            </td>
+            <td class="text-sm text-gray-500 dark:text-gray-300">
+              {{ adoption.userId.email }}
+            </td>
+            <td class="text-sm text-gray-500 dark:text-gray-300">
+              {{ adoption.createdAt | date : 'dd/MM/yyyy' }}
+            </td>
+            <td>
+              <p-tag
+                [value]="getStatusLabel(adoption.status)"
+                [severity]="getStatusSeverity(adoption.status)"
+                class="text-xs"
+              />
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="4">
+              <div class="flex flex-col items-center justify-center py-10 text-center">
+                <i class="pi pi-inbox text-2xl text-gray-300 dark:text-gray-600 mb-2"></i>
+                <p class="text-sm text-gray-400">Sin solicitudes recientes</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div
+      class="bg-white dark:bg-slate-900 rounded-2xl p-5 shadow-sm border border-gray-100 dark:border-gray-700"
+    >
+      <h2 class="text-sm font-semibold text-gray-800 dark:text-white mb-4">Acciones Rápidas</h2>
+      <div class="flex flex-col gap-2">
+        <a
+          routerLink="/admin/pets/new"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl bg-pink-600 hover:bg-pink-700 text-white transition-colors group"
+        >
+          <div class="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+            <i class="pi pi-plus text-xs"></i>
+          </div>
+          <span class="text-sm font-semibold">Agregar Mascota</span>
+          <i
+            class="pi pi-arrow-right text-xs ml-auto opacity-60 group-hover:opacity-100 transition-opacity"
+          ></i>
+        </a>
+
+        <a
+          routerLink="/admin/pets"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors group"
+        >
+          <div
+            class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
+          >
+            <i class="custom__pet-icon text-xs text-gray-500 dark:text-gray-400"></i>
+          </div>
+          <span class="text-sm font-medium">Ver Mascotas</span>
+          <i
+            class="pi pi-arrow-right text-xs ml-auto opacity-0 group-hover:opacity-60 transition-opacity"
+          ></i>
+        </a>
+
+        <a
+          routerLink="/admin/users"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors group"
+        >
+          <div
+            class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
+          >
+            <i class="pi pi-users text-xs text-gray-500 dark:text-gray-400"></i>
+          </div>
+          <span class="text-sm font-medium">Ver Usuarios</span>
+          <i
+            class="pi pi-arrow-right text-xs ml-auto opacity-0 group-hover:opacity-60 transition-opacity"
+          ></i>
+        </a>
+
+        <a
+          routerLink="/admin/adoptions"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors group"
+        >
+          <div
+            class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
+          >
+            <i class="custom__adoption-icon text-xs text-gray-500 dark:text-gray-400"></i>
+          </div>
+          <span class="text-sm font-medium">Ver Adopciones</span>
+          <i
+            class="pi pi-arrow-right text-xs ml-auto opacity-0 group-hover:opacity-60 transition-opacity"
+          ></i>
+        </a>
+      </div>
     </div>
   </div>
 </section>
