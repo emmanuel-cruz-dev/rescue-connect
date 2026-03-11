@@ -41,7 +41,6 @@ const userSchema = new mongoose.Schema<IUserDocument>(
       required: [true, "La contraseña es obligatoria"],
       trim: true,
       minlength: [8, "La contraseña debe tener al menos 8 caracteres"],
-      maxlength: [50, "La contraseña no puede superar 50 caracteres"],
       select: false,
     },
     phone: {
@@ -71,6 +70,12 @@ const userSchema = new mongoose.Schema<IUserDocument>(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
     },
   },
   {
