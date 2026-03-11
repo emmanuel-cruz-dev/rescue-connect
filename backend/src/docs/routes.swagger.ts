@@ -3,6 +3,9 @@ import {
   LoginBodySchema,
   RegisterBodySchema,
   ChangePasswordBodySchema,
+  ForgotPasswordBodySchema,
+  ResetPasswordBodySchema,
+  ResetPasswordParamsSchema,
 } from "../validators/auth.validator";
 import {
   UserBodySchema,
@@ -186,6 +189,51 @@ registry.registerPath({
     200: { description: "Mascotas obtenidas exitosamente" },
     401: { description: "No autenticado" },
     404: { description: "Usuario no encontrado" },
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/api/v1/auth/forgot-password",
+  tags: ["Auth"],
+  summary: "Solicitar recuperación de contraseña",
+  description:
+    "Envía un correo con un enlace para restablecer la contraseña. Siempre responde con éxito para no revelar si el email existe.",
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: ForgotPasswordBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "Correo enviado (si el email está registrado)" },
+    400: { description: "Datos inválidos" },
+  },
+});
+
+registry.registerPath({
+  method: "post",
+  path: "/api/v1/auth/reset-password/{token}",
+  tags: ["Auth"],
+  summary: "Restablecer contraseña",
+  description:
+    "Restablece la contraseña usando el token recibido por correo. El token expira en 1 hora.",
+  request: {
+    params: ResetPasswordParamsSchema,
+    body: {
+      content: {
+        "application/json": {
+          schema: ResetPasswordBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "Contraseña actualizada exitosamente" },
+    400: { description: "Token inválido o expirado" },
   },
 });
 
