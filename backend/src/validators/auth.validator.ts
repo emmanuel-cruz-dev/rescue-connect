@@ -84,3 +84,37 @@ export const updateUserSchema = z.object({
 export const changePasswordSchema = z.object({
   body: ChangePasswordBodySchema,
 });
+
+export const ForgotPasswordBodySchema = z.object({
+  email: z.email("Email inválido").toLowerCase().describe("Email del usuario"),
+});
+
+export const ResetPasswordBodySchema = z.object({
+  newPassword: z
+    .string()
+    .min(8, "La nueva contraseña debe tener al menos 8 caracteres")
+    .max(100, "La nueva contraseña no puede superar 100 caracteres")
+    .describe("Nueva contraseña (mínimo 8 caracteres)"),
+});
+
+export const ResetPasswordParamsSchema = z.object({
+  token: z
+    .string()
+    .min(1, "El token es obligatorio")
+    .describe("Token de recuperación recibido por email"),
+});
+
+registry.register("ForgotPasswordBody", ForgotPasswordBodySchema);
+registry.register("ResetPasswordBody", ResetPasswordBodySchema);
+registry.register("ResetPasswordParams", ResetPasswordParamsSchema);
+
+export const forgotPasswordSchema = z.object({
+  body: ForgotPasswordBodySchema,
+});
+
+export const resetPasswordSchema = z.object({
+  body: ResetPasswordBodySchema,
+  params: z.object({
+    token: z.string().min(1, "El token es obligatorio"),
+  }),
+});
