@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import crypto from "crypto";
+import emailService from "../services/email.service";
 import authModel from "../models/auth.model";
 import { JWTUtils } from "../utils/jwt.utils";
 import { IAuthResponse, IUserResponse } from "../types";
@@ -225,6 +227,61 @@ class AuthController {
         count: pets.length,
       });
     } catch (error) {
+      next(error);
+    }
+  }
+
+  async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      const user = await authModel.findByEmail(email);
+
+      if (!user) {
+        return res.status(200).json({
+          status: "success",
+          message:
+            "Si el correo está registrado, recibirás un enlace de recuperación.",
+        });
+      }
+
+      const resetToken = crypto.randomBytes(32).toString("hex");
+      const resetPasswordExpire = new Date(Date.now() + 60 * 60 * 1000);
+
+      await authModel.saveResetToken(email, resetToken, resetPasswordExpire);
+
+      await emailService.sendPasswordResetEmail(email, resetToken);
+
+      res.status(200).json({
+        status: "success",
+        message:
+          "Si el correo está registrado, recibirás un enlace de recuperación.",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { token } = req.params;
+      const { newPassword } = req.body;
+
+      await authModel.verifyResetTokenAndUpdatePassword(token, newPassword);
+
+      res.status(200).json({
+        status: "success",
+        message: "Contraseña actualizada exitosamente",
+      });
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message === "Token inválido o expirado"
+      ) {
+        return res.status(400).json({
+          status: "error",
+          message: error.message,
+        });
+      }
       next(error);
     }
   }
