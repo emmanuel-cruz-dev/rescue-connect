@@ -11,6 +11,8 @@ export interface IUser {
   isActive: boolean;
   createdAt?: string;
   updatedAt?: string;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
 }
 
 export interface UserFilters {
