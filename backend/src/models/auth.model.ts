@@ -104,6 +104,34 @@ class AuthModel {
     const pets = await petModel.find({ adoptedBy: userId });
     return pets;
   }
+
+  async saveResetToken(email: string, token: string, expire: Date) {
+    const user = await userModel.findOneAndUpdate(
+      { email },
+      { resetPasswordToken: token, resetPasswordExpires: expire },
+      { new: true }
+    );
+    if (!user) throw new Error("User not found");
+    return user;
+  }
+
+  async verifyResetTokenAndUpdatePassword(token: string, newPassword: string) {
+    const user = await userModel
+      .findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: new Date() },
+      })
+      .select("+password");
+
+    if (!user) throw new Error("Token inválido o expirado");
+
+    user.password = newPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    return user;
+  }
 }
 
 export default new AuthModel();
