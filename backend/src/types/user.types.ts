@@ -11,6 +11,8 @@ export interface IUser {
   address: string;
   role: UserRole;
   isActive: boolean;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
 }
 
 export interface IUserDocument extends Omit<IUser, "password">, Document {
