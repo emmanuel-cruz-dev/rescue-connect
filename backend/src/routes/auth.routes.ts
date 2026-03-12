@@ -19,6 +19,7 @@ router.post("/reset-password/:token", validate(resetPasswordSchema), authControl
 
 router.get("/profile", authenticate, authController.getProfile);
 router.put("/profile", authenticate, authController.updateProfile);
+router.delete("/profile", authenticate, authController.deleteAccount);
 router.post(
   "/change-password",
   authenticate,
