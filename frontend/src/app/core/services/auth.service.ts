@@ -132,6 +132,15 @@ export class AuthService {
     this.router.navigate(['/auth/login']);
   }
 
+  deleteAccount(): Observable<ApiResponse<void>> {
+    return this.apiService.delete<ApiResponse<void>>('/api/v1/auth/profile').pipe(
+      tap(() => {
+        this.clearSession();
+        this.router.navigate(['/auth/login']);
+      })
+    );
+  }
+
   getMyPets(): Observable<ApiResponse<{ pets: IPet[] }>> {
     return this.apiService.get<ApiResponse<{ pets: IPet[] }>>('/api/v1/auth/my-pets');
   }
