@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+
 import { AuthService, ThemeService } from '../../../core/services';
 import { NavButton } from './nav-button/nav-button';
 import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
@@ -11,9 +12,19 @@ import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
   templateUrl: './navbar.html',
 })
 export class Navbar implements OnInit {
-  items: MenuItem[] = [];
+  authService = inject(AuthService);
+  themeService = inject(ThemeService);
 
-  constructor(public authService: AuthService, public themeService: ThemeService) {}
+  items: MenuItem[] = [];
+  userMenuItems: MenuItem[] = [];
+
+  get userInitials(): string {
+    const user = this.authService.getCurrentUser();
+    if (!user?.firstName || !user?.lastName) return '';
+
+    const parts = [user.firstName, user.lastName].map((p) => p[0]).join('');
+    return parts.toUpperCase();
+  }
 
   ngOnInit() {
     this.items = [
@@ -26,6 +37,29 @@ export class Navbar implements OnInit {
         label: 'Mascotas',
         icon: 'custom__pet-icon',
         routerLink: '/pets',
+      },
+    ];
+
+    this.userMenuItems = [
+      {
+        label: 'Dashboard',
+        icon: 'pi pi-objects-column',
+        routerLink: '/admin/dashboard',
+        visible: this.authService.isAdmin(),
+      },
+      {
+        label: 'Mi perfil',
+        icon: 'pi pi-user',
+        routerLink: '/profile',
+        visible: !this.authService.isAdmin(),
+      },
+      {
+        separator: true,
+      },
+      {
+        label: 'Salir',
+        icon: 'pi pi-sign-out',
+        command: () => this.logout(),
       },
     ];
   }
