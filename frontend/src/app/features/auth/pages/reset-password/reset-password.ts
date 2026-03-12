@@ -8,7 +8,6 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { MessageService } from 'primeng/api';
 
 import { AuthService } from '../../../../core/services';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
@@ -29,7 +28,6 @@ function passwordMatchValidator(control: AbstractControl): ValidationErrors | nu
 })
 export class ResetPassword implements OnInit {
   private authService = inject(AuthService);
-  private messageService = inject(MessageService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private fb = inject(FormBuilder);
@@ -75,12 +73,7 @@ export class ResetPassword implements OnInit {
       },
       error: (error) => {
         this.isLoading.set(false);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: error?.error?.message || 'Token inválido o expirado',
-          life: 5000,
-        });
+        throw new Error(error?.error?.message || 'Token inválido o expirado');
       },
     });
   }
