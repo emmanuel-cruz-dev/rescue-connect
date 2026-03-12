@@ -9,6 +9,7 @@ import {
   IUserResponse,
   IPaginatedResponse,
 } from "../types";
+import petsModel from "../schemas/pets.schema";
 
 const PUBLIC_FIELDS = "-password";
 
@@ -116,6 +117,21 @@ class UsersModel {
   }
 
   async delete(id: string | Types.ObjectId): Promise<IUserDocument> {
+    await adoptionRequestModel.deleteMany({
+      userId: id,
+      status: { $in: ["pending", "cancelled", "rejected"] },
+    });
+
+    await adoptionRequestModel.updateMany(
+      { userId: id, status: "approved" },
+      { $set: { userId: null } }
+    );
+
+    await petsModel.updateMany(
+      { adoptedBy: id },
+      { $set: { adoptedBy: null } }
+    );
+
     const user = await userModel
       .findByIdAndDelete({ _id: id })
       .select(PUBLIC_FIELDS);
@@ -123,16 +139,6 @@ class UsersModel {
     if (!user) {
       throw new Error("User not found");
     }
-
-    await adoptionRequestModel.deleteMany({
-      userId: id,
-      status: { $in: ["pending", "cancelled"] },
-    });
-
-    await adoptionRequestModel.updateMany(
-      { userId: id, status: { $in: ["approved", "rejected"] } },
-      { $set: { userId: null } }
-    );
 
     return user;
   }
