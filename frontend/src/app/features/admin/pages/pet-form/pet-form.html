@@ -243,16 +243,56 @@
           Agregar nuevas imágenes
         </p>
         <p-fileupload
+          #fu
           mode="advanced"
           [multiple]="true"
           accept="image/*"
           [auto]="false"
-          chooseLabel="Seleccionar imágenes"
-          [showUploadButton]="false"
-          [showCancelButton]="false"
           (onSelect)="onFilesSelected($event)"
           styleClass="w-full"
-        />
+        >
+          <ng-template #content let-files let-removeFileCallback="removeFileCallback">
+            <div
+              class="flex flex-col items-center justify-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50/50 dark:bg-slate-800/50 hover:border-pink-400 hover:bg-pink-50/30 transition-all cursor-pointer mb-4"
+              (click)="fu.choose()"
+            >
+              <i class="pi pi-cloud-upload text-4xl text-pink-500 mb-3"></i>
+              <p class="text-lg font-medium text-gray-700 dark:text-gray-200 text-center">
+                Arrastra y suelta las imágenes aquí
+              </p>
+              <p class="text-sm text-gray-400 text-center">o haz clic para explorar tus archivos</p>
+            </div>
+
+            @if (files && files.length > 0) {
+            <div
+              class="flex flex-wrap gap-4 mt-4 p-4 bg-white dark:bg-slate-900 rounded-lg border border-gray-100 dark:border-gray-800"
+            >
+              @for (file of files; track file.name; let i = $index) {
+              <div
+                class="relative group w-28 h-28 rounded-xl overflow-hidden shadow-sm border border-gray-200"
+              >
+                <img [src]="file.objectURL" class="w-full h-full object-cover" />
+                <div
+                  class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+                >
+                  <button
+                    type="button"
+                    (click)="$event.stopPropagation(); removeFileCallback(i)"
+                    class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 shadow-lg cursor-pointer"
+                  >
+                    <i class="pi pi-trash text-xs"></i>
+                  </button>
+                </div>
+              </div>
+              }
+            </div>
+            }
+          </ng-template>
+
+          <ng-template #header let-files let-chooseCallback="chooseCallback">
+            <div class="hidden"></div>
+          </ng-template>
+        </p-fileupload>
       </div>
     </div>
     } @else {
@@ -269,16 +309,56 @@
         Seleccioná imágenes para subir junto con la mascota (opcional).
       </p>
       <p-fileupload
+        #fu
         mode="advanced"
         [multiple]="true"
         accept="image/*"
         [auto]="false"
-        chooseLabel="Seleccionar imágenes"
-        [showUploadButton]="false"
-        [showCancelButton]="false"
         (onSelect)="onFilesSelected($event)"
         styleClass="w-full"
-      />
+      >
+        <ng-template #content let-files let-removeFileCallback="removeFileCallback">
+          <div
+            class="flex flex-col items-center justify-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50/50 dark:bg-slate-800/50 hover:border-pink-400 hover:bg-pink-50/30 transition-all cursor-pointer mb-4"
+            (click)="fu.choose()"
+          >
+            <i class="pi pi-cloud-upload text-4xl text-pink-500 mb-3"></i>
+            <p class="text-lg font-medium text-gray-700 dark:text-gray-200 text-center">
+              Arrastra y suelta las imágenes aquí
+            </p>
+            <p class="text-sm text-gray-400 text-center">o haz clic para explorar tus archivos</p>
+          </div>
+
+          @if (files && files.length > 0) {
+          <div
+            class="flex flex-wrap gap-4 mt-4 p-4 bg-white dark:bg-slate-900 rounded-lg border border-gray-100 dark:border-gray-800"
+          >
+            @for (file of files; track file.name; let i = $index) {
+            <div
+              class="relative group w-28 h-28 rounded-xl overflow-hidden shadow-sm border border-gray-200"
+            >
+              <img [src]="file.objectURL" class="w-full h-full object-cover" />
+              <div
+                class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+              >
+                <button
+                  type="button"
+                  (click)="$event.stopPropagation(); removeFileCallback(i)"
+                  class="bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-red-600 shadow-lg cursor-pointer"
+                >
+                  <i class="pi pi-trash text-xs"></i>
+                </button>
+              </div>
+            </div>
+            }
+          </div>
+          }
+        </ng-template>
+
+        <ng-template #header let-files let-chooseCallback="chooseCallback">
+          <div class="hidden"></div>
+        </ng-template>
+      </p-fileupload>
     </div>
     }
 
