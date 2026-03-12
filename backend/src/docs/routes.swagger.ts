@@ -143,6 +143,21 @@ registry.registerPath({
 });
 
 registry.registerPath({
+  method: "delete",
+  path: "/api/v1/auth/profile",
+  tags: ["Auth"],
+  summary: "Eliminar cuenta",
+  description:
+    "Elimina permanentemente la cuenta del usuario autenticado y anonimiza su historial de adopciones",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: { description: "Cuenta eliminada exitosamente" },
+    401: { description: "No autenticado" },
+    404: { description: "Usuario no encontrado" },
+  },
+});
+
+registry.registerPath({
   method: "post",
   path: "/api/v1/auth/change-password",
   tags: ["Auth"],
