@@ -172,6 +172,26 @@ class AuthController {
     }
   }
 
+  async deleteAccount(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.user) {
+        return res.status(401).json({
+          status: "error",
+          message: "No autenticado",
+        });
+      }
+
+      await authModel.deleteAccount(req.user.userId);
+
+      res.status(200).json({
+        status: "success",
+        message: "Cuenta eliminada exitosamente",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async changePassword(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.user) {
