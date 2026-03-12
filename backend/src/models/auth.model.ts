@@ -1,5 +1,6 @@
 import userModel from "../schemas/auth.schema";
 import petModel from "../schemas/pets.schema";
+import adoptionRequestModel from "../schemas/adoption.schema";
 import { IUser, IUserDocument } from "../types";
 
 class AuthModel {
@@ -129,6 +130,30 @@ class AuthModel {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.save();
+
+    return user;
+  }
+
+  async deleteAccount(userId: string) {
+    await adoptionRequestModel.deleteMany({
+      userId,
+      status: { $in: ["pending", "cancelled", "rejected"] },
+    });
+
+    await adoptionRequestModel.updateMany(
+      { userId, status: "approved" },
+      { $set: { userId: null } }
+    );
+
+    await petModel.updateMany(
+      { adoptedBy: userId },
+      { $set: { adoptedBy: null } }
+    );
+
+    const user = await userModel.findByIdAndDelete(userId);
+    if (!user) {
+      throw new Error("User not found");
+    }
 
     return user;
   }
