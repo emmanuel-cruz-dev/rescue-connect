@@ -140,7 +140,11 @@
               {{ adoption.petId.name }}
             </td>
             <td class="text-sm text-gray-500 dark:text-gray-300">
+              @if (adoption.userId) {
               {{ adoption.userId.email }}
+              } @else {
+              <span class="text-xs text-gray-400 italic">Usuario eliminado</span>
+              }
             </td>
             <td class="text-sm text-gray-500 dark:text-gray-300">
               {{ adoption.createdAt | date : 'dd/MM/yyyy' }}
