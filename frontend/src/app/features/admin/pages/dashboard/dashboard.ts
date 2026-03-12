@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { PawPrintIcon, LucideAngularModule } from 'lucide-angular';
+
 import { AuthService } from '../../../../core/services';
 import { AdminService } from '../../services/admin.service';
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
@@ -12,17 +13,21 @@ type StatusSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [RouterModule, PRIMENG_IMPORTS, LucideAngularModule],
+  imports: [RouterModule, LucideAngularModule, PRIMENG_IMPORTS],
   templateUrl: './dashboard.html',
 })
 export class Dashboard implements OnInit {
   private authService = inject(AuthService);
   private adminService = inject(AdminService);
   private adoptionService = inject(AdoptionService);
+
   readonly PawPrintIcon = PawPrintIcon;
+  readonly today = new Date();
+  readonly formattedToday = new Intl.DateTimeFormat('es-AR', {
+    dateStyle: 'full',
+  }).format(this.today);
 
   currentUser = this.authService.currentUser;
-
   totalUsers = signal(0);
   totalPets = signal(0);
   totalAdopted = signal(0);
@@ -32,11 +37,17 @@ export class Dashboard implements OnInit {
   totalRejected = signal(0);
   monthlyStats = signal<any[]>([]);
   adoptions = signal<any[]>([]);
-  today = new Date();
 
-  formattedToday = new Intl.DateTimeFormat('es-AR', {
-    dateStyle: 'full',
-  }).format(this.today);
+  totalYearAdoptions = computed(() => this.monthlyStats().reduce((sum, m) => sum + m.total, 0));
+  currentMonthRequests = computed(() => {
+    const month = new Date().getMonth() + 1;
+    return this.monthlyStats().find((m) => m.month === month)?.total ?? 0;
+  });
+  recentAdoptions = computed(() =>
+    this.adoptions().sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+  );
 
   doughnutData = computed(() => ({
     labels: ['Adoptadas', 'Disponibles'],
@@ -49,7 +60,6 @@ export class Dashboard implements OnInit {
       },
     ],
   }));
-
   barData = computed(() => ({
     labels: ['Pendientes', 'Aprobadas', 'Rechazadas'],
     datasets: [
@@ -63,7 +73,6 @@ export class Dashboard implements OnInit {
       },
     ],
   }));
-
   lineData = computed(() => {
     const stats = this.monthlyStats();
     return {
@@ -107,20 +116,6 @@ export class Dashboard implements OnInit {
     };
   });
 
-  lineOptions = {
-    plugins: { legend: { position: 'bottom' } },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: { stepSize: 1, precision: 0 },
-        grid: { color: 'rgba(0,0,0,0.05)' },
-      },
-      x: { grid: { display: false } },
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-  };
-
   doughnutOptions = {
     cutout: '70%',
     plugins: {
@@ -132,7 +127,6 @@ export class Dashboard implements OnInit {
     responsive: true,
     maintainAspectRatio: false,
   };
-
   barOptions = {
     plugins: {
       legend: { display: false },
@@ -141,11 +135,24 @@ export class Dashboard implements OnInit {
       y: {
         beginAtZero: true,
         ticks: { stepSize: 1, precision: 0 },
-        grid: { color: 'rgba(0,0,0,0.05)' },
+        grid: { display: true, color: 'rgba(148, 163, 184, 0.1)' },
       },
       x: {
-        grid: { display: false },
+        grid: { display: true, color: 'rgba(148, 163, 184, 0.1)' },
       },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+  lineOptions = {
+    plugins: { legend: { position: 'bottom' } },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1, precision: 0 },
+        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+      },
+      x: { grid: { display: true, color: 'rgba(148, 163, 184, 0.1)' } },
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -183,19 +190,6 @@ export class Dashboard implements OnInit {
       },
     ];
   }
-
-  totalYearAdoptions = computed(() => this.monthlyStats().reduce((sum, m) => sum + m.total, 0));
-
-  currentMonthRequests = computed(() => {
-    const month = new Date().getMonth() + 1;
-    return this.monthlyStats().find((m) => m.month === month)?.total ?? 0;
-  });
-
-  recentAdoptions = computed(() =>
-    this.adoptions().sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    )
-  );
 
   getStatusSeverity(status: AdoptionStatus): StatusSeverity {
     const map: Record<AdoptionStatus, StatusSeverity> = {
