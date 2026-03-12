@@ -35,22 +35,30 @@
       </ng-template>
 
       <ng-template #end>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-3">
           @if (authService.isAuthenticated()) {
-          <app-nav-button
-            [label]="authService.isAdmin() ? 'Dashboard' : 'Mi perfil'"
-            [icon]="authService.isAdmin() ? 'pi pi-objects-column' : 'pi pi-user'"
-            [routerLink]="authService.isAdmin() ? '/admin/dashboard' : '/profile'"
-          />
-          <app-nav-button
-            label="Salir"
-            icon="pi pi-sign-out"
-            styleClass="text-red-500!"
-            (clicked)="logout()"
-          />
+          <p-menu #userMenu [model]="userMenuItems" [popup]="true"></p-menu>
+
+          <button
+            type="button"
+            (click)="userMenu.toggle($event)"
+            class="relative flex items-center justify-center p-0 border-none bg-transparent cursor-pointer group"
+          >
+            <p-avatar
+              [label]="userInitials"
+              shape="circle"
+              class="font-medium bg-pink-500 text-white w-[2.3rem] h-[2.3rem] shadow-sm"
+            ></p-avatar>
+            <div
+              class="absolute -bottom-1.25 -right-2 flex items-center justify-center w-5 h-5 bg-slate-200 dark:bg-slate-800 rounded-full border-2 border-white dark:border-slate-900 shadow-sm group-hover:bg-slate-200 dark:group-hover:bg-slate-700 transition-colors"
+            >
+              <i class="pi pi-chevron-down text-[9px] pt-0.5 text-surface-700 dark:text-white!"></i>
+            </div>
+          </button>
           } @else {
           <app-nav-button label="Ingresar" icon="pi pi-sign-in" routerLink="/auth/login" />
           }
+
           <p-button
             [text]="true"
             [rounded]="true"
