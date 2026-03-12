@@ -19,7 +19,8 @@ class EmailService {
 
     const html = renderTemplate("resetPassword", {
       resetUrl,
-      title: "Recuperar contraseña",
+      title: "Restablecer contraseña",
+      preview: "Haz clic para restablecer tu contraseña",
     });
 
     const mailOptions = {
