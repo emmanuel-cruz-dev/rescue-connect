@@ -1,68 +1,34 @@
 import { z } from "zod";
+
 import { registry } from "../docs/swagger";
+import {
+  EmailField,
+  PasswordField,
+  FirstNameField,
+  LastNameField,
+  PhoneField,
+  AddressField,
+  MongoIdSchema,
+  ChangePasswordBody,
+} from "./shared.validator";
 
 export const LoginBodySchema = z.object({
-  email: z.email("Email inválido").toLowerCase().describe("Email del usuario"),
-  password: z
-    .string()
-    .min(1, "La contraseña es obligatoria")
-    .describe("Contraseña del usuario"),
+  email: EmailField,
+  password: PasswordField,
 });
 
 export const RegisterBodySchema = z.object({
-  email: z.email("Email inválido").toLowerCase().describe("Email del usuario"),
-  password: z
-    .string()
-    .min(8, "La contraseña debe tener al menos 8 caracteres")
-    .max(100, "La contraseña no puede superar 100 caracteres")
-    .describe("Contraseña del usuario (mínimo 8 caracteres)"),
-  firstName: z
-    .string()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(50, "El nombre no puede superar 50 caracteres")
-    .trim()
-    .describe("Nombre del usuario"),
-  lastName: z
-    .string()
-    .min(2, "El apellido debe tener al menos 2 caracteres")
-    .max(50, "El apellido no puede superar 50 caracteres")
-    .trim()
-    .describe("Apellido del usuario"),
-  phone: z
-    .string()
-    .min(8, "El número de teléfono debe tener al menos 8 caracteres")
-    .trim()
-    .regex(
-      /^\+?(?:54\s?)?(?:9\s?)?(?:11|[2368]\d)[\s\-]?\d{4}[\s\-]?\d{4}$/,
-      "Teléfono inválido. Ingrese un número argentino válido (ej: +54 11 4323-5554)"
-    )
-    .describe("Número de teléfono"),
-  address: z
-    .string()
-    .min(2, "La dirección debe tener al menos 2 caracteres")
-    .max(200, "La dirección no puede superar 200 caracteres")
-    .trim()
-    .describe("Dirección del usuario"),
+  email: EmailField,
+  password: PasswordField,
+  firstName: FirstNameField,
+  lastName: LastNameField,
+  phone: PhoneField,
+  address: AddressField,
 });
 
-export const UserIdSchema = z.object({
-  id: z
-    .string()
-    .regex(/^[0-9a-fA-F]{24}$/, "ID de MongoDB inválido")
-    .describe("ID del usuario"),
-});
+export const UserIdSchema = MongoIdSchema;
 
-export const ChangePasswordBodySchema = z.object({
-  currentPassword: z
-    .string()
-    .min(1, "La contraseña actual es obligatoria")
-    .describe("Contraseña actual"),
-  newPassword: z
-    .string()
-    .min(8, "La nueva contraseña debe tener al menos 8 caracteres")
-    .max(100, "La nueva contraseña no puede superar 100 caracteres")
-    .describe("Nueva contraseña (mínimo 8 caracteres)"),
-});
+export const ChangePasswordBodySchema = ChangePasswordBody;
 
 registry.register("LoginBody", LoginBodySchema);
 registry.register("RegisterBody", RegisterBodySchema);
@@ -86,15 +52,11 @@ export const changePasswordSchema = z.object({
 });
 
 export const ForgotPasswordBodySchema = z.object({
-  email: z.email("Email inválido").toLowerCase().describe("Email del usuario"),
+  email: EmailField,
 });
 
 export const ResetPasswordBodySchema = z.object({
-  newPassword: z
-    .string()
-    .min(8, "La nueva contraseña debe tener al menos 8 caracteres")
-    .max(100, "La nueva contraseña no puede superar 100 caracteres")
-    .describe("Nueva contraseña (mínimo 8 caracteres)"),
+  newPassword: PasswordField.describe("Nueva contraseña (mínimo 8 caracteres)"),
 });
 
 export const ResetPasswordParamsSchema = z.object({

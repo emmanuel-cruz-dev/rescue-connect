@@ -1,31 +1,29 @@
 import { z } from "zod";
+
 import { registry } from "../docs/swagger";
+import {
+  EmailField,
+  PasswordField,
+  FirstNameField,
+  LastNameField,
+  PhoneField,
+  AddressField,
+  MongoIdSchema,
+  ChangePasswordBody,
+} from "./shared.validator";
 
 export const UserBodySchema = z.object({
-  firstName: z.string().min(3).max(50).describe("Nombre del usuario"),
-  lastName: z.string().min(3).max(50).describe("Apellido del usuario"),
-  email: z.email().min(5).max(254).describe("Email del usuario"),
-  password: z
-    .string()
-    .min(8, "La contraseña no puede ser menor de 8 caracteres")
-    .max(100, "La contraseña no puede ser más de 100 caracteres")
-    .describe("Contraseña del usuario"),
-  phone: z
-    .string()
-    .trim()
-    .regex(
-      /^\+?(?:54\s?)?(?:9\s?)?(?:11|[2368]\d)[\s\-]?\d{4}[\s\-]?\d{4}$/,
-      "Teléfono inválido. Ingrese un número argentino válido (ej: +54 11 4323-5554)"
-    )
-    .describe("Teléfono del usuario"),
-  address: z.string().min(5).max(100).describe("Dirección del usuario"),
+  firstName: FirstNameField,
+  lastName: LastNameField,
+  email: EmailField,
+  password: PasswordField,
+  phone: PhoneField,
+  address: AddressField,
   role: z.enum(["admin", "user"]).default("user").describe("Rol del usuario"),
   isActive: z.boolean().default(true).describe("Si el usuario está activo"),
 });
 
-export const UserIdSchema = z.object({
-  id: z.string().regex(/^[0-9a-fA-F]{24}$/, "ID de usuario inválido"),
-});
+export const UserIdSchema = MongoIdSchema;
 
 export const GetUsersQuerySchema = z.object({
   page: z.coerce
@@ -72,13 +70,7 @@ export const updateUserSchema = z.object({
 });
 
 export const updatePasswordSchema = z.object({
-  body: z.object({
-    currentPassword: z.string().min(1, "La contraseña actual es requerida"),
-    newPassword: z
-      .string()
-      .min(8, "La nueva contraseña debe tener al menos 8 caracteres")
-      .max(100, "La nueva contraseña no puede ser más de 100 caracteres"),
-  }),
+  body: ChangePasswordBody,
   params: UserIdSchema,
 });
 
