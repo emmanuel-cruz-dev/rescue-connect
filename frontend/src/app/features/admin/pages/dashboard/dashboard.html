@@ -1,7 +1,7 @@
 <section class="p-6 space-y-6">
-  <header class="flex items-center justify-between">
-    <div>
-      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
+  <header class="flex items-center justify-center sm:justify-between">
+    <div class="text-center sm:text-left">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">Dashboard</h1>
       <p class="text-gray-400 mt-1">
         Bienvenido de nuevo,
         <span class="text-gray-600 dark:text-gray-300 font-medium">
@@ -11,7 +11,7 @@
     </div>
 
     <p-chip
-      class="flex items-center gap-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800"
+      class="hidden sm:flex items-center gap-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-800"
     >
       <i class="pi pi-calendar text-xs"></i>
       <span class="first-letter:uppercase text-sm">
@@ -181,10 +181,10 @@
           routerLink="/admin/pets/new"
           class="flex items-center gap-3 px-4 py-3 rounded-xl bg-pink-600 hover:bg-pink-700 text-white transition-colors group"
         >
-          <div class="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+          <figure class="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
             <i class="pi pi-plus text-xs"></i>
-          </div>
-          <span class="text-sm font-semibold">Agregar Mascota</span>
+          </figure>
+          <p class="text-sm font-semibold">Agregar Mascota</p>
           <i
             class="pi pi-arrow-right text-xs ml-auto opacity-60 group-hover:opacity-100 transition-opacity"
           ></i>
@@ -194,12 +194,12 @@
           routerLink="/admin/pets"
           class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors group"
         >
-          <div
+          <figure
             class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
           >
             <i class="custom__pet-icon text-xs text-gray-500 dark:text-gray-400"></i>
-          </div>
-          <span class="text-sm font-medium">Ver Mascotas</span>
+          </figure>
+          <p class="text-sm font-medium">Ver Mascotas</p>
           <i
             class="pi pi-arrow-right text-xs ml-auto opacity-0 group-hover:opacity-60 transition-opacity"
           ></i>
@@ -209,12 +209,12 @@
           routerLink="/admin/users"
           class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors group"
         >
-          <div
+          <figure
             class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
           >
             <i class="pi pi-users text-xs text-gray-500 dark:text-gray-400"></i>
-          </div>
-          <span class="text-sm font-medium">Ver Usuarios</span>
+          </figure>
+          <p class="text-sm font-medium">Ver Usuarios</p>
           <i
             class="pi pi-arrow-right text-xs ml-auto opacity-0 group-hover:opacity-60 transition-opacity"
           ></i>
@@ -224,12 +224,12 @@
           routerLink="/admin/adoptions"
           class="flex items-center gap-3 px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300 transition-colors group"
         >
-          <div
+          <figure
             class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-slate-700 flex items-center justify-center shrink-0"
           >
             <i class="custom__adoption-icon text-xs text-gray-500 dark:text-gray-400"></i>
-          </div>
-          <span class="text-sm font-medium">Ver Adopciones</span>
+          </figure>
+          <p class="text-sm font-medium">Ver Adopciones</p>
           <i
             class="pi pi-arrow-right text-xs ml-auto opacity-0 group-hover:opacity-60 transition-opacity"
           ></i>
