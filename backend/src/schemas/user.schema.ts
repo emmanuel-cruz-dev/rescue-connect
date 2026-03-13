@@ -1,67 +1,118 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+
 import { IUserDocument } from "../types";
+import { config } from "../config/env";
+
+const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
 
 const userSchema = new Schema<IUserDocument>(
   {
     firstName: {
       type: String,
-      required: true,
+      required: [true, "El nombre es obligatorio"],
       trim: true,
-      minlength: 3,
-      maxlength: 50,
+      minlength: [3, "El nombre debe tener al menos 3 caracteres"],
+      maxlength: [50, "El nombre no puede superar 50 caracteres"],
+      match: [nameRegex, "El nombre solo puede contener letras"],
     },
     lastName: {
       type: String,
-      required: true,
+      required: [true, "El apellido es obligatorio"],
       trim: true,
-      minlength: 3,
-      maxlength: 50,
+      minlength: [3, "El apellido debe tener al menos 3 caracteres"],
+      maxlength: [50, "El apellido no puede superar 50 caracteres"],
+      match: [nameRegex, "El apellido solo puede contener letras"],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "El email es obligatorio"],
       trim: true,
       unique: true,
       lowercase: true,
-      minlength: 5,
-      maxlength: 254,
+      minlength: [5, "El email debe tener al menos 5 caracteres"],
+      maxlength: [254, "El email no puede superar 254 caracteres"],
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Por favor ingrese un email válido",
+      ],
     },
-    password: { type: String, required: true },
+    password: {
+      type: String,
+      required: [true, "La contraseña es obligatoria"],
+      trim: true,
+      minlength: [8, "La contraseña debe tener al menos 8 caracteres"],
+      select: false,
+    },
     phone: {
       type: String,
-      required: true,
+      required: [true, "El número de teléfono es obligatorio"],
       trim: true,
-      minlength: 10,
-      maxlength: 20,
+      match: [
+        /^[0-9+\s()-]+$/,
+        "El número de teléfono contiene caracteres inválidos",
+      ],
+      minlength: [8, "El número de teléfono debe tener al menos 8 caracteres"],
+      maxlength: [50, "El número de teléfono no puede superar 50 caracteres"],
     },
     address: {
       type: String,
-      required: true,
       trim: true,
-      minlength: 5,
-      maxlength: 100,
+      maxlength: [200, "La dirección no puede superar 200 caracteres"],
     },
-    role: { type: String, enum: ["admin", "user"], default: "user" },
-    isActive: { type: Boolean, default: true },
-    resetPasswordToken: { type: String },
-    resetPasswordExpires: { type: Date },
+    role: {
+      type: String,
+      enum: {
+        values: ["admin", "user"],
+        message: "{VALUE} no es un rol válido",
+      },
+      default: "user",
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    resetPasswordToken: {
+      type: String,
+    },
+    resetPasswordExpires: {
+      type: Date,
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-userSchema.methods.comparePassword = async function (candidate: string) {
-  return await bcrypt.compare(candidate, this.password);
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+
+  try {
+    const salt = await bcrypt.genSalt(config.bcryptRounds);
+    this.password = await bcrypt.hash(this.password, salt);
+    return;
+  } catch (error: any) {
+    throw new Error("Error al guardar la contraseña");
+  }
+});
+
+userSchema.methods.comparePassword = async function (
+  candidatePassword: string
+): Promise<boolean> {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
+
+userSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.password;
+  return obj;
 };
 
 userSchema.index({ role: 1 });
 userSchema.index({ isActive: 1 });
 userSchema.index({ role: 1, isActive: 1 });
-
 userSchema.index({ firstName: 1 });
 userSchema.index({ lastName: 1 });
-
 userSchema.index({ createdAt: -1 });
 
-export default mongoose.models.User ||
-  mongoose.model<IUserDocument>("User", userSchema);
+export default mongoose.model<IUserDocument>("User", userSchema);
