@@ -20,14 +20,14 @@
       ]"
     >
       <ng-template let-testimonial #item>
-        <div class="pb-5 px-3 h-full">
+        <div class="pb-5 sm:px-3 h-full">
           <div
             class="relative bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 h-full flex flex-col justify-between hover:shadow-lg transition-all duration-300 group"
           >
             <div
-              class="absolute top-6 right-8 text-pink-100 dark:text-gray-700 group-hover:text-pink-200 transition-colors"
+              class="absolute top-6 right-8 text-pink-100/50 dark:text-gray-700/50 group-hover:text-pink-200/50 transition-colors"
             >
-              <i class="pi pi-quote text-6xl"></i>
+              <lucide-angular [img]="QuoteIcon" class="w-15 h-15"></lucide-angular>
             </div>
 
             <div class="relative z-10">
