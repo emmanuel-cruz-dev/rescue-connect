@@ -43,7 +43,7 @@
   } @else {
   <form [formGroup]="petForm" (ngSubmit)="onSubmit()" novalidate>
     <div
-      class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
+      class="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
     >
       <h2
         class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2"
@@ -54,16 +54,19 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="flex flex-col gap-1">
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label for="name" class="text-sm font-medium text-gray-700 dark:text-gray-300">
             Nombre <span class="text-red-500">*</span>
           </label>
           <input
+            id="name"
+            name="name"
             pInputText
             formControlName="name"
             placeholder="Ej: Luna"
             maxlength="50"
             [class.ng-invalid]="f['name'].invalid && formSubmitted()"
             [class.ng-dirty]="f['name'].invalid && formSubmitted()"
+            autocomplete="name"
           />
           @if (f['name'].invalid && formSubmitted()) {
           <small class="text-red-500">
@@ -74,9 +77,9 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <p id="type-label" class="text-sm font-medium text-gray-700 dark:text-gray-300">
             Tipo <span class="text-red-500">*</span>
-          </label>
+          </p>
           <p-select
             formControlName="type"
             [options]="petTypeOptions"
@@ -86,6 +89,7 @@
             class="w-full"
             [class.ng-invalid]="f['type'].invalid && formSubmitted()"
             [class.ng-dirty]="f['type'].invalid && formSubmitted()"
+            ariaLabelledby="type-label"
           />
           @if (f['type'].invalid && formSubmitted()) {
           <small class="text-red-500">El tipo es obligatorio.</small>
@@ -93,10 +97,12 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label for="birthDate" class="text-sm font-medium text-gray-700 dark:text-gray-300">
             Fecha de nacimiento <span class="text-red-500">*</span>
           </label>
           <p-datepicker
+            inputId="birthDate"
+            name="birthDate"
             formControlName="birthDate"
             [showIcon]="true"
             dateFormat="dd/mm/yy"
@@ -112,10 +118,11 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <p id="gender-label" class="text-sm font-medium text-gray-700 dark:text-gray-300">
             Género <span class="text-red-500">*</span>
-          </label>
+          </p>
           <p-select
+            ariaLabelledBy="gender-label"
             formControlName="gender"
             [options]="genderOptions"
             optionLabel="label"
@@ -131,10 +138,11 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <p id="size-label" class="text-sm font-medium text-gray-700 dark:text-gray-300">
             Tamaño <span class="text-red-500">*</span>
-          </label>
+          </p>
           <p-select
+            ariaLabelledBy="size-label"
             formControlName="size"
             [options]="sizeOptions"
             optionLabel="label"
@@ -150,13 +158,25 @@
         </div>
 
         <div class="flex flex-col gap-1">
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Raza</label>
-          <input pInputText formControlName="breed" placeholder="Ej: Labrador" />
+          <label for="breed" class="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Raza</label
+          >
+          <input
+            id="breed"
+            name="breed"
+            pInputText
+            formControlName="breed"
+            placeholder="Ej: Labrador"
+          />
         </div>
 
         <div class="md:col-span-2 flex flex-col gap-1">
-          <label class="text-sm font-medium text-gray-700 dark:text-gray-300"> Descripción </label>
+          <label for="description" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+            Descripción
+          </label>
           <textarea
+            id="description"
+            name="description"
             pInputText
             formControlName="description"
             rows="4"
@@ -197,7 +217,7 @@
 
     @if (isEditMode) {
     <div
-      class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
+      class="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
     >
       <h2
         class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2"
@@ -297,7 +317,7 @@
     </div>
     } @else {
     <div
-      class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
+      class="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-100 dark:border-gray-700 mb-6"
     >
       <h2
         class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2"
