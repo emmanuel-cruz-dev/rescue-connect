@@ -26,6 +26,7 @@
   <div class="pet-filters__content flex-1 overflow-y-auto px-6 py-5 space-y-6">
     <div>
       <label
+        for="search"
         class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2"
       >
         <span>Buscador</span>
@@ -34,6 +35,8 @@
       <span class="p-input-icon-left w-full">
         <input
           pInputText
+          id="search"
+          name="search"
           type="text"
           placeholder="Nombre, raza, descripción..."
           [value]="searchValue()"
@@ -46,9 +49,9 @@
     <hr class="border-gray-100 dark:border-gray-800" />
 
     <div>
-      <label
+      <span
         class="block text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2"
-        >Categoría</label
+        >Categoría</span
       >
       <div class="flex flex-wrap gap-2">
         @for (type of petTypes; track type.value) {
@@ -69,9 +72,9 @@
     </div>
 
     <div>
-      <label
+      <span
         class="block text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2"
-        >Género</label
+        >Género</span
       >
       <div class="flex flex-wrap gap-2">
         @for (gender of genderOptions; track gender.value) {
@@ -92,9 +95,9 @@
     </div>
 
     <div>
-      <label
+      <span
         class="block text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2"
-        >Tamaño</label
+        >Tamaño</span
       >
       <div class="grid grid-cols-2 gap-2">
         @for (size of sizeOptions; track size.value) {
@@ -114,13 +117,15 @@
     </div>
 
     <div>
-      <label
+      <span
         class="block text-[11px] font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2"
-        >Edad (Años)</label
+        >Edad (Años)</span
       >
       <div class="flex items-center gap-3">
         <input
           pInputText
+          id="minAge"
+          name="minAge"
           type="number"
           placeholder="Min"
           class="w-full text-center border-gray-200! dark:border-gray-700! dark:bg-slate-800!"
@@ -130,6 +135,8 @@
         <span class="text-gray-300">-</span>
         <input
           pInputText
+          id="maxAge"
+          name="maxAge"
           type="number"
           placeholder="Max"
           class="w-full text-center border-gray-200! dark:border-gray-700! dark:bg-slate-800!"
