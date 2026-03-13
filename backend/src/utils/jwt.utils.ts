@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+
 import { config } from "../config/env";
-import { IJWTPayload } from "../types/user.types";
+import { IJWTPayload } from "../types";
 
 export class JWTUtils {
   static generateToken(payload: IJWTPayload): string {
