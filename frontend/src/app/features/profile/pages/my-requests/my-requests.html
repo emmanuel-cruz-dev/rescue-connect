@@ -1,8 +1,10 @@
 <p-confirm-dialog />
 
 <section class="p-6">
-  <header class="mb-8">
-    <h1 class="flex items-center gap-2 text-3xl font-bold text-gray-800 dark:text-white">
+  <header class="mb-8 text-center sm:text-left">
+    <h1
+      class="flex items-center justify-center sm:justify-normal gap-2 text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white"
+    >
       Mis Solicitudes @if (requests().length > 0) {
       <span class="text-2xl font-semibold"> ({{ requests().length }}) </span>
       }
