@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import adoptionRequestModel from "../schemas/adoption.schema";
 import petModel from "../schemas/pets.schema";
-import userModel from "../schemas/auth.schema";
+import userModel from "../schemas/user.schema";
 import {
   AdoptionStatus,
   IAdoptionQueryParams,
