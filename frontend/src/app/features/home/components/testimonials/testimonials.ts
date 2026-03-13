@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LucideAngularModule, QuoteIcon } from 'lucide-angular';
+
 import { SectionHeader } from '../section-header/section-header';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
@@ -12,10 +14,12 @@ interface Testimonial {
 
 @Component({
   selector: 'app-testimonials',
-  imports: [SectionHeader, PRIMENG_IMPORTS],
+  imports: [LucideAngularModule, SectionHeader, PRIMENG_IMPORTS],
   templateUrl: './testimonials.html',
 })
 export class Testimonials {
+  readonly QuoteIcon = QuoteIcon;
+
   testimonials: Testimonial[] = [
     {
       name: 'María González',
