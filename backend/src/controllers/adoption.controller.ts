@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import adoptionModel from "../models/adoption.model";
+
+import { adoptionModel } from "../models";
 import { AdoptionStatus, IAdoptionQueryParams } from "../types";
 
 class AdoptionController {
@@ -187,7 +188,9 @@ class AdoptionController {
 
   async getMonthlyStats(req: Request, res: Response, next: NextFunction) {
     try {
-      const year = req.query.year ? parseInt(req.query.year as string, 10) : undefined;
+      const year = req.query.year
+        ? parseInt(req.query.year as string, 10)
+        : undefined;
       const stats = await adoptionModel.getMonthlyStats(year);
 
       res.status(200).json({
