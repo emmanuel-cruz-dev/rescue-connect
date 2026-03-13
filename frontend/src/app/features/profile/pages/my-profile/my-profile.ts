@@ -1,25 +1,26 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
+
 import { AuthService } from '../../../../core/services';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { UpdateProfileData } from '../../../../core/models';
 
 @Component({
   selector: 'app-my-profile',
-  imports: [PRIMENG_IMPORTS, ReactiveFormsModule],
-  providers: [MessageService],
+  imports: [ReactiveFormsModule, PRIMENG_IMPORTS],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './my-profile.html',
 })
 export class MyProfile implements OnInit {
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
 
   currentUser = this.authService.currentUser;
   isEditing = signal(false);
   isLoading = signal(false);
-
   profileForm!: FormGroup;
 
   ngOnInit(): void {
@@ -34,8 +35,19 @@ export class MyProfile implements OnInit {
       phone: [user?.phone || ''],
       address: [user?.address || ''],
     });
-
     this.clearServerErrorsOnChange();
+  }
+
+  private clearServerErrorsOnChange(): void {
+    ['firstName', 'lastName', 'phone', 'address'].forEach((field) => {
+      this.profileForm.get(field)?.valueChanges.subscribe(() => {
+        const control = this.profileForm.get(field);
+        if (control?.hasError('serverError')) {
+          const { serverError, ...remainingErrors } = control.errors || {};
+          control.setErrors(Object.keys(remainingErrors).length ? remainingErrors : null);
+        }
+      });
+    });
   }
 
   startEditing(): void {
@@ -75,6 +87,44 @@ export class MyProfile implements OnInit {
     });
   }
 
+  confirmDeleteAccount(event: Event): void {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message:
+        '¿Estás seguro de que querés eliminar tu cuenta? Esta acción no se puede deshacer y perderás todos tus datos.',
+      header: 'Confirmar eliminación de cuenta',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      rejectButtonStyleClass: 'p-button-text p-button-sm',
+      acceptLabel: 'Sí, eliminar',
+      rejectLabel: 'Cancelar',
+      accept: () => {
+        this.deleteAccount();
+      },
+    });
+  }
+
+  private deleteAccount(): void {
+    this.authService.deleteAccount().subscribe({
+      next: () => {},
+      error: (error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: error?.error?.message || 'Hubo un error al eliminar la cuenta.',
+          life: 3000,
+        });
+      },
+    });
+  }
+
+  hasError(field: string, error: string): boolean {
+    const control = this.profileForm.get(field);
+    return !!(control?.hasError(error) && control?.touched);
+  }
+
   private applyServerErrors(httpError: any): void {
     const errors = httpError?.error.errors;
     if (Array.isArray(errors)) {
@@ -86,22 +136,5 @@ export class MyProfile implements OnInit {
         }
       });
     }
-  }
-
-  hasError(field: string, error: string): boolean {
-    const control = this.profileForm.get(field);
-    return !!(control?.hasError(error) && control?.touched);
-  }
-
-  private clearServerErrorsOnChange(): void {
-    ['firstName', 'lastName', 'phone', 'address'].forEach((field) => {
-      this.profileForm.get(field)?.valueChanges.subscribe(() => {
-        const control = this.profileForm.get(field);
-        if (control?.hasError('serverError')) {
-          const { serverError, ...remainingErrors } = control.errors || {};
-          control.setErrors(Object.keys(remainingErrors).length ? remainingErrors : null);
-        }
-      });
-    });
   }
 }
