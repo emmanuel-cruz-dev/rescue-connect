@@ -228,10 +228,9 @@ export class Dashboard implements OnInit {
         this.totalRejected.set(d.rejectedRequests);
         this.monthlyStats.set(monthly.data);
         this.adoptions.set(this.adoptionService.requests());
-        console.log(this.adoptions());
       },
-      error: (err) => {
-        console.error('Error fetching dashboard data:', err);
+      error: () => {
+        throw new Error('Error al obtener estadísticas');
       },
     });
   }
