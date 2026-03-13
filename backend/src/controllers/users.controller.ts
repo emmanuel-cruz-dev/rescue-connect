@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import usersModel from "../models/user.model";
+import { userModel } from "../models";
 import { IUserQueryParams } from "../types";
 
 class UsersController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const queryParams = req.query as unknown as IUserQueryParams;
-      const result = await usersModel.getAll(queryParams);
+      const result = await userModel.getAll(queryParams);
 
       res.status(200).json({
         status: "success",
@@ -21,7 +21,7 @@ class UsersController {
   async getById(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const user = await usersModel.findById(id);
+      const user = await userModel.findById(id);
       res.status(200).json({ status: "success", data: { user } });
     } catch (err) {
       next(err);
@@ -30,7 +30,7 @@ class UsersController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const newUser = await usersModel.create(req.body);
+      const newUser = await userModel.create(req.body);
       res.status(201).json({ status: "success", data: { user: newUser } });
     } catch (err) {
       next(err);
@@ -40,7 +40,7 @@ class UsersController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const updatedUser = await usersModel.update(id, req.body);
+      const updatedUser = await userModel.update(id, req.body);
       res.status(200).json({ status: "success", data: { user: updatedUser } });
     } catch (err) {
       next(err);
@@ -51,7 +51,7 @@ class UsersController {
     try {
       const { id } = req.params;
       const { currentPassword, newPassword } = req.body;
-      await usersModel.updatePassword(id, currentPassword, newPassword);
+      await userModel.updatePassword(id, currentPassword, newPassword);
       res.status(200).json({
         status: "success",
         message: "Contraseña actualizada exitosamente",
@@ -72,7 +72,7 @@ class UsersController {
         });
       }
 
-      const user = await usersModel.deactivate(id);
+      const user = await userModel.deactivate(id);
       res.status(200).json({ status: "success", data: { user } });
     } catch (err) {
       next(err);
@@ -90,7 +90,7 @@ class UsersController {
         });
       }
 
-      const userToDelete = await usersModel.findById(id);
+      const userToDelete = await userModel.findById(id);
 
       if (!userToDelete) {
         return res.status(404).json({
@@ -100,7 +100,7 @@ class UsersController {
       }
 
       if (userToDelete.role === "admin") {
-        const adminCount = await usersModel.count({ role: "admin" });
+        const adminCount = await userModel.count({ role: "admin" });
 
         if (adminCount <= 1) {
           return res.status(400).json({
@@ -110,7 +110,7 @@ class UsersController {
         }
       }
 
-      await usersModel.delete(id);
+      await userModel.delete(id);
 
       res.status(200).json({
         status: "success",

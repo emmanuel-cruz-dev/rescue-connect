@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import crypto from "crypto";
+
 import emailService from "../services/email.service";
-import authModel from "../models/auth.model";
+import { authModel } from "../models";
 import { JWTUtils } from "../utils/jwt.utils";
 import { IAuthResponse, IUserResponse } from "../types";
 

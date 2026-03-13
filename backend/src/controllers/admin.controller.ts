@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import adminModel from "../models/admin.model";
+
+import { adminModel } from "../models";
 
 class AdminController {
   async getDashboardStats(req: Request, res: Response, next: NextFunction) {

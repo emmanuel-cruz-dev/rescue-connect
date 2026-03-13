@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import petsModel from "../models/pets.model";
+
+import { petsModel } from "../models";
 import { IPetQueryParams } from "../types";
 
 class PetsController {
