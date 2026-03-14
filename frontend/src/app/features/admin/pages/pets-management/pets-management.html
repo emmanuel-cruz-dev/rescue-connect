@@ -1,8 +1,10 @@
 <section class="p-6">
-  <header class="flex items-center justify-between mb-8">
+  <header class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
     <div>
-      <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Gestión de Mascotas</h1>
-      <p class="text-gray-400 mt-1">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white">
+        Gestión de Mascotas
+      </h1>
+      <p class="text-gray-400 mt-1 text-center sm:text-left">
         @if (pagination()) {
         {{ pagination()!.totalItems }} mascotas en total } @else { Administra el catálogo de
         mascotas }
@@ -28,6 +30,8 @@
             <i class="pi pi-search"></i>
           </p-inputgroup-addon>
           <input
+            id="search"
+            name="search"
             pInputText
             placeholder="Buscar por nombre"
             type="text"
