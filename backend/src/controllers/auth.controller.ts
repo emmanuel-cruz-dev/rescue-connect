@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import crypto from "crypto";
 
 import emailService from "../services/email.service";
-import { authModel } from "../models";
+import { authModel, userModel } from "../models";
 import { JWTUtils } from "../utils/jwt.utils";
 import { IAuthResponse, IUserResponse } from "../types";
 
@@ -180,6 +180,19 @@ class AuthController {
           status: "error",
           message: "No autenticado",
         });
+      }
+
+      const user = await authModel.findById(req.user.userId);
+
+      if (user.role === "admin") {
+        const adminCount = await userModel.count({ role: "admin" });
+        if (adminCount <= 1) {
+          return res.status(400).json({
+            status: "error",
+            message:
+              "No se puede eliminar la cuenta: eres el último administrador",
+          });
+        }
       }
 
       await authModel.deleteAccount(req.user.userId);
