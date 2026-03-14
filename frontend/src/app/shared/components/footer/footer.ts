@@ -28,8 +28,8 @@ export class Footer {
     ],
     help: [
       { label: 'Contacto', url: '/contact' },
-      { label: 'Términos de uso', url: '/terms' },
-      { label: 'Política de privacidad', url: '/privacy' },
+      { label: 'Términos de uso', url: '/legal/terms' },
+      { label: 'Política de privacidad', url: '/legal/privacy' },
     ],
   };
 }
