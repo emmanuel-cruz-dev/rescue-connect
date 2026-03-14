@@ -167,6 +167,7 @@
             pInputText
             formControlName="breed"
             placeholder="Ej: Labrador"
+            maxlength="50"
           />
         </div>
 
@@ -224,6 +225,12 @@
       >
         <i class="pi pi-images text-pink-500"></i>
         Imágenes
+        <span
+          class="ml-auto text-sm font-normal"
+          [class]="totalImagesCount() >= MAX_IMAGES ? 'text-red-500' : 'text-gray-400'"
+        >
+          {{ totalImagesCount() }}/{{ MAX_IMAGES }}
+        </span>
       </h2>
 
       @if (currentImages().length > 0) {
@@ -268,10 +275,22 @@
           [multiple]="true"
           accept="image/*"
           [auto]="false"
-          (onSelect)="onFilesSelected($event)"
+          [disabled]="totalImagesCount() >= MAX_IMAGES"
+          (onSelect)="onFilesSelected()"
+          (onRemove)="onFileRemoved()"
           styleClass="w-full"
         >
           <ng-template #content let-files let-removeFileCallback="removeFileCallback">
+            @if (totalImagesCount() >= MAX_IMAGES) {
+            <div
+              class="flex flex-col items-center justify-center p-10 border-2 border-dashed border-red-200 rounded-xl bg-red-50/30"
+            >
+              <i class="pi pi-ban text-4xl text-red-400 mb-3"></i>
+              <p class="text-sm font-medium text-red-500 text-center">
+                Límite de {{ MAX_IMAGES }} imágenes alcanzado
+              </p>
+            </div>
+            } @else {
             <div
               class="flex flex-col items-center justify-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50/50 dark:bg-slate-800/50 hover:border-pink-400 hover:bg-pink-50/30 transition-all cursor-pointer mb-4"
               (click)="fu.choose()"
@@ -282,8 +301,7 @@
               </p>
               <p class="text-sm text-gray-400 text-center">o haz clic para explorar tus archivos</p>
             </div>
-
-            @if (files && files.length > 0) {
+            } @if (files && files.length > 0) {
             <div
               class="flex flex-wrap gap-4 mt-4 p-4 bg-white dark:bg-slate-900 rounded-lg border border-gray-100 dark:border-gray-800"
             >
@@ -324,6 +342,12 @@
       >
         <i class="pi pi-images text-pink-500"></i>
         Imágenes
+        <span
+          class="ml-auto text-sm font-normal"
+          [class]="totalImagesCount() >= MAX_IMAGES ? 'text-red-500' : 'text-gray-400'"
+        >
+          {{ totalImagesCount() }}/{{ MAX_IMAGES }}
+        </span>
       </h2>
       <p class="text-sm text-gray-400 mb-4">
         Seleccioná imágenes para subir junto con la mascota (opcional).
@@ -334,10 +358,22 @@
         [multiple]="true"
         accept="image/*"
         [auto]="false"
-        (onSelect)="onFilesSelected($event)"
+        [disabled]="totalImagesCount() >= MAX_IMAGES"
+        (onSelect)="onFilesSelected()"
+        (onRemove)="onFileRemoved()"
         styleClass="w-full"
       >
         <ng-template #content let-files let-removeFileCallback="removeFileCallback">
+          @if (totalImagesCount() >= MAX_IMAGES) {
+          <div
+            class="flex flex-col items-center justify-center p-10 border-2 border-dashed border-red-200 rounded-xl bg-red-50/30"
+          >
+            <i class="pi pi-ban text-4xl text-red-400 mb-3"></i>
+            <p class="text-sm font-medium text-red-500 text-center">
+              Límite de {{ MAX_IMAGES }} imágenes alcanzado
+            </p>
+          </div>
+          } @else {
           <div
             class="flex flex-col items-center justify-center p-10 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50/50 dark:bg-slate-800/50 hover:border-pink-400 hover:bg-pink-50/30 transition-all cursor-pointer mb-4"
             (click)="fu.choose()"
@@ -348,8 +384,7 @@
             </p>
             <p class="text-sm text-gray-400 text-center">o haz clic para explorar tus archivos</p>
           </div>
-
-          @if (files && files.length > 0) {
+          } @if (files && files.length > 0) {
           <div
             class="flex flex-wrap gap-4 mt-4 p-4 bg-white dark:bg-slate-900 rounded-lg border border-gray-100 dark:border-gray-800"
           >
