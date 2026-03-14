@@ -1,7 +1,9 @@
-import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { FileUpload } from 'primeng/fileupload';
+
 import { PetService } from '../../../pets/services/pet.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPetImage } from '../../../../core/models';
@@ -9,8 +11,8 @@ import { IPetImage } from '../../../../core/models';
 @Component({
   selector: 'app-pet-form',
   imports: [RouterModule, ReactiveFormsModule, PRIMENG_IMPORTS],
-  templateUrl: './pet-form.html',
   providers: [MessageService],
+  templateUrl: './pet-form.html',
 })
 export class PetForm implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
@@ -19,6 +21,7 @@ export class PetForm implements OnInit, OnDestroy {
   private petService = inject(PetService);
   private messageService = inject(MessageService);
   private timeoutRef: ReturnType<typeof setTimeout> | null = null;
+  readonly MAX_IMAGES = 5;
 
   isEditMode = !!this.route.snapshot.paramMap.get('id');
   petId = this.route.snapshot.paramMap.get('id');
@@ -27,7 +30,7 @@ export class PetForm implements OnInit, OnDestroy {
   loadingPet = signal(false);
   formSubmitted = signal(false);
   currentImages = signal<IPetImage[]>([]);
-  pendingFiles: File[] = [];
+  @ViewChild('fu') fileUpload!: FileUpload;
   today = new Date();
 
   petTypeOptions = [
@@ -53,11 +56,33 @@ export class PetForm implements OnInit, OnDestroy {
     birthDate: [null, Validators.required],
     gender: [null, Validators.required],
     size: [null, Validators.required],
-    breed: [''],
+    breed: ['', [Validators.maxLength(50)]],
     description: [''],
     isSterilized: [false],
     isVaccinated: [false],
   });
+
+  totalImagesCount = signal(0);
+
+  private syncPendingFiles(): void {
+    setTimeout(() => {
+      const files = this.fileUpload?.files ?? [];
+      const available = this.MAX_IMAGES - this.currentImages().length;
+
+      if (files.length > available) {
+        this.fileUpload.files = files.slice(0, available);
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Límite alcanzado',
+          detail: `Solo podés subir hasta ${this.MAX_IMAGES} imágenes.`,
+        });
+      }
+
+      this.totalImagesCount.set(
+        this.currentImages().length + (this.fileUpload?.files?.length ?? 0)
+      );
+    });
+  }
 
   ngOnInit(): void {
     if (this.isEditMode && this.petId) {
@@ -78,6 +103,7 @@ export class PetForm implements OnInit, OnDestroy {
               isVaccinated: pet.isVaccinated ?? false,
             });
             this.currentImages.set(pet.images ?? []);
+            this.totalImagesCount.set(pet.images?.length ?? 0);
           }
           this.loadingPet.set(false);
         },
@@ -92,13 +118,18 @@ export class PetForm implements OnInit, OnDestroy {
     return this.petForm.controls;
   }
 
-  onFilesSelected(event: any): void {
-    this.pendingFiles = event.currentFiles ?? event.files ?? [];
+  onFilesSelected(): void {
+    this.syncPendingFiles();
+  }
+
+  onFileRemoved(): void {
+    this.syncPendingFiles();
   }
 
   onSubmit(): void {
     this.formSubmitted.set(true);
     if (this.petForm.invalid) return;
+    const filesToUpload = this.fileUpload?.files ?? [];
 
     this.saving.set(true);
 
@@ -111,12 +142,13 @@ export class PetForm implements OnInit, OnDestroy {
     if (this.isEditMode && this.petId) {
       this.petService.updatePet(this.petId, formValue).subscribe({
         next: () => {
-          if (this.pendingFiles.length > 0) {
-            this.petService.uploadImages(this.petId!, this.pendingFiles).subscribe({
+          if (filesToUpload.length > 0) {
+            this.petService.uploadImages(this.petId!, filesToUpload).subscribe({
               next: (response) => {
                 const updatedPet = response?.data;
                 if (updatedPet?.images) this.currentImages.set(updatedPet.images);
-                this.pendingFiles = [];
+                this.fileUpload.clear();
+                this.totalImagesCount.set(this.currentImages().length);
                 this.onSuccess('Mascota actualizada correctamente');
               },
               error: () => this.handleUploadError(),
@@ -131,12 +163,13 @@ export class PetForm implements OnInit, OnDestroy {
       this.petService.createPet(formValue).subscribe({
         next: (response: any) => {
           const newPetId = response.data.pet._id;
-          if (this.pendingFiles.length > 0 && newPetId) {
-            this.petService.uploadImages(newPetId, this.pendingFiles).subscribe({
+          if (filesToUpload.length > 0 && newPetId) {
+            this.petService.uploadImages(newPetId, filesToUpload).subscribe({
               next: (response) => {
                 const updatedPet = response?.data;
                 if (updatedPet?.images) this.currentImages.set(updatedPet.images);
-                this.pendingFiles = [];
+                this.fileUpload.clear();
+                this.totalImagesCount.set(this.currentImages().length);
                 this.onSuccess('Mascota creada correctamente');
               },
               error: () => this.handleUploadError(),
@@ -170,8 +203,8 @@ export class PetForm implements OnInit, OnDestroy {
 
   private onSuccess(detail: string): void {
     this.saving.set(false);
-    this.messageService.add({ severity: 'success', summary: 'Éxito', detail, life: 2000 });
-    this.timeoutRef = setTimeout(() => this.router.navigate(['/admin/pets']), 1500);
+    this.messageService.add({ severity: 'success', summary: 'Éxito', detail, life: 1500 });
+    this.timeoutRef = setTimeout(() => this.router.navigate(['/admin/pets']), 1000);
   }
 
   private handleUploadError() {
