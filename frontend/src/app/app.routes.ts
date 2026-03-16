@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
+
+import { authGuard, adminGuard, guestGuard } from './core/guards';
 import { MainLayout } from './layouts/main-layout/main-layout';
 import { AuthLayout } from './layouts/auth-layout/auth-layout';
 import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
 import { ProfileLayout } from './layouts/profile-layout/profile-layout';
 import { EmptyLayout } from './layouts/empty-layout/empty-layout';
-import { authGuard, adminGuard, guestGuard } from './core/guards';
 
 export const routes: Routes = [
   {
@@ -18,6 +19,19 @@ export const routes: Routes = [
       {
         path: 'pets',
         loadChildren: () => import('./features/pets/pet.routes').then((m) => m.PETS_ROUTES),
+      },
+      {
+        path: 'about',
+        loadChildren: () => import('./features/about/about.routes').then((m) => m.ABOUT_ROUTES),
+      },
+      {
+        path: 'contact',
+        loadChildren: () =>
+          import('./features/contact/contact.routes').then((m) => m.CONTACT_ROUTES),
+      },
+      {
+        path: 'legal',
+        loadChildren: () => import('./features/legal/legal.routes').then((m) => m.LEGAL_ROUTES),
       },
     ],
   },
