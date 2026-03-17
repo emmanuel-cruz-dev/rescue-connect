@@ -41,6 +41,7 @@ export const PhoneField = z
     ARGENTINA_PHONE_REGEX,
     "Teléfono inválido. Ingrese un número argentino válido (ej: +54 11 4323-5554)"
   )
+  .optional()
   .describe("Teléfono del usuario");
 
 export const AddressField = z
@@ -48,6 +49,7 @@ export const AddressField = z
   .min(5)
   .max(200)
   .trim()
+  .optional()
   .describe("Dirección del usuario");
 
 export const ChangePasswordBody = z.object({
