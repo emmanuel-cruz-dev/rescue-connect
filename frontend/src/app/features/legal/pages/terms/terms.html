@@ -1,1 +1,95 @@
-<p>terms works!</p>
+<section
+  class="pt-22 pb-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900 min-h-screen"
+>
+  <div class="max-w-4xl mx-auto px-4">
+    <app-legal-header
+      title="Términos de"
+      highlight="uso"
+      description="Conocé las condiciones que rigen el uso de la plataforma."
+      date="16 de marzo, 2026"
+    />
+
+    <main class="flex flex-col gap-10 text-gray-700 dark:text-gray-300">
+      <app-legal-section
+        icon="pi-info-circle"
+        iconBg="bg-sky-100 dark:bg-sky-900/40"
+        iconColor="text-sky-600 dark:text-sky-400"
+        title="Aceptación de los Términos"
+      >
+        <p>
+          Al acceder y utilizar
+          <strong class="text-gray-900 dark:text-white">Rescue Connect</strong>, aceptás cumplir con
+          estos términos y condiciones. Esta es una plataforma orientada a facilitar el contacto
+          entre adoptantes y refugios de manera responsable y transparente.
+        </p>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-user"
+        iconBg="bg-pink-100 dark:bg-pink-900/40"
+        iconColor="text-pink-600 dark:text-pink-400"
+        title="Registro y Cuentas"
+      >
+        <p>
+          Para realizar solicitudes de adopción, deberás crear una cuenta. Te comprometés a
+          proporcionar información veraz, precisa y actualizada. Sos responsable de mantener la
+          confidencialidad de tu contraseña y de las actividades realizadas desde tu cuenta.
+        </p>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-heart"
+        iconBg="bg-red-100 dark:bg-red-900/40"
+        iconColor="text-red-500 dark:text-red-400"
+        title="Proceso de Adopción"
+      >
+        <p>
+          Rescue Connect no garantiza la aprobación de ninguna solicitud. Los administradores de la
+          plataforma tienen la decisión final basada en criterios de bienestar animal. Nos
+          reservamos el derecho de dar de baja usuarios que incumplan las normas de respeto o
+          bienestar animal.
+        </p>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-ban"
+        iconBg="bg-amber-100 dark:bg-amber-900/40"
+        iconColor="text-amber-600 dark:text-amber-400"
+        title="Conducta del Usuario"
+      >
+        <p>
+          Queda prohibido usar la plataforma con fines fraudulentos, publicar información falsa
+          sobre mascotas o adoptantes, o interferir con el funcionamiento del servicio. El
+          incumplimiento puede resultar en la suspensión permanente de la cuenta.
+        </p>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-lock"
+        iconBg="bg-purple-100 dark:bg-purple-900/40"
+        iconColor="text-purple-600 dark:text-purple-400"
+        title="Propiedad Intelectual"
+      >
+        <p>
+          Todo el contenido de Rescue Connect —incluyendo el diseño, logotipo, textos e imágenes
+          propias— es propiedad de la plataforma. No está permitida su reproducción sin autorización
+          expresa. Las imágenes de mascotas subidas por administradores son usadas exclusivamente
+          con fines de adopción.
+        </p>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-envelope"
+        iconBg="bg-green-100 dark:bg-green-900/40"
+        iconColor="text-green-600 dark:text-green-400"
+        title="Modificaciones y Contacto"
+      >
+        <p>
+          Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios
+          importantes serán notificados a través de la plataforma. Si tenés preguntas, podés
+          contactarnos a través de los canales oficiales disponibles en la aplicación.
+        </p>
+      </app-legal-section>
+    </main>
+  </div>
+</section>
