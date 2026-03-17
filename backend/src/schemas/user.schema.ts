@@ -46,7 +46,6 @@ const userSchema = new Schema<IUserDocument>(
     },
     phone: {
       type: String,
-      required: [true, "El número de teléfono es obligatorio"],
       trim: true,
       match: [
         /^[0-9+\s()-]+$/,
