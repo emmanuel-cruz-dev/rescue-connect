@@ -1,8 +1,13 @@
 <section
-  class="pt-20 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+  class="py-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
 >
-  <div class="max-w-4xl mx-auto px-6 text-center">
-    <div class="mb-8 relative inline-block">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <div
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-t-12 animate-duration-1000"
+      class="mb-8 relative inline-block"
+    >
       <p-avatar
         image="assets/images/about/founder.webp"
         size="xlarge"
@@ -10,9 +15,20 @@
         class="w-32! h-32! border-4 border-pink-500 shadow-xl"
       />
     </div>
-    <h3 class="text-2xl md:text-3xl font-bold dark:text-white">Naomi Martínez</h3>
-    <p class="text-pink-600 font-medium md:text-lg mb-6">Fundadora</p>
-    <blockquote class="text-xl italic text-gray-600 dark:text-gray-400 space-y-4">
+    <div
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-0 zoom-in-90 animate-duration-1000"
+    >
+      <h3 class="text-2xl md:text-3xl font-bold dark:text-white">Naomi Martínez</h3>
+      <p class="text-pink-600 font-medium md:text-lg mb-6">Fundadora</p>
+    </div>
+    <blockquote
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-b-12 animate-duration-1000"
+      class="text-xl italic text-gray-600 dark:text-gray-400 space-y-4"
+    >
       <p>
         "Desde muy pequeña supe que mi propósito estaba en ayudar a quienes no tienen voz. Rescataba
         perritos de la calle y los llevaba a mi casa, convenciendo a mi familia de darles una
