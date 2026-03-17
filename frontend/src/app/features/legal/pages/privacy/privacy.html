@@ -1,1 +1,97 @@
-<p>privacy works!</p>
+<section
+  class="pt-22 pb-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900 min-h-screen"
+>
+  <div class="max-w-4xl mx-auto px-4">
+    <app-legal-header
+      title="Política de"
+      highlight="privacidad"
+      description="Tu privacidad es nuestra prioridad."
+    />
+
+    <div class="flex flex-col gap-10 text-gray-700 dark:text-gray-300">
+      <app-legal-section
+        icon="pi-database"
+        iconBg="bg-sky-100 dark:bg-sky-900/40"
+        iconColor="text-sky-600 dark:text-sky-400"
+        title="Recolección de Datos"
+      >
+        <p class="mb-3">
+          Recopilamos información que nos proporcionás directamente al registrarte:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Nombre y dirección de correo electrónico.</li>
+          <li>Información de contacto (teléfono y dirección).</li>
+          <li>Preferencias y mensajes relacionados con la adopción.</li>
+        </ul>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-file"
+        iconBg="bg-pink-100 dark:bg-pink-900/40"
+        iconColor="text-pink-600 dark:text-pink-400"
+        title="Uso de la Información"
+      >
+        <p class="mb-3">Utilizamos tu información principalmente para:</p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Facilitar el contacto y proceso de adopción.</li>
+          <li>Mejorar tu experiencia en la plataforma.</li>
+          <li>Enviarte comunicaciones relevantes sobre tus solicitudes.</li>
+        </ul>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-shield"
+        iconBg="bg-green-100 dark:bg-green-900/40"
+        iconColor="text-green-600 dark:text-green-400"
+        title="Seguridad de la Información"
+      >
+        <div
+          class="p-5 bg-sky-50 dark:bg-sky-900/20 rounded-2xl border border-sky-100 dark:border-sky-800"
+        >
+          <p class="text-sky-800 dark:text-sky-300">
+            Implementamos medidas técnicas avanzadas como el
+            <strong>hash de contraseñas</strong> para proteger tus datos contra accesos no
+            autorizados.
+          </p>
+        </div>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-box"
+        iconBg="bg-amber-100 dark:bg-amber-900/40"
+        iconColor="text-amber-600 dark:text-amber-400"
+        title="Cookies y Almacenamiento Local"
+      >
+        <p>
+          Utilizamos tokens almacenados de forma segura para mantener tu sesión activa. No usamos
+          cookies de rastreo ni compartimos tu información con terceros con fines publicitarios.
+        </p>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-id-card"
+        iconBg="bg-purple-100 dark:bg-purple-900/40"
+        iconColor="text-purple-600 dark:text-purple-400"
+        title="Tus Derechos"
+      >
+        <p>
+          Tenés derecho a acceder, corregir o eliminar tu información personal en cualquier momento
+          desde tu perfil. También podés solicitar la desactivación de tu cuenta contactándonos
+          directamente.
+        </p>
+      </app-legal-section>
+
+      <app-legal-section
+        icon="pi-envelope"
+        iconBg="bg-red-100 dark:bg-red-900/40"
+        iconColor="text-red-500 dark:text-red-400"
+        title="Contacto"
+      >
+        <p>
+          Si tenés preguntas sobre esta política o querés ejercer tus derechos, podés comunicarte
+          con nosotros a través de los canales oficiales disponibles en la aplicación.
+        </p>
+      </app-legal-section>
+    </div>
+  </div>
+</section>
