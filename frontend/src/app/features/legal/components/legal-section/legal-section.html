@@ -1,0 +1,13 @@
+<section
+  pAnimateOnScroll
+  once="true"
+  enterClass="animate-enter fade-in-10 slide-in-from-b-6 animate-duration-700"
+>
+  <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-3">
+    <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl" [ngClass]="iconBg()">
+      <i class="pi text-base" [ngClass]="[icon(), iconColor()]"></i>
+    </span>
+    {{ title() }}
+  </h2>
+  <ng-content />
+</section>
