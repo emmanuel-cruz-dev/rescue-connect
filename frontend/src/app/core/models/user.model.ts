@@ -5,8 +5,8 @@ export interface IUser {
   email: string;
   firstName: string;
   lastName: string;
-  phone: string;
-  address: string;
+  phone?: string;
+  address?: string;
   role: UserRole;
   isActive: boolean;
   createdAt?: string;
