@@ -47,6 +47,7 @@ const userSchema = new Schema<IUserDocument>(
     phone: {
       type: String,
       trim: true,
+      set: (v: string) => (v === "" ? undefined : v),
       match: [
         /^[0-9+\s()-]+$/,
         "El número de teléfono contiene caracteres inválidos",
@@ -57,6 +58,7 @@ const userSchema = new Schema<IUserDocument>(
     address: {
       type: String,
       trim: true,
+      set: (v: string) => (v === "" ? undefined : v),
       maxlength: [200, "La dirección no puede superar 200 caracteres"],
     },
     role: {
