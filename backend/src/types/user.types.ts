@@ -7,8 +7,8 @@ export interface IUser {
   lastName: string;
   email: string;
   password: string;
-  phone: string;
-  address: string;
+  phone?: string;
+  address?: string;
   role: UserRole;
   isActive: boolean;
   resetPasswordToken?: string;
