@@ -67,7 +67,6 @@ Rescue Connect Frontend es una aplicación web moderna construida con Angular 21
 ### Herramientas de Desarrollo
 
 - **Angular CLI 21** - Herramientas de línea de comandos
-- **Vitest 4** - Framework de testing
 - **Prettier** - Formateo de código
 
 ---
