@@ -1,6 +1,6 @@
 <p-toast position="bottom-left" />
 
-<div class="flex items-center justify-center px-4 py-8 pt-28">
+<section class="flex items-center justify-center px-4 py-8 pt-28">
   <div class="w-full max-w-lg">
     <p-card class="bg-white dark:bg-slate-900 shadow-2xl">
       <ng-template pTemplate="header">
@@ -168,14 +168,10 @@
                 [invalid]="isInvalid('phone')"
                 autocomplete="tel"
               />
-              <label for="phone">Teléfono*</label>
+              <label for="phone">Teléfono</label>
             </p-floatlabel>
           </p-inputgroup>
-          @if (isInvalid('phone')) { @if (registerForm.get('phone')?.errors?.['required']) {
-          <p-message severity="error" size="small" variant="simple">
-            El teléfono es requerido
-          </p-message>
-          } @if (registerForm.get('phone')?.errors?.['minlength']) {
+          @if (isInvalid('phone')) { @if (registerForm.get('phone')?.errors?.['minlength']) {
           <p-message severity="error" size="small" variant="simple">
             El teléfono debe tener al menos 10 dígitos
           </p-message>
@@ -206,14 +202,10 @@
                 [invalid]="isInvalid('address')"
                 autocomplete="address-line1"
               />
-              <label for="address">Dirección*</label>
+              <label for="address">Dirección</label>
             </p-floatlabel>
           </p-inputgroup>
-          @if (isInvalid('address')) { @if (registerForm.get('address')?.errors?.['required']) {
-          <p-message severity="error" size="small" variant="simple">
-            La dirección es requerida
-          </p-message>
-          } @if (registerForm.get('address')?.errors?.['minlength']) {
+          @if (isInvalid('address')) { @if (registerForm.get('address')?.errors?.['minlength']) {
           <p-message severity="error" size="small" variant="simple">
             La dirección debe tener al menos 5 caracteres
           </p-message>
@@ -228,10 +220,12 @@
           type="submit"
           label="Crear Cuenta"
           styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white! w-full"
-          [loading]="isLoading"
+          [loading]="isLoading()"
         />
+      </form>
 
-        <div class="flex items-center justify-center gap-2">
+      <ng-template pTemplate="footer">
+        <div class="flex items-center justify-center gap-2 pb-4">
           <p class="text-gray-600 dark:text-gray-400">¿Ya tienes una cuenta?</p>
           <a
             routerLink="/auth/login"
@@ -240,7 +234,7 @@
             Inicia sesión aquí
           </a>
         </div>
-      </form>
+      </ng-template>
     </p-card>
   </div>
-</div>
+</section>
