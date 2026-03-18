@@ -1,6 +1,6 @@
 <p-toast position="bottom-left" />
 
-<div class="flex items-center justify-center px-4 pt-28">
+<section class="flex items-center justify-center px-4 pt-28">
   <div class="w-full max-w-lg">
     <p-card class="bg-white dark:bg-slate-900 shadow-2xl">
       <ng-template pTemplate="header">
@@ -79,10 +79,12 @@
           type="submit"
           label="Iniciar Sesión"
           styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white! w-full"
-          [loading]="isLoading"
+          [loading]="isLoading()"
         />
+      </form>
 
-        <div class="flex items-center justify-center gap-2">
+      <ng-template pTemplate="footer">
+        <div class="flex items-center justify-center gap-2 pb-4">
           <p class="text-gray-600 dark:text-gray-400">¿No tienes una cuenta?</p>
           <a
             routerLink="/auth/register"
@@ -91,7 +93,7 @@
             Regístrate aquí
           </a>
         </div>
-      </form>
+      </ng-template>
     </p-card>
   </div>
-</div>
+</section>
