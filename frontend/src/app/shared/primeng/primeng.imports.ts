@@ -34,6 +34,7 @@ import { SelectModule } from 'primeng/select';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { TextareaModule } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TooltipModule } from 'primeng/tooltip';
@@ -75,6 +76,7 @@ export const PRIMENG_IMPORTS = [
   SkeletonModule,
   TableModule,
   TagModule,
+  TextareaModule,
   ToastModule,
   ToolbarModule,
   TooltipModule,
