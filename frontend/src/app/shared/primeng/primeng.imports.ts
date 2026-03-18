@@ -1,5 +1,6 @@
 import { AccordionModule } from 'primeng/accordion';
 import { AnimateOnScrollModule } from 'primeng/animateonscroll';
+import { AutoFocusModule } from 'primeng/autofocus';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
@@ -40,6 +41,7 @@ import { TooltipModule } from 'primeng/tooltip';
 export const PRIMENG_IMPORTS = [
   AccordionModule,
   AnimateOnScrollModule,
+  AutoFocusModule,
   AvatarModule,
   BadgeModule,
   ButtonModule,
