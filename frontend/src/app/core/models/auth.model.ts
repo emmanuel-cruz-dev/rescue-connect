@@ -8,8 +8,8 @@ export interface RegisterData {
   password: string;
   firstName: string;
   lastName: string;
-  phone: string;
-  address: string;
+  phone?: string;
+  address?: string;
 }
 
 export interface UpdateProfileData {
