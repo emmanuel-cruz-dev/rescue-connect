@@ -83,7 +83,6 @@ Rescue Connect es una aplicación full-stack que conecta a mascotas en busca de 
 - **Iconos**: Lucide Angular
 - **HTTP Client**: Angular HttpClient
 - **Routing**: Angular Router
-- **Testing**: Vitest
 
 ---
 
