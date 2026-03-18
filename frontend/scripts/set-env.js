@@ -12,4 +12,5 @@ const content = `export const environment = {
 `;
 
 fs.writeFileSync('./src/environments/environment.prod.ts', content);
+fs.writeFileSync('./src/environments/environment.ts', content);
 console.log('✅ environment.prod.ts generado');
