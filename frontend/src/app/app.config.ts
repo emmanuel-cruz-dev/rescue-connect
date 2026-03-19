@@ -5,6 +5,7 @@ import {
   TitleStrategy,
   withViewTransitions,
 } from '@angular/router';
+import { provideCloudinaryLoader } from '@angular/common';
 import { provideHttpClient, HTTP_INTERCEPTORS, withInterceptorsFromDi } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
@@ -61,5 +62,6 @@ export const appConfig: ApplicationConfig = {
       useClass: ErrorInterceptor,
       multi: true,
     },
+    provideCloudinaryLoader('https://res.cloudinary.com/db7m4mlke/'),
   ],
 };
