@@ -1,117 +1,23 @@
 <p-toast position="bottom-left" />
 
-<section class="flex items-center justify-center px-4 pt-28 pb-12">
-  <div class="w-full max-w-lg">
-    <p-card class="bg-white dark:bg-slate-900 shadow-2xl">
-      <ng-template pTemplate="header">
-        <div class="text-center pt-6 pb-2 px-6">
-          <h1 class="text-3xl font-bold">Contáctanos</h1>
-          <p class="text-gray-600 dark:text-gray-400 mt-2 text-sm">
-            ¿Tienes alguna duda sobre adopciones o sobre Rescue Connect? Envíanos un mensaje.
-          </p>
-        </div>
-      </ng-template>
-
-      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5 px-2">
-        <div class="flex flex-col gap-1">
-          <p-inputgroup>
-            <p-inputgroup-addon><i class="pi pi-user"></i></p-inputgroup-addon>
-            <p-floatlabel variant="on">
-              <input
-                pInputText
-                id="contact-name"
-                formControlName="name"
-                type="text"
-                class="w-full"
-                [invalid]="isInvalid('name')"
-                autocomplete="name"
-              />
-              <label for="contact-name">Nombre*</label>
-            </p-floatlabel>
-          </p-inputgroup>
-          @if (isInvalid('name')) {
-          <p-message severity="error" size="small" variant="simple">
-            El nombre es requerido y debe tener al menos 3 caracteres
-          </p-message>
-          }
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <p-inputgroup>
-            <p-inputgroup-addon><i class="pi pi-envelope"></i></p-inputgroup-addon>
-            <p-floatlabel variant="on">
-              <input
-                pInputText
-                id="contact-email"
-                formControlName="email"
-                type="email"
-                class="w-full"
-                [invalid]="isInvalid('email')"
-                autocomplete="email"
-              />
-              <label for="contact-email">Correo Electrónico*</label>
-            </p-floatlabel>
-          </p-inputgroup>
-          @if (isInvalid('email')) { @if (contactForm.get('email')?.errors?.['required']) {
-          <p-message severity="error" size="small" variant="simple">
-            El correo electrónico es requerido
-          </p-message>
-          } @if (contactForm.get('email')?.errors?.['email']) {
-          <p-message severity="error" size="small" variant="simple">
-            Ingresa un correo válido
-          </p-message>
-          } }
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <p-inputgroup>
-            <p-inputgroup-addon><i class="pi pi-tag"></i></p-inputgroup-addon>
-            <p-floatlabel variant="on">
-              <input
-                pInputText
-                id="contact-subject"
-                formControlName="subject"
-                type="text"
-                class="w-full"
-                [invalid]="isInvalid('subject')"
-              />
-              <label for="contact-subject">Asunto*</label>
-            </p-floatlabel>
-          </p-inputgroup>
-          @if (isInvalid('subject')) {
-          <p-message severity="error" size="small" variant="simple">
-            El asunto es requerido y debe tener al menos 5 caracteres
-          </p-message>
-          }
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <p-floatlabel variant="on">
-            <textarea
-              pTextarea
-              id="contact-message"
-              formControlName="message"
-              rows="5"
-              class="w-full resize-none"
-              [invalid]="isInvalid('message')"
-            ></textarea>
-            <label for="contact-message">Mensaje*</label>
-          </p-floatlabel>
-          @if (isInvalid('message')) {
-          <p-message severity="error" size="small" variant="simple">
-            El mensaje debe tener entre 10 y 500 caracteres
-          </p-message>
-          }
-        </div>
-
-        <p-button
-          type="submit"
-          label="Enviar Mensaje"
-          icon="pi pi-send"
-          styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white! w-full mt-2"
-          [loading]="isLoading()"
+<section
+  class="pt-22 pb-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="max-w-6xl mx-auto px-4">
+    <app-contact-header />
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-12">
+      <figure class="w-full rounded-2xl shadow-2xl overflow-hidden hidden lg:block">
+        <img
+          src="assets/images/contact/contact-bg.webp"
+          alt="Foto de un hombre con un teléfono en la mano"
+          class="w-full h-full object-cover"
+          width="800"
+          height="600"
         />
-      </form>
-    </p-card>
+      </figure>
+      <div class="w-full max-w-lg mx-auto lg:mx-0">
+        <app-contact-form />
+      </div>
+    </div>
   </div>
 </section>
