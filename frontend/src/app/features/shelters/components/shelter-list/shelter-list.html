@@ -1,0 +1,20 @@
+<section
+  class="pt-22 pb-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="max-w-6xl mx-auto px-6">
+    <header class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+        Refugios <span class="text-pink-600">Recomendados</span>
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        Selección de refugios y organizaciones reales comprometidas con el bienestar animal. Podés
+        visitar sus sitios para conocer más.
+      </p>
+    </header>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-12 mx-auto">
+      @for(shelter of shelters; track shelter.id) {
+      <app-shelter-card [shelter]="shelter" />
+      }
+    </div>
+  </div>
+</section>
