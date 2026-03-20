@@ -22,9 +22,9 @@ export class Footer {
       { label: 'Ver mascotas disponibles', url: '/pets' },
     ],
     organization: [
+      { label: 'Salvá vidas', url: '/save-lives' },
       { label: 'Sobre el proyecto', url: '/about' },
       { label: 'Refugios recomendados', url: '/shelters' },
-      { label: 'Sumarse como voluntario', url: '/volunteer' },
     ],
     help: [
       { label: 'Contacto', url: '/contact' },
