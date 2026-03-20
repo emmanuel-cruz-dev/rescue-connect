@@ -23,7 +23,7 @@ export class Footer {
     ],
     organization: [
       { label: 'Sobre el proyecto', url: '/about' },
-      { label: 'Refugios asociados', url: '/shelters' },
+      { label: 'Refugios recomendados', url: '/shelters' },
       { label: 'Sumarse como voluntario', url: '/volunteer' },
     ],
     help: [
