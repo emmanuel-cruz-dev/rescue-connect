@@ -1,0 +1,51 @@
+<section
+  [ngClass]="
+    config.sectionClass ??
+    'py-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:from-pink-950/30 dark:to-slate-900'
+  "
+>
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2
+        pAnimateOnScroll
+        enterClass="animate-enter fade-in-0 animate-duration-1000 animate-delay-800"
+        once="true"
+        class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4"
+        [innerHTML]="config.title"
+      ></h2>
+      <p
+        pAnimateOnScroll
+        enterClass="animate-enter fade-in-10 slide-in-from-b-8 animate-duration-1000 animate-delay-600"
+        once="true"
+        class="sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+      >
+        {{ config.subtitle }}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      @for (card of cards; track card.title) {
+      <div
+        pAnimateOnScroll
+        enterClass="animate-enter fade-in zoom-in-95 animate-duration-700"
+        once="true"
+        class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all"
+      >
+        <figure
+          class="w-12 h-12 rounded-2xl flex items-center justify-center mb-6"
+          [ngClass]="[card.iconBgClass, card.iconColorClass]"
+        >
+          @if (isEmoji(card.icon)) {
+          <span class="text-2xl">{{ card.icon }}</span>
+          } @else {
+          <lucide-angular [img]="card.icon" size="28" />
+          }
+        </figure>
+
+        <h3 class="text-xl font-bold mb-3 dark:text-white">{{ card.title }}</h3>
+        <p class="text-gray-600 dark:text-gray-400 leading-relaxed">{{ card.description }}</p>
+      </div>
+      }
+    </div>
+  </div>
+</section>
