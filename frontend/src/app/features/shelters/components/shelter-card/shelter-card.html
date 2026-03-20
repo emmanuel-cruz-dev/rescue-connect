@@ -1,0 +1,53 @@
+<p-card
+  class="h-full hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-700 dark:bg-slate-900! overflow-hidden"
+>
+  <ng-template #header>
+    <figure class="h-64 overflow-hidden">
+      <img
+        [src]="'assets/images/shelters/' + shelter.image"
+        [alt]="shelter.name"
+        class="w-full h-full object-cover"
+        width="800"
+        height="600"
+      />
+    </figure>
+  </ng-template>
+  <ng-template #title>
+    <div class="flex items-center justify-between gap-3">
+      <h3 class="text-xl font-bold truncate text-gray-900 dark:text-white">
+        {{ shelter.name }}
+      </h3>
+      <p-avatar
+        [image]="'assets/images/shelters/' + shelter.logo"
+        size="large"
+        shape="circle"
+        class="shrink-0 border-2 border-pink-500 shadow-md"
+      />
+    </div>
+  </ng-template>
+  <ng-template #subtitle>
+    <p class="text-sm text-gray-500 dark:text-gray-400">
+      <i class="pi pi-map-marker text-pink-600 mr-1"></i>
+      {{ shelter.location }}
+    </p>
+  </ng-template>
+  <div class="space-y-3">
+    <p class="text-sm leading-relaxed line-clamp-4 text-gray-600 dark:text-gray-300">
+      {{ shelter.description }}
+    </p>
+  </div>
+
+  <ng-template #footer>
+    <a
+      pButton
+      [outlined]="true"
+      icon="pi pi-external-link"
+      [href]="shelter.website"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-3 flex text-sky-700! border-sky-600! hover:bg-sky-50! dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20!"
+    >
+      Visitar sitio
+    </a>
+  </ng-template>
+</p-card>
