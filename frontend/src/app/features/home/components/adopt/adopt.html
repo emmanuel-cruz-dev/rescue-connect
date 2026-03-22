@@ -1,0 +1,58 @@
+<section
+  class="py-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row gap-12 items-center">
+    <p-avatar
+      image="assets/images/adopt/adopt.webp"
+      shape="circle"
+      class="w-68 h-68 lg:w-96 lg:h-96 shrink-0 border-4 border-pink-500 shadow-xl"
+    />
+    <button>Denunciá</button>
+    <div
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-r-12 animate-duration-1000 animate-delay-400"
+      class="order-2 lg:order-1"
+    >
+      <h2 class="text-3xl lg:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">Adoptá</h2>
+      <ul class="xl:text-lg space-y-2 text-gray-600 dark:text-gray-300 leading-relaxed">
+        <li>
+          Al pensar en adoptar, es crucial tener en cuenta diversos factores para garantizar una
+          convivencia armoniosa.
+        </li>
+        <li>
+          Evalúa el espacio disponible en tu hogar, el tiempo que puedes dedicar al juego y paseo,
+          así como los costos asociados con la alimentación, atención veterinaria y cuidado durante
+          las vacaciones.
+        </li>
+        <li>
+          Asegúrate de que tu elección de mascota se ajuste a tu estilo de vida y a la cantidad de
+          tiempo que puedes comprometer.
+        </li>
+      </ul>
+
+      <div
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-b-8 animate-duration-1000 animate-delay-400"
+        class="flex flex-col sm:flex-row gap-4 mt-6"
+      >
+        <p-button
+          label="Antes de adoptar"
+          icon="custom__pet-icon"
+          [routerLink]="['/pets']"
+          size="large"
+          styleClass="w-full bg-pink-600! hover:bg-pink-700! border-pink-600! text-white!"
+        />
+        <p-button
+          label="Requisitos"
+          icon="pi pi-list-check"
+          [outlined]="true"
+          [routerLink]="['/how-it-works']"
+          size="large"
+          styleClass="w-full text-sky-700! border-sky-600! hover:bg-sky-50 dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20"
+        />
+      </div>
+    </div>
+  </div>
+</section>
