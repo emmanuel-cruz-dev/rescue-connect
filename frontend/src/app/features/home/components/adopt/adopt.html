@@ -1,13 +1,15 @@
 <section
-  class="py-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+  class="py-16 bg-linear-to-b from white to-pink-50/90 dark:bg-slate-900 dark:bg-linear-to-b dark:from-slate-900 dark:to-pink-950/30"
 >
   <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row gap-12 items-center">
     <p-avatar
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-l-12 animate-duration-1000 animate-delay-400"
       image="assets/images/adopt/adopt.webp"
       shape="circle"
-      class="w-68 h-68 lg:w-96 lg:h-96 shrink-0 border-4 border-pink-500 shadow-xl"
+      class="w-68 h-68 lg:w-80 lg:h-80 shrink-0 border-4 border-pink-500 shadow-xl"
     />
-    <button>Denunciá</button>
     <div
       pAnimateOnScroll
       once="true"
@@ -38,7 +40,7 @@
         class="flex flex-col sm:flex-row gap-4 mt-6"
       >
         <p-button
-          label="Antes de adoptar"
+          label="Ver mascotas"
           icon="custom__pet-icon"
           [routerLink]="['/pets']"
           size="large"
@@ -48,7 +50,7 @@
           label="Requisitos"
           icon="pi pi-list-check"
           [outlined]="true"
-          [routerLink]="['/how-it-works']"
+          [routerLink]="['/requirements']"
           size="large"
           styleClass="w-full text-sky-700! border-sky-600! hover:bg-sky-50 dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20"
         />
