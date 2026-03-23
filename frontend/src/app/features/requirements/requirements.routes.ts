@@ -6,6 +6,6 @@ export const REQUIREMENTS_ROUTES: Routes = [
   {
     path: '',
     component: Requirements,
-    title: 'Requisitos',
+    title: 'Requisitos de adopción',
   },
 ];
