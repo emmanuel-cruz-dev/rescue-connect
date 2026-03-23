@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SectionHeader } from '../section-header/section-header';
+
+import { SectionHeader } from '../../../../shared/components/section-header/section-header';
 import { PetGallery, GalleryImage } from '../../../../shared/components/pet-gallery/pet-gallery';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 

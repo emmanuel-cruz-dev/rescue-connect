@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SectionHeader } from '../section-header/section-header';
+
+import { SectionHeader } from '../../../../shared/components/section-header/section-header';
 import { PetService } from '../../../pets/services/pet.service';
 import { PetCard } from '../../../pets/components/pet-card/pet-card';
 import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton/pet-card-skeleton';
