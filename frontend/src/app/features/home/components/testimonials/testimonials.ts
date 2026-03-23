@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LucideAngularModule, QuoteIcon } from 'lucide-angular';
 
-import { SectionHeader } from '../section-header/section-header';
+import { SectionHeader } from '../../../../shared/components/section-header/section-header';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 interface Testimonial {
