@@ -17,8 +17,8 @@ export class Footer {
 
   footerLinks = {
     adoption: [
-      { label: 'Cómo adoptar', url: '/', fragment: 'how-it-works' },
-      { label: 'Crear una cuenta', url: '/auth/register' },
+      { label: 'Cómo adoptar', url: '/how-it-works' },
+      { label: 'Requisitos de adopción', url: '/requirements' },
       { label: 'Ver mascotas disponibles', url: '/pets' },
     ],
     organization: [
