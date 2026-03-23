@@ -95,6 +95,21 @@
       }
     </div>
 
+    @if (remainingSubmissions <= 2 && remainingSubmissions > 0) {
+    <p-message severity="warn" size="small" variant="simple">
+      Te {{ remainingSubmissions === 1 ? 'queda' : 'quedan' }}
+      {{ remainingSubmissions }}
+      {{ remainingSubmissions === 1 ? 'envío' : 'envíos' }} disponible{{
+        remainingSubmissions === 1 ? '' : 's'
+      }}
+      hoy.
+    </p-message>
+    } @if (isRateLimited) {
+    <p-message severity="error" size="small" variant="simple">
+      Alcanzaste el límite de mensajes por hoy. Inténtalo de nuevo mañana.
+    </p-message>
+    }
+
     <p-button
       type="submit"
       label="Enviar Mensaje"

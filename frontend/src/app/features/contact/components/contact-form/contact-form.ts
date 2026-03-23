@@ -6,6 +6,14 @@ import emailjs from '@emailjs/browser';
 import { environment } from '../../../../../environments/environment';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
+const RATE_LIMIT_KEY = 'contact-form-submissions';
+const MAX_SUBMISSIONS_PER_DAY = 3;
+
+interface RateLimitData {
+  count: number;
+  date: string;
+}
+
 @Component({
   selector: 'app-contact-form',
   imports: [ReactiveFormsModule, PRIMENG_IMPORTS],
@@ -25,8 +33,54 @@ export class ContactForm {
     message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
   });
 
+  private getTodayString(): string {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  private getRateLimitData(): RateLimitData {
+    try {
+      const raw = localStorage.getItem(RATE_LIMIT_KEY);
+      if (!raw) return { count: 0, date: this.getTodayString() };
+
+      const data: RateLimitData = JSON.parse(raw);
+
+      if (data.date !== this.getTodayString()) {
+        return { count: 0, date: this.getTodayString() };
+      }
+      return data;
+    } catch {
+      return { count: 0, date: this.getTodayString() };
+    }
+  }
+
+  private incrementRateLimitCount(): void {
+    const data = this.getRateLimitData();
+    localStorage.setItem(
+      RATE_LIMIT_KEY,
+      JSON.stringify({ count: data.count + 1, date: data.date })
+    );
+  }
+
+  get remainingSubmissions(): number {
+    return Math.max(0, MAX_SUBMISSIONS_PER_DAY - this.getRateLimitData().count);
+  }
+
+  get isRateLimited(): boolean {
+    return this.getRateLimitData().count >= MAX_SUBMISSIONS_PER_DAY;
+  }
+
   async onSubmit() {
     this.formSubmitted.set(true);
+
+    if (this.isRateLimited) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Límite alcanzado',
+        detail: `Alcanzaste el límite de ${MAX_SUBMISSIONS_PER_DAY} mensajes por día. Volvé mañana.`,
+        life: 5000,
+      });
+      return;
+    }
 
     if (this.contactForm.invalid) {
       this.messageService.add({
@@ -53,6 +107,8 @@ export class ContactForm {
         },
         environment.emailjs.publicKey
       );
+
+      this.incrementRateLimitCount();
 
       this.messageService.add({
         severity: 'success',
