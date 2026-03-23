@@ -1,0 +1,35 @@
+<section
+  class="pt-22 pb-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="max-w-6xl mx-auto px-4">
+    <div>
+      <header>
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          Antes de <span class="text-pink-600">adoptar</span>
+        </h2>
+        <p class="text-lg md:text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">
+          Adoptá con conciencia y corazón.
+        </p>
+      </header>
+      <ul class="space-y-2 text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+        <li>
+          Al pensar en adoptar, es crucial tener en cuenta diversos factores para garantizar una
+          convivencia armoniosa. Evalúa el espacio disponible en tu hogar, el tiempo que puedes
+          dedicar al juego y paseo, así como los costos asociados con la alimentación, atención
+          veterinaria y cuidado durante las vacaciones. Asegúrate de que tu elección de mascota se
+          ajuste a tu estilo de vida y a la cantidad de tiempo que puedes comprometer.
+        </li>
+        <li>
+          Es importante recordar que un animal de compañía puede tener una vida promedio de entre 14
+          y 18 años, y durante todo ese tiempo dependerá de vos. Adoptar implica asumir la
+          responsabilidad de su bienestar y felicidad a lo largo de su vida.
+        </li>
+      </ul>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 py-8">
+      @for (stage of stages; track stage.key) {
+      <app-age-info-card [stage]="stage" />
+      }
+    </div>
+  </div>
+</section>
