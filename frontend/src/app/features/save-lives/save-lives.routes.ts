@@ -6,5 +6,6 @@ export const SAVE_LIVES_ROUTES: Routes = [
   {
     path: '',
     component: SaveLives,
+    title: 'Salvá vidas',
   },
 ];
