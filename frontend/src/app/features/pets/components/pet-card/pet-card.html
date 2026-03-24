@@ -22,17 +22,18 @@
             [alt]="pet.name"
             class="w-full h-56 object-cover cursor-pointer"
             (click)="viewDetails()"
-            onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
+            (error)="onImageError($event)"
           />
         </ng-template>
       </p-galleria>
       } @else {
       <img
-        [src]="mainImage"
+        [ngSrc]="getCloudinaryPath(mainImage)"
         [alt]="pet.name"
-        class="w-full h-full object-cover hover:scale-110 transition-transform duration-300 cursor-pointer"
+        fill
+        class="object-cover hover:scale-110 transition-transform duration-300 cursor-pointer"
         (click)="viewDetails()"
-        onerror="this.src='/assets/images/pets/placeholder-dog.webp'"
+        (error)="onImageError($event)"
       />
       }
 
