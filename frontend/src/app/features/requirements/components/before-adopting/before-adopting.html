@@ -3,15 +3,24 @@
 >
   <div class="max-w-6xl mx-auto px-4">
     <div>
-      <header>
-        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+      <header
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-l-12 animate-duration-1000"
+      >
+        <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
           Antes de <span class="text-pink-600">adoptar</span>
-        </h2>
+        </h1>
         <p class="text-lg md:text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">
           Adoptá con conciencia y corazón.
         </p>
       </header>
-      <ul class="space-y-2 text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
+      <ul
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-r-12 animate-duration-1000"
+        class="space-y-2 text-gray-600 dark:text-gray-300 leading-relaxed mb-8"
+      >
         <li>
           Al pensar en adoptar, es crucial tener en cuenta diversos factores para garantizar una
           convivencia armoniosa. Evalúa el espacio disponible en tu hogar, el tiempo que puedes
@@ -26,7 +35,12 @@
         </li>
       </ul>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 py-8">
+    <div
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-b-12 animate-duration-1000"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 pt-8"
+    >
       @for (stage of stages; track stage.key) {
       <app-age-info-card [stage]="stage" />
       }
