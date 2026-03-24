@@ -20,27 +20,7 @@
           Facilitamos la adopción y apoyamos a refugios y rescatistas.
         </p>
 
-        <div class="flex gap-2">
-          @for (social of socialLinks; track social.icon) {
-          <a
-            [pTooltip]="social.label"
-            tooltipPosition="top"
-            tooltipStyleClass="max-w-md"
-            [href]="social.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            [attr.aria-label]="social.label"
-          >
-            <p-button
-              [icon]="social.icon"
-              [text]="true"
-              [rounded]="true"
-              severity="secondary"
-              size="large"
-            />
-          </a>
-          }
-        </div>
+        <app-social-links-item />
       </div>
 
       <div>
