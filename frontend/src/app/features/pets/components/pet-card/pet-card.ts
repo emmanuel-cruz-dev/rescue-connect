@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgOptimizedImage } from '@angular/common';
 import {
   LucideAngularModule,
   PawPrintIcon,
@@ -7,6 +8,7 @@ import {
   DogIcon,
   HeartHandshakeIcon,
 } from 'lucide-angular';
+
 import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet } from '../../../../core/models';
@@ -14,7 +16,7 @@ import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
 
 @Component({
   selector: 'app-pet-card',
-  imports: [LucideAngularModule, PRIMENG_IMPORTS],
+  imports: [NgOptimizedImage, LucideAngularModule, PRIMENG_IMPORTS],
   templateUrl: './pet-card.html',
 })
 export class PetCard {
@@ -89,5 +91,14 @@ export class PetCard {
 
   onAdopt() {
     this.adoptionFlow.openDialog(this.pet);
+  }
+
+  onImageError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    img.src = '/assets/images/pets/placeholder-dog.webp';
+  }
+
+  getCloudinaryPath(url: string) {
+    return url.split('/upload/')[1];
   }
 }
