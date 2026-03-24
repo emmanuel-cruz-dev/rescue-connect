@@ -6,16 +6,40 @@
   <div class="max-w-6xl mx-auto px-4">
     <app-contact-header />
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mt-12">
-      <figure class="w-full rounded-2xl shadow-2xl overflow-hidden hidden lg:block">
-        <img
-          src="assets/images/contact/contact-bg.webp"
-          alt="Foto de un hombre con un teléfono en la mano"
-          class="w-full h-full object-cover"
-          width="800"
-          height="600"
-        />
-      </figure>
-      <div class="w-full max-w-lg mx-auto lg:mx-0">
+      <div class="flex-col gap-4 hidden lg:flex">
+        <figure
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-0 slide-in-from-l-12 animate-duration-1000"
+          class="w-full h-90 rounded-lg shadow-2xl overflow-hidden"
+        >
+          <img
+            src="assets/images/contact/contact-bg.webp"
+            alt="Foto de un hombre con un teléfono en la mano"
+            class="w-full h-full object-cover"
+            width="800"
+            height="600"
+            loading="lazy"
+          />
+        </figure>
+        <div
+          pAnimateOnScroll
+          once="true"
+          enterClass="animate-enter fade-in-0 slide-in-from-b-12 animate-duration-1000"
+          class="bg-white dark:bg-slate-900 shadow-2xl p-4 px-6 rounded-lg"
+        >
+          <h2 class="pb-2 text-2xl text-gray-700 dark:text-gray-200 font-bold">
+            Seguinos en nuestras redes
+          </h2>
+          <app-social-links-item />
+        </div>
+      </div>
+      <div
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-0 slide-in-from-r-12 animate-duration-1000"
+        class="w-full max-w-lg mx-auto lg:mx-0"
+      >
         <app-contact-form />
       </div>
     </div>
