@@ -21,8 +21,28 @@ export const routes: Routes = [
         loadChildren: () => import('./features/pets/pet.routes').then((m) => m.PETS_ROUTES),
       },
       {
+        path: 'how-it-works',
+        loadChildren: () =>
+          import('./features/how-it-works/how-it-works.routes').then((m) => m.HOW_IT_WORKS_ROUTES),
+      },
+      {
+        path: 'requirements',
+        loadChildren: () =>
+          import('./features/requirements/requirements.routes').then((m) => m.REQUIREMENTS_ROUTES),
+      },
+      {
         path: 'about',
         loadChildren: () => import('./features/about/about.routes').then((m) => m.ABOUT_ROUTES),
+      },
+      {
+        path: 'shelters',
+        loadChildren: () =>
+          import('./features/shelters/shelters.routes').then((m) => m.SHELTERS_ROUTES),
+      },
+      {
+        path: 'save-lives',
+        loadChildren: () =>
+          import('./features/save-lives/save-lives.routes').then((m) => m.SAVE_LIVES_ROUTES),
       },
       {
         path: 'contact',
