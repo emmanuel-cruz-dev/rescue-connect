@@ -337,8 +337,8 @@
     }
   </div>
 
-  @if (req!.status === 'pending') {
   <ng-template pTemplate="footer">
+    @if (req!.status === 'pending') {
     <div class="flex gap-2 justify-end">
       <p-button
         icon="pi pi-times"
@@ -357,8 +357,8 @@
         styleClass="bg-green-600! hover:bg-green-700! border-green-600! text-white!"
       />
     </div>
+    }
   </ng-template>
-  }
 </p-drawer>
 }
 
