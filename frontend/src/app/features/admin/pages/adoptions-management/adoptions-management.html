@@ -220,13 +220,26 @@
 
 <p-confirmDialog>
   <ng-template pTemplate="message" let-message>
-    <div class="flex flex-col items-center gap-4 p-4 max-w-sm">
+    <div class="flex flex-col items-center gap-4 p-4 max-w-sm w-full">
       <div
-        class="w-16 h-16 rounded-full bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center"
+        class="w-16 h-16 rounded-full bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center shrink-0"
       >
         <i class="pi pi-exclamation-triangle text-3xl text-amber-500"></i>
       </div>
-      <p class="text-center text-gray-600 dark:text-gray-300" [innerHTML]="message.message"></p>
+      <p class="text-center text-gray-600 dark:text-gray-300 w-full" [innerHTML]="message.message"></p>
+
+      <div class="w-full mt-2 flex flex-col items-start text-left">
+        <label for="adminNotes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          Mensaje opcional para el solicitante
+        </label>
+        <textarea
+          id="adminNotes"
+          rows="3"
+          placeholder="Escribe el motivo o más detalles..."
+          [(ngModel)]="adminNotes"
+          class="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-white"
+        ></textarea>
+      </div>
     </div>
   </ng-template>
 </p-confirmDialog>
