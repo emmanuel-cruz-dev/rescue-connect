@@ -218,27 +218,51 @@
   </main>
 </section>
 
-<p-confirmDialog>
+<p-confirmDialog [style]="{ width: '450px' }" [breakpoints]="{ '960px': '75vw', '640px': '100vw' }">
   <ng-template pTemplate="message" let-message>
-    <div class="flex flex-col items-center gap-4 p-4 max-w-sm w-full">
+    <div class="flex flex-col w-full gap-5">
       <div
-        class="w-16 h-16 rounded-full bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center shrink-0"
+        class="flex items-center gap-3 p-4 rounded-xl border"
+        [ngClass]="{
+          'bg-green-50 dark:bg-green-950/20 border-green-100 dark:border-green-900':
+            message.header === 'Aprobar solicitud',
+          'bg-red-50 dark:bg-red-950/20 border-red-100 dark:border-red-900':
+            message.header === 'Rechazar solicitud'
+        }"
       >
-        <i class="pi pi-exclamation-triangle text-3xl text-amber-500"></i>
+        <figure
+          class="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+          [ngClass]="{
+            'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400':
+              message.header === 'Aprobar solicitud',
+            'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400':
+              message.header === 'Rechazar solicitud'
+          }"
+        >
+          <i [class]="message.icon" style="font-size: 1.2rem"></i>
+        </figure>
+        <p
+          class="text-sm text-gray-700 dark:text-gray-300 leading-snug"
+          [innerHTML]="message.message"
+        ></p>
       </div>
-      <p class="text-center text-gray-600 dark:text-gray-300 w-full" [innerHTML]="message.message"></p>
 
-      <div class="w-full mt-2 flex flex-col items-start text-left">
-        <label for="adminNotes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Mensaje opcional para el solicitante
+      <div class="space-y-1.5">
+        <label for="adminNotes" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          Mensaje para el solicitante
+          <span class="ml-1 text-xs text-gray-400 dark:text-gray-500 font-normal">(opcional)</span>
         </label>
         <textarea
           id="adminNotes"
-          rows="3"
-          placeholder="Escribe el motivo o más detalles..."
           [(ngModel)]="adminNotes"
-          class="w-full rounded-md border border-gray-300 dark:border-gray-600 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 bg-white dark:bg-slate-800 text-gray-800 dark:text-white"
+          rows="4"
+          maxlength="300"
+          placeholder="Escribe el motivo o detalles adicionales para el adoptante..."
+          class="w-full resize-none text-sm p-2 px-3 mt-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-1 focus:ring-pink-600! focus:border-pink-600! bg-white dark:bg-slate-800 text-gray-800 dark:text-white"
         ></textarea>
+        <div class="flex justify-end text-xs text-gray-400 mt-1">
+          {{ adminNotes.length || 0 }}/300
+        </div>
       </div>
     </div>
   </ng-template>
