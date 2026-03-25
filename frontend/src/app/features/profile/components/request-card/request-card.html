@@ -1,11 +1,8 @@
 <article
-  class="h-full bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200"
+  class="h-full bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 flex flex-col"
 >
-  <div class="flex flex-col sm:flex-row">
-    <figure
-      class="sm:w-40 h-58 xl:h-48 shrink-0 cursor-pointer overflow-hidden"
-      (click)="viewPet()"
-    >
+  <div class="flex flex-row flex-1 min-h-0">
+    <figure class="w-32 sm:w-36 shrink-0 cursor-pointer overflow-hidden" (click)="viewPet()">
       <img
         [src]="pet.images?.[0]?.url || '/assets/images/pets/placeholder-dog.webp'"
         [alt]="pet.name"
@@ -13,65 +10,58 @@
       />
     </figure>
 
-    <div class="flex flex-col flex-1 p-5 gap-3 min-h-45">
-      <div class="flex items-start justify-between gap-3">
+    <div class="flex flex-col flex-1 p-4 gap-2 min-w-0 overflow-hidden">
+      <div class="flex items-start justify-between gap-2">
         <div class="min-w-0">
           <h3
-            class="font-semibold text-lg text-gray-800 dark:text-white truncate cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
+            class="font-semibold text-base text-gray-800 dark:text-white truncate cursor-pointer hover:text-pink-600 dark:hover:text-pink-400 transition-colors"
             (click)="viewPet()"
           >
             {{ pet.name }}
           </h3>
-
           <p class="text-xs text-gray-400 dark:text-gray-500 capitalize mt-0.5">
             {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
             @if (pet.breed) { · {{ pet.breed }} }
           </p>
         </div>
 
-        <p-tag
-          [value]="
-            request.status === 'approved'
-              ? 'Aprobada'
-              : request.status === 'rejected'
-              ? 'Rechazada'
-              : request.status === 'cancelled'
-              ? 'Cancelada'
-              : 'Pendiente'
-          "
-          [severity]="
-            request.status === 'approved'
-              ? 'success'
-              : request.status === 'rejected'
-              ? 'danger'
-              : request.status === 'cancelled'
-              ? 'secondary'
-              : 'warn'
-          "
-          class="shrink-0 text-xs"
-        />
+        <p-tag [value]="statusLabel" [severity]="statusSeverity" class="shrink-0 text-xs" />
       </div>
 
       @if (request.message) {
-      <p
-        [pTooltip]="request.message"
-        tooltipPosition="top"
-        tooltipStyleClass="max-w-md"
-        class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 italic flex-1"
-      >
+      <p class="text-xs text-gray-500 dark:text-gray-400 italic line-clamp-2 leading-relaxed">
         "{{ request.message }}"
       </p>
+      } @if (request.adminNotes) {
+      <div
+        class="px-2.5 py-1.5 rounded-md text-xs border flex items-center gap-1.5"
+        [class]="adminNoteClass"
+      >
+        <i class="pi text-xs shrink-0" [class]="adminNoteIcon"></i>
+        <span class="line-clamp-1">{{ request.adminNotes }}</span>
+      </div>
       }
 
-      <div class="flex items-center justify-end gap-3 pt-2 [&>button]:cursor-pointer">
-        @if (request.status === 'pending') {
+      <div
+        class="flex flex-wrap items-center justify-end gap-2 mt-auto pt-1 [&>button]:cursor-pointer"
+      >
+        @if (request.message || request.adminNotes) {
+        <p-button
+          label="Ver detalles"
+          severity="secondary"
+          [outlined]="true"
+          size="small"
+          (onClick)="openDetailsDrawer()"
+          styleClass="text-xs text-gray-600! border-gray-300! hover:bg-gray-50 dark:text-gray-300! dark:hover:bg-gray-800/20 dark:border-gray-600!"
+        />
+        } @if (request.status === 'pending') {
         <p-button
           label="Cancelar"
           severity="secondary"
           [outlined]="true"
           size="small"
           (onClick)="onCancel.emit()"
-          styleClass="w-full text-sky-700! border-sky-600! hover:bg-sky-50 dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20"
+          styleClass="text-xs text-sky-700! border-sky-600! hover:bg-sky-50 dark:text-sky-400! dark:border-sky-600! dark:hover:bg-sky-900/20"
         />
         }
 
@@ -79,9 +69,99 @@
           label="Ver mascota"
           size="small"
           (onClick)="viewPet()"
-          styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white!"
+          styleClass="text-xs bg-pink-600! hover:bg-pink-700! border-pink-600! text-white!"
         />
       </div>
     </div>
   </div>
 </article>
+
+<p-drawer
+  [visible]="showDetailsDrawer()"
+  (visibleChange)="showDetailsDrawer.set($event)"
+  position="right"
+  [style]="{ width: '420px' }"
+  [modal]="true"
+>
+  <ng-template pTemplate="header">
+    <div class="flex items-center gap-3">
+      <div
+        class="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-gray-200 dark:border-gray-700"
+      >
+        <img
+          [src]="pet.images?.[0]?.url || '/assets/images/pets/placeholder-dog.webp'"
+          [alt]="pet.name"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div>
+        <p class="font-semibold text-gray-800 dark:text-white text-sm">{{ pet.name }}</p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 capitalize">
+          {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
+          @if (pet.breed) { · {{ pet.breed }} }
+        </p>
+      </div>
+      <p-tag [value]="statusLabel" [severity]="statusSeverity" class="ml-auto text-xs shrink-0" />
+    </div>
+  </ng-template>
+
+  <div class="flex flex-col gap-5 pt-2">
+    @if (request.message) {
+    <div>
+      <p
+        class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2"
+      >
+        Tu mensaje
+      </p>
+      <div
+        class="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 border border-gray-100 dark:border-gray-700"
+      >
+        <p
+          class="text-sm text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-wrap italic"
+        >
+          "{{ request.message }}"
+        </p>
+      </div>
+    </div>
+    } @if (request.adminNotes) {
+    <div>
+      <p
+        class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2"
+      >
+        Respuesta
+      </p>
+      <div
+        class="rounded-lg p-4 border text-sm leading-relaxed whitespace-pre-wrap"
+        [class]="adminNoteClassFull"
+      >
+        <div class="flex items-center gap-1.5 font-semibold mb-2 text-xs uppercase tracking-wide">
+          <i class="pi" [class]="adminNoteIcon"></i>
+          {{ statusLabel }}
+        </div>
+        <p>{{ request.adminNotes }}</p>
+      </div>
+    </div>
+    }
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex gap-2 justify-end">
+      @if (request.status === 'pending') {
+      <p-button
+        label="Cancelar solicitud"
+        severity="secondary"
+        [outlined]="true"
+        size="small"
+        (onClick)="onCancel.emit(); closeDetailsDrawer()"
+        styleClass="text-sky-700! border-sky-600! hover:bg-sky-50"
+      />
+      }
+      <p-button
+        label="Ver mascota"
+        size="small"
+        (onClick)="viewPet()"
+        styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white!"
+      />
+    </div>
+  </ng-template>
+</p-drawer>
