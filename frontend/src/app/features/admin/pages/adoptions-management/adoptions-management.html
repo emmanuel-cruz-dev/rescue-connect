@@ -26,7 +26,6 @@
           (onChange)="onStatusFilterChange($event.value)"
           class="w-44"
         />
-
         @if (hasActiveFilters) {
         <p-button
           icon="pi pi-filter-slash"
@@ -60,7 +59,6 @@
         <tr>
           <th class="font-semibold">Mascota</th>
           <th class="font-semibold">Solicitante</th>
-          <th class="font-semibold">Mensaje</th>
           <th pSortableColumn="status">
             <div class="flex items-center gap-2">Estado <p-sortIcon field="status" /></div>
           </th>
@@ -70,7 +68,7 @@
           <th pSortableColumn="reviewedAt">
             <div class="flex items-center gap-2">Revisada <p-sortIcon field="reviewedAt" /></div>
           </th>
-          <th style="width: 8rem" class="font-semibold text-center">Acciones</th>
+          <th style="width: 10rem" class="font-semibold text-center">Acciones</th>
         </tr>
       </ng-template>
 
@@ -114,20 +112,6 @@
           </td>
 
           <td>
-            @if (req.message) {
-            <span
-              class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2! max-w-xs block"
-              [pTooltip]="req.message"
-              tooltipPosition="top"
-            >
-              {{ req.message }}
-            </span>
-            } @else {
-            <span class="text-xs text-gray-400">—</span>
-            }
-          </td>
-
-          <td>
             <p-tag
               [value]="getStatusLabel(req.status)"
               [severity]="getStatusSeverity(req.status)"
@@ -158,6 +142,16 @@
 
           <td>
             <div class="flex items-center justify-center gap-1">
+              <p-button
+                icon="pi pi-eye"
+                [rounded]="true"
+                variant="text"
+                severity="secondary"
+                size="small"
+                (onClick)="openDetail(req)"
+                pTooltip="Ver detalle"
+                tooltipPosition="top"
+              />
               @if (req.status === 'pending') {
               <p-button
                 icon="pi pi-check"
@@ -179,8 +173,6 @@
                 pTooltip="Rechazar"
                 tooltipPosition="top"
               />
-              } @else {
-              <span class="text-xs text-gray-400 px-2">—</span>
               }
             </div>
           </td>
@@ -217,6 +209,158 @@
     </p-table>
   </main>
 </section>
+
+@if (req) {
+<p-drawer
+  [visible]="showDetailDrawer()"
+  (visibleChange)="showDetailDrawer.set($event)"
+  position="right"
+  [style]="{ width: '460px' }"
+  [modal]="true"
+>
+  <ng-template pTemplate="header">
+    <div class="flex items-center gap-3 w-full">
+      <figure
+        class="w-11 h-11 rounded-full overflow-hidden shrink-0 border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-slate-800 flex items-center justify-center"
+      >
+        @if (req!.petId.images?.[0]?.url) {
+        <img
+          [src]="req!.petId!.images![0].url"
+          [alt]="req.petId!.name"
+          class="w-full h-full object-cover"
+        />
+        } @else {
+        <i class="pi pi-heart text-gray-400"></i>
+        }
+      </figure>
+      <div class="flex-1 min-w-0">
+        <p class="font-semibold text-gray-800 dark:text-white text-sm truncate">
+          {{ req!.petId!.name }}
+        </p>
+        <p class="text-xs text-gray-400 capitalize">{{ req.petId.type }}</p>
+      </div>
+      <p-tag
+        [value]="getStatusLabel(selectedRequest()!.status)"
+        [severity]="getStatusSeverity(selectedRequest()!.status)"
+        class="shrink-0 text-xs"
+      />
+    </div>
+  </ng-template>
+
+  <div class="flex flex-col gap-5 pt-1">
+    <div>
+      <p
+        class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2"
+      >
+        Solicitante
+      </p>
+      <div
+        class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3 border border-gray-100 dark:border-gray-700 flex items-center gap-3"
+      >
+        <div
+          class="w-8 h-8 rounded-full bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center shrink-0"
+        >
+          <i class="pi pi-user text-pink-500 text-xs"></i>
+        </div>
+        @if (isPopulatedUser(req.userId)) {
+        <div>
+          <p class="text-xs text-gray-400">{{ req.userId.email }}</p>
+        </div>
+        } @else {
+        <p class="text-sm text-gray-400 italic">Usuario eliminado</p>
+        }
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div
+        class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3 border border-gray-100 dark:border-gray-700"
+      >
+        <p class="text-xs text-gray-400 mb-1">Solicitada</p>
+        <p class="text-sm font-medium text-gray-700 dark:text-gray-200">
+          {{ selectedRequest()!.createdAt | date : 'dd/MM/yyyy' }}
+        </p>
+      </div>
+      @if (selectedRequest()!.reviewedAt) {
+      <div
+        class="bg-gray-50 dark:bg-slate-800 rounded-lg p-3 border border-gray-100 dark:border-gray-700"
+      >
+        <p class="text-xs text-gray-400 mb-1">Revisada</p>
+        <p class="text-sm font-medium text-gray-700 dark:text-gray-200">
+          {{ selectedRequest()!.reviewedAt | date : 'dd/MM/yyyy' }}
+        </p>
+        @if (selectedRequest()!.reviewedBy) {
+        <p class="text-xs text-gray-400 mt-0.5">{{ selectedRequest()!.reviewedBy?.email }}</p>
+        }
+      </div>
+      }
+    </div>
+
+    @if (selectedRequest()!.message) {
+    <div>
+      <p
+        class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2"
+      >
+        Mensaje del solicitante
+      </p>
+      <div
+        class="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 border border-gray-100 dark:border-gray-700"
+      >
+        <p
+          class="text-sm text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-wrap italic"
+        >
+          "{{ selectedRequest()!.message }}"
+        </p>
+      </div>
+    </div>
+    } @if (selectedRequest()!.adminNotes) {
+    <div>
+      <p
+        class="text-xs font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500 mb-2"
+      >
+        Notas del administrador
+      </p>
+      <div
+        class="rounded-lg p-4 border text-sm leading-relaxed whitespace-pre-wrap"
+        [ngClass]="{
+          'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800/30 dark:text-green-300':
+            selectedRequest()!.status === 'approved',
+          'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800/30 dark:text-red-300':
+            selectedRequest()!.status === 'rejected',
+          'bg-gray-50 border-gray-200 text-gray-700 dark:bg-gray-800/50 dark:border-gray-700 dark:text-gray-300':
+            selectedRequest()!.status !== 'approved' && selectedRequest()!.status !== 'rejected'
+        }"
+      >
+        {{ selectedRequest()!.adminNotes }}
+      </div>
+    </div>
+    }
+  </div>
+
+  @if (req!.status === 'pending') {
+  <ng-template pTemplate="footer">
+    <div class="flex gap-2 justify-end">
+      <p-button
+        icon="pi pi-times"
+        label="Rechazar"
+        severity="danger"
+        variant="outlined"
+        size="small"
+        (onClick)="confirmRejectSelected()"
+      />
+      <p-button
+        icon="pi pi-check"
+        label="Aprobar"
+        severity="success"
+        size="small"
+        (onClick)="confirmApproveSelected()"
+        styleClass="bg-green-600! hover:bg-green-700! border-green-600! text-white!"
+      />
+    </div>
+  </ng-template>
+  }
+</p-drawer>
+}
 
 <p-confirmDialog [style]="{ width: '450px' }" [breakpoints]="{ '960px': '75vw', '640px': '100vw' }">
   <ng-template pTemplate="message" let-message>
