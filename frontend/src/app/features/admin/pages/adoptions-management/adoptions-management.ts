@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, ViewChild, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MessageService, ConfirmationService } from 'primeng/api';
@@ -16,7 +16,7 @@ type StatusSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
   providers: [ConfirmationService],
   templateUrl: './adoptions-management.html',
 })
-export class AdoptionsManagement implements OnInit, OnDestroy {
+export class AdoptionsManagement implements OnInit {
   private adoptionService = inject(AdoptionService);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
@@ -28,6 +28,9 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
   loading = this.adoptionService.loading;
 
   adminNotes: string = '';
+
+  selectedRequest = signal<IAdoptionRequest | null>(null);
+  showDetailDrawer = signal<boolean>(false);
 
   statusOptions = [
     { label: 'Estado', value: undefined },
@@ -60,10 +63,8 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
   onLazyLoad(event: TableLazyLoadEvent): void {
     const rows = event.rows ?? 10;
     const first = event.first ?? 0;
-
     this.filters.page = Math.floor(first / rows) + 1;
     this.filters.limit = rows;
-
     if (event.sortField) {
       const field = Array.isArray(event.sortField) ? event.sortField[0] : event.sortField;
       if (field === 'createdAt' || field === 'reviewedAt' || field === 'status') {
@@ -71,7 +72,6 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
       }
       this.filters.order = event.sortOrder === 1 ? 'asc' : 'desc';
     }
-
     this.loadRequests();
   }
 
@@ -93,6 +93,40 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
       this.filters.sortBy !== 'createdAt' ||
       this.filters.order !== 'desc'
     );
+  }
+
+  get req(): IAdoptionRequest | null {
+    return this.selectedRequest();
+  }
+
+  isPopulatedUser(userId: any): userId is { _id: string; email: string } {
+    return userId && typeof userId === 'object';
+  }
+
+  openDetail(request: IAdoptionRequest): void {
+    this.selectedRequest.set(request);
+    this.showDetailDrawer.set(true);
+  }
+
+  closeDetail(): void {
+    this.showDetailDrawer.set(false);
+    this.selectedRequest.set(null);
+  }
+
+  confirmApproveSelected(): void {
+    const req = this.selectedRequest();
+    if (req) {
+      this.closeDetail();
+      this.confirmApprove(req);
+    }
+  }
+
+  confirmRejectSelected(): void {
+    const req = this.selectedRequest();
+    if (req) {
+      this.closeDetail();
+      this.confirmReject(req);
+    }
   }
 
   confirmApprove(request: IAdoptionRequest): void {
@@ -184,6 +218,4 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
     };
     return map[status];
   }
-
-  ngOnDestroy(): void {}
 }
