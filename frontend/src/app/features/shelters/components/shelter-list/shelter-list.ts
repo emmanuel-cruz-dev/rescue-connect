@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 
 import { ShelterCard } from '../shelter-card/shelter-card';
+import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
   selector: 'app-shelter-list',
-  imports: [ShelterCard],
+  imports: [ShelterCard, PRIMENG_IMPORTS],
   templateUrl: './shelter-list.html',
 })
 export class ShelterList {
