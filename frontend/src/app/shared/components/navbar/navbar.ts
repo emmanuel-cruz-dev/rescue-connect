@@ -38,6 +38,11 @@ export class Navbar implements OnInit {
         icon: 'custom__pet-icon',
         routerLink: '/pets',
       },
+      {
+        label: 'Cómo adoptar',
+        icon: 'pi pi-info-circle',
+        routerLink: '/how-it-works',
+      },
     ];
 
     this.userMenuItems = [
