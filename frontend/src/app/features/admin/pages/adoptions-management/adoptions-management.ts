@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
+
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IAdoptionRequest, AdoptionRequestFilters, AdoptionStatus } from '../../../../core/models';
@@ -25,6 +26,8 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
   requests = this.adoptionService.requests;
   pagination = this.adoptionService.pagination;
   loading = this.adoptionService.loading;
+
+  adminNotes: string = '';
 
   statusOptions = [
     { label: 'Estado', value: undefined },
@@ -93,6 +96,7 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
   }
 
   confirmApprove(request: IAdoptionRequest): void {
+    this.adminNotes = '';
     const petName = request.petId?.name ?? 'esta mascota';
     this.confirmationService.confirm({
       message: `¿Aprobás la solicitud de adopción de <strong>${petName}</strong>? Se rechazarán automáticamente las demás solicitudes pendientes para esta mascota.`,
@@ -104,11 +108,12 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
         'p-button-success bg-green-600! border-green-600! hover:bg-green-700! text-white!',
       rejectButtonStyleClass:
         'p-button-text text-gray-500! bg-gray-100! hover:!bg-gray-200 dark:text-white! dark:bg-slate-800/20! dark:hover:bg-slate-800/30!',
-      accept: () => this.approveRequest(request),
+      accept: () => this.approveRequest(request, this.adminNotes),
     });
   }
 
   confirmReject(request: IAdoptionRequest): void {
+    this.adminNotes = '';
     const petName = request.petId?.name ?? 'esta mascota';
     this.confirmationService.confirm({
       message: `¿Rechazás la solicitud de adopción de <strong>${petName}</strong>?`,
@@ -120,18 +125,20 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
         'p-button-danger bg-red-600! border-red-600! hover:bg-red-700! text-white!',
       rejectButtonStyleClass:
         'p-button-text text-gray-500! bg-gray-100! hover:!bg-gray-200 dark:text-white! dark:bg-slate-800/20! dark:hover:bg-slate-800/30!',
-      accept: () => this.rejectRequest(request),
+      accept: () => this.rejectRequest(request, this.adminNotes),
     });
   }
 
-  private approveRequest(request: IAdoptionRequest): void {
-    this.adoptionService.approveRequest(request._id).subscribe({
+  private approveRequest(request: IAdoptionRequest, adminNotes?: string): void {
+    const data = adminNotes ? { adminNotes } : undefined;
+    this.adoptionService.approveRequest(request._id, data).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Aprobada',
           detail: `La solicitud fue aprobada correctamente`,
         });
+        this.adminNotes = '';
         this.loadRequests();
       },
       error: () => {
@@ -140,14 +147,16 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
     });
   }
 
-  private rejectRequest(request: IAdoptionRequest): void {
-    this.adoptionService.rejectRequest(request._id).subscribe({
+  private rejectRequest(request: IAdoptionRequest, adminNotes?: string): void {
+    const data = adminNotes ? { adminNotes } : undefined;
+    this.adoptionService.rejectRequest(request._id, data).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'warn',
           summary: 'Rechazada',
           detail: `La solicitud fue rechazada`,
         });
+        this.adminNotes = '';
         this.loadRequests();
       },
       error: () => {
