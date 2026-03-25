@@ -99,15 +99,15 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
     this.adminNotes = '';
     const petName = request.petId?.name ?? 'esta mascota';
     this.confirmationService.confirm({
-      message: `¿Aprobás la solicitud de adopción de <strong>${petName}</strong>? Se rechazarán automáticamente las demás solicitudes pendientes para esta mascota.`,
       header: 'Aprobar solicitud',
+      message: `¿Aprobás la solicitud de adopción de <strong>${petName}</strong>? Se rechazarán automáticamente las demás solicitudes pendientes para esta mascota.`,
       icon: 'pi pi-check-circle',
-      acceptLabel: 'Sí, aprobar',
+      acceptLabel: 'Confirmar aprobación',
       rejectLabel: 'Cancelar',
       acceptButtonStyleClass:
-        'p-button-success bg-green-600! border-green-600! hover:bg-green-700! text-white!',
+        'bg-green-600! hover:bg-green-700! border-0! text-white! px-4 py-2 rounded-lg text-sm',
       rejectButtonStyleClass:
-        'p-button-text text-gray-500! bg-gray-100! hover:!bg-gray-200 dark:text-white! dark:bg-slate-800/20! dark:hover:bg-slate-800/30!',
+        'border-gray-300! text-gray-600! hover:bg-gray-50! dark:border-gray-600! dark:text-gray-300! dark:hover:bg-gray-800! p-button-outlined px-4 py-2 rounded-lg text-sm',
       accept: () => this.approveRequest(request, this.adminNotes),
     });
   }
@@ -116,15 +116,15 @@ export class AdoptionsManagement implements OnInit, OnDestroy {
     this.adminNotes = '';
     const petName = request.petId?.name ?? 'esta mascota';
     this.confirmationService.confirm({
-      message: `¿Rechazás la solicitud de adopción de <strong>${petName}</strong>?`,
       header: 'Rechazar solicitud',
+      message: `¿Estás seguro de que deseas rechazar la solicitud de adopción de <strong>${petName}</strong>?`,
       icon: 'pi pi-times-circle',
       acceptLabel: 'Sí, rechazar',
       rejectLabel: 'Cancelar',
       acceptButtonStyleClass:
-        'p-button-danger bg-red-600! border-red-600! hover:bg-red-700! text-white!',
+        'bg-red-600! hover:bg-red-700! border-0! text-white! px-4 py-2 rounded-lg text-sm',
       rejectButtonStyleClass:
-        'p-button-text text-gray-500! bg-gray-100! hover:!bg-gray-200 dark:text-white! dark:bg-slate-800/20! dark:hover:bg-slate-800/30!',
+        'border-gray-300! text-gray-600! hover:bg-gray-50! dark:border-gray-600! dark:text-gray-300! dark:hover:bg-gray-800! p-button-outlined px-4 py-2 rounded-lg text-sm',
       accept: () => this.rejectRequest(request, this.adminNotes),
     });
   }
