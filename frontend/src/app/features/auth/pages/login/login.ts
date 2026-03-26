@@ -66,13 +66,19 @@ export class Login {
         this.isLoading.set(false);
         this.formSubmitted.set(false);
 
-        const errorMessage = error?.error?.message || 'Credenciales inválidas';
+        let errorMessage: string;
+
+        if (error?.status === 403) {
+          errorMessage = 'Tu cuenta está desactivada. Contactá al administrador.';
+        } else {
+          errorMessage = error?.error?.message || 'Credenciales inválidas';
+        }
 
         this.messageService.add({
           severity: 'error',
           summary: 'Error de autenticación',
           detail: errorMessage,
-          life: 4000,
+          life: 5000,
         });
 
         this.loginForm.get('password')?.setValue('', { emitEvent: false });
