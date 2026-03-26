@@ -213,7 +213,11 @@ export class Dashboard implements OnInit {
     forkJoin({
       dashboard: this.adminService.getDashboardStats(),
       monthly: this.adminService.getMonthlyStats(),
-      adoptions: this.adoptionService.getAllRequests({ limit: 5 }),
+      adoptions: this.adoptionService.getAllRequests({
+        limit: 5,
+        sortBy: 'createdAt',
+        order: 'desc',
+      }),
     }).subscribe({
       next: ({ dashboard, monthly }) => {
         const d = dashboard.data;
