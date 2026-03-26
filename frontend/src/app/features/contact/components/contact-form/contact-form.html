@@ -98,7 +98,7 @@
       </p-floatlabel>
       @if (isInvalid('message')) {
       <p-message severity="error" size="small" variant="simple">
-        El mensaje debe tener entre 10 y 500 caracteres
+        El mensaje debe tener entre 10 y 300 caracteres
       </p-message>
       }
     </div>
@@ -122,7 +122,10 @@
       type="submit"
       label="Enviar Mensaje"
       icon="pi pi-send"
-      styleClass="bg-pink-600! hover:bg-pink-700! border-pink-600! text-white! w-full mt-2"
+      [styleClass]="
+        'bg-pink-600! border-pink-600! text-white! w-full mt-2 ' +
+        (isRateLimited ? 'cursor-not-allowed opacity-70' : 'hover:bg-pink-700!')
+      "
       [loading]="isLoading()"
       [disabled]="isRateLimited"
     />
