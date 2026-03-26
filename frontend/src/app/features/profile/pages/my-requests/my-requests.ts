@@ -1,6 +1,7 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
 import { RequestCard } from '../../../profile/components/request-card/request-card';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
@@ -33,12 +34,12 @@ export class MyRequests implements OnInit {
     this.adoptionService.getMyRequests().subscribe();
   }
 
-  get filteredRequests(): IAdoptionRequest[] {
+  filteredRequests = computed(() => {
     const filter = this.activeFilter();
     const all = this.requests();
     if (filter === 'all') return all;
     return all.filter((r) => r.status === filter);
-  }
+  });
 
   setFilter(value: AdoptionStatus | 'all'): void {
     this.activeFilter.set(value);
