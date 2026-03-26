@@ -27,10 +27,13 @@ export class ContactForm {
   private formSubmitted = signal(false);
 
   contactForm: FormGroup = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]],
-    subject: ['', [Validators.required, Validators.minLength(5)]],
-    message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
+    name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    email: [
+      '',
+      [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(254)],
+    ],
+    subject: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
+    message: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(300)]],
   });
 
   private getTodayString(): string {
