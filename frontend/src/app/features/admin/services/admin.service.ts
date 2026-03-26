@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
+
 import { ApiService } from '../../../core/services';
 import {
   PaginatedApiResponse,
@@ -62,9 +63,21 @@ export class AdminService {
     );
   }
 
-  toggleUserStatus(id: string, isActive: boolean): Observable<any> {
+  getUserById(id: string): Observable<ApiResponse<{ user: IUser }>> {
     return this.apiService
-      .put(`/api/v1/users/${id}`, { isActive })
+      .get<ApiResponse<{ user: IUser }>>(`/api/v1/users/${id}`)
+      .pipe(catchError((error) => throwError(() => error)));
+  }
+
+  createUser(data: Partial<IUser> & { password: string }): Observable<any> {
+    return this.apiService
+      .post(`/api/v1/users`, data)
+      .pipe(catchError((error) => throwError(() => error)));
+  }
+
+  updateUser(id: string, data: Partial<IUser>): Observable<any> {
+    return this.apiService
+      .put(`/api/v1/users/${id}`, data)
       .pipe(catchError((error) => throwError(() => error)));
   }
 
