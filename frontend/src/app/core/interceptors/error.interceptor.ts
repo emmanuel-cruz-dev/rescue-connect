@@ -6,10 +6,11 @@ import {
   HttpEvent,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
+
 import { AuthService } from '../services';
 
 @Injectable()
@@ -38,8 +39,10 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.authService.logoutLocal();
               break;
             case 403:
-              errorMessage = 'No tienes permisos para realizar esta acción';
-              this.router.navigate(['/error/forbidden']);
+              errorMessage = error.error?.message || 'No tienes permisos para realizar esta acción';
+              if (!req.url.includes('/auth/login')) {
+                this.router.navigate(['/error/forbidden']);
+              }
               break;
             case 404:
               errorMessage = error.error?.message || 'Recurso no encontrado';
@@ -61,7 +64,8 @@ export class ErrorInterceptor implements HttpInterceptor {
           }
         }
 
-        if (error.status !== 401) {
+        const isAuthEndpoint = req.url.includes('/auth/');
+        if (error.status !== 401 && !isAuthEndpoint) {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
