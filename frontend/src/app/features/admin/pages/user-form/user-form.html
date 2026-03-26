@@ -68,13 +68,15 @@
             pInputText
             formControlName="firstName"
             placeholder="Ej: Juan"
+            minlength="3"
+            maxlength="50"
             [class.ng-invalid]="f['firstName'].invalid && formSubmitted()"
             [class.ng-dirty]="f['firstName'].invalid && formSubmitted()"
           />
           @if (f['firstName'].invalid && formSubmitted()) {
           <small class="text-red-500">
             @if (f['firstName'].errors?.['required']) { El nombre es obligatorio. } @else if
-            (f['firstName'].errors?.['minlength']) { Mínimo 2 caracteres. }
+            (f['firstName'].errors?.['minlength']) { Mínimo 3 caracteres. }
           </small>
           }
         </div>
@@ -89,6 +91,8 @@
             pInputText
             formControlName="lastName"
             placeholder="Ej: Pérez"
+            minlength="3"
+            maxlength="50"
             [class.ng-invalid]="f['lastName'].invalid && formSubmitted()"
             [class.ng-dirty]="f['lastName'].invalid && formSubmitted()"
           />
@@ -111,6 +115,9 @@
             pInputText
             formControlName="email"
             placeholder="correo@ejemplo.com"
+            minlength="5"
+            maxlength="254"
+            autocomplete="email"
             [class.ng-invalid]="f['email'].invalid && formSubmitted()"
             [class.ng-dirty]="f['email'].invalid && formSubmitted()"
           />
@@ -132,6 +139,9 @@
             pInputText
             formControlName="phone"
             placeholder="Ej: +54 11 1234-5678"
+            minlength="10"
+            maxlength="20"
+            autocomplete="tel"
           />
         </div>
 
@@ -145,6 +155,9 @@
             pInputText
             formControlName="address"
             placeholder="Ej: Av. Corrientes 1234, Buenos Aires"
+            minlength="5"
+            maxlength="100"
+            autocomplete="address-line1"
           />
         </div>
       </div>
@@ -175,6 +188,8 @@
             [ngClass]="{
               'ng-invalid ng-dirty': f['password'].invalid && formSubmitted()
             }"
+            [minlength]="8"
+            [maxlength]="100"
             class="w-full"
             inputStyleClass="w-full"
           />
