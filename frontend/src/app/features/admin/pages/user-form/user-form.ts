@@ -33,10 +33,18 @@ export class UserForm implements OnInit, OnDestroy {
   ];
 
   userForm: FormGroup = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(2)]],
-    lastName: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', this.isEditMode ? [] : [Validators.required, Validators.minLength(8)]],
+    firstName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    lastName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+    email: [
+      '',
+      [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(254)],
+    ],
+    password: [
+      '',
+      this.isEditMode
+        ? []
+        : [Validators.required, Validators.minLength(8), Validators.maxLength(100)],
+    ],
     phone: [''],
     address: [''],
     role: ['user', Validators.required],
