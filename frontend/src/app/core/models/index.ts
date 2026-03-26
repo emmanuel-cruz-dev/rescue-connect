@@ -5,3 +5,4 @@ export * from './auth.model';
 export * from './pet.model';
 export * from './user.model';
 export * from './dashboard.model';
+export * from './status-severity.model';
