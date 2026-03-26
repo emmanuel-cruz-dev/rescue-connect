@@ -188,15 +188,18 @@ export class AdoptionService {
       .patch<ApiResponse<IAdoptionRequest>>(`/api/v1/adoptions/requests/${requestId}/cancel`, {})
       .pipe(
         tap((response) => {
-          if (response?.data) {
+          const updated = (response as any)?.data?.request ?? response?.data;
+          if (updated?.status) {
             const updater = (requests: IAdoptionRequest[]) =>
-              requests.map((r) => (r._id === requestId ? response.data : r));
+              requests.map((r) =>
+                r._id === requestId ? { ...r, status: updated.status } : r
+              );
 
             this.requests.update(updater);
             this.myRequests.update(updater);
 
             if (this.selectedRequest()?._id === requestId) {
-              this.selectedRequest.set(response.data);
+              this.selectedRequest.set({ ...this.selectedRequest()!, status: updated.status });
             }
           }
           this.loading.set(false);
