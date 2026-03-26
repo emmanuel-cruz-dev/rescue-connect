@@ -7,9 +7,7 @@ import { AuthService } from '../../../../core/services';
 import { AdminService } from '../../services/admin.service';
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { AdoptionStatus } from '../../../../core/models';
-
-type StatusSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
+import { AdoptionStatus, StatusSeverity } from '../../../../core/models';
 
 @Component({
   selector: 'app-dashboard',

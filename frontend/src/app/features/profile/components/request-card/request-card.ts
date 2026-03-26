@@ -2,9 +2,7 @@ import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { IAdoptionRequest } from '../../../../core/models';
-
-type StatusSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
+import { IAdoptionRequest, StatusSeverity } from '../../../../core/models';
 
 @Component({
   selector: 'app-request-card',

@@ -6,9 +6,12 @@ import { Table, TableLazyLoadEvent } from 'primeng/table';
 
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { IAdoptionRequest, AdoptionRequestFilters, AdoptionStatus } from '../../../../core/models';
-
-type StatusSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
+import {
+  IAdoptionRequest,
+  AdoptionRequestFilters,
+  AdoptionStatus,
+  StatusSeverity,
+} from '../../../../core/models';
 
 @Component({
   selector: 'app-adoptions-management',
