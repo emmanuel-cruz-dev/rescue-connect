@@ -1,7 +1,8 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { LucideAngularModule, PawPrintIcon } from 'lucide-angular';
-import { AuthService } from '../../../../core/services';
+
+import { AuthService, FavoritesService } from '../../../../core/services';
 import { PetService } from '../../services/pet.service';
 import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
 import { PetGallery, GalleryImage } from '../../../../shared/components/pet-gallery/pet-gallery';
@@ -18,6 +19,7 @@ export class PetDetail implements OnInit {
   private router = inject(Router);
   private petService = inject(PetService);
   private authService = inject(AuthService);
+  private favoritesService = inject(FavoritesService);
   adoptionFlow = inject(AdoptionFlowService);
 
   pet = this.petService.selectedPet;
@@ -39,6 +41,15 @@ export class PetDetail implements OnInit {
 
   get isLoggedIn(): boolean {
     return !!this.authService.getCurrentUser();
+  }
+
+  get isFavorite() {
+    return this.favoritesService.isFavorite(this.pet()!._id);
+  }
+
+  toggleFavorite(event: Event) {
+    event.stopPropagation();
+    this.favoritesService.toggleFavorite(this.pet()!);
   }
 
   ngOnInit(): void {
