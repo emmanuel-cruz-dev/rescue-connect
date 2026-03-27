@@ -1,8 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+import { FavoritesService } from '../../../../core/services';
+import { PetCard } from '../../../pets/components/pet-card/pet-card';
+import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 
 @Component({
   selector: 'app-my-favorites',
-  imports: [],
+  imports: [PetCard, RouterModule, PRIMENG_IMPORTS],
   templateUrl: './my-favorites.html',
 })
-export class MyFavorites {}
+export class MyFavorites {
+  favoritesService = inject(FavoritesService);
+
+  get favorites() {
+    return this.favoritesService.favorites();
+  }
+}
