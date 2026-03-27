@@ -16,14 +16,15 @@
         visitar sus sitios para conocer más.
       </p>
     </header>
-    <div
-      pAnimateOnScroll
-      once="true"
-      enterClass="animate-enter fade-in-10 slide-in-from-b-12 animate-duration-1000"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-12 mx-auto"
-    >
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-12 mx-auto">
       @for(shelter of shelters; track shelter.id) {
-      <app-shelter-card [shelter]="shelter" />
+      <div
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-b-12 animate-duration-1000"
+      >
+        <app-shelter-card [shelter]="shelter" />
+      </div>
       }
     </div>
   </div>
