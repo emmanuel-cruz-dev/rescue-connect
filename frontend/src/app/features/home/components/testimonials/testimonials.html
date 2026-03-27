@@ -46,13 +46,14 @@
             </div>
 
             <div class="flex items-center gap-4 border-t border-gray-100 dark:border-gray-700 pt-6">
-              <div class="relative">
-                <p-avatar
-                  [image]="testimonial.avatar"
-                  shape="circle"
-                  size="xlarge"
-                  class="ring-2 ring-pink-500 ring-offset-2 dark:ring-offset-gray-800"
-                  [attr.aria-label]="testimonial.name"
+              <div class="relative w-16 h-16 shrink-0">
+                <img
+                  [src]="testimonial.avatar"
+                  [alt]="'Foto de ' + testimonial.name"
+                  class="w-full h-full object-cover rounded-full ring-2 ring-pink-500 ring-offset-2 dark:ring-offset-gray-800"
+                  width="150"
+                  height="150"
+                  loading="lazy"
                 />
                 <div
                   class="flex items-center justify-center w-6 h-6 absolute -bottom-1 -right-1 bg-pink-600 rounded-full border-2 border-white dark:border-gray-800"
@@ -62,12 +63,11 @@
                   ></i>
                 </div>
               </div>
-
               <aside>
                 <p class="font-bold text-gray-900 dark:text-white leading-tight">
                   {{ testimonial.name }}
                 </p>
-                <p class="text-sm text-sky-600 dark:text-sky-400 font-medium">
+                <p class="text-sm text-sky-700 dark:text-sky-300 font-medium">
                   {{ testimonial.role }}
                 </p>
               </aside>
