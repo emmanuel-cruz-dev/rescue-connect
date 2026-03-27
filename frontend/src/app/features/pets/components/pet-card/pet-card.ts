@@ -10,6 +10,7 @@ import {
 } from 'lucide-angular';
 
 import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
+import { FavoritesService } from '../../../../core/services';
 import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
 import { IPet } from '../../../../core/models';
 import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
@@ -24,6 +25,7 @@ export class PetCard {
 
   private router = inject(Router);
   adoptionFlow = inject(AdoptionFlowService);
+  favoritesService = inject(FavoritesService);
 
   readonly CatIcon = CatIcon;
   readonly DogIcon = DogIcon;
@@ -32,6 +34,15 @@ export class PetCard {
 
   get canAdopt() {
     return this.adoptionFlow.canAdopt(this.pet);
+  }
+
+  get isFavorite() {
+    return this.favoritesService.isFavorite(this.pet._id);
+  }
+
+  toggleFavorite(event: Event) {
+    event.stopPropagation();
+    this.favoritesService.toggleFavorite(this.pet);
   }
 
   get mainImage(): string {
