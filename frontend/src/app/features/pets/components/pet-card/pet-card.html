@@ -90,10 +90,34 @@
   </ng-template>
 
   <ng-template #subtitle>
-    <p class="text-sm text-gray-500 dark:text-gray-400 truncate first-letter:uppercase">
-      {{ pet.breed && pet.breed !== 'mestizo' ? pet.breed + ' • ' : '' }}
-      {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
-    </p>
+    <div class="relative">
+      <p class="text-sm text-gray-500 dark:text-gray-400 truncate first-letter:uppercase">
+        {{ pet.breed && pet.breed !== 'mestizo' ? pet.breed + ' • ' : '' }}
+        {{ pet.type === 'perro' ? 'Perro' : 'Gato' }}
+      </p>
+      @if (canAdopt) {
+      <div class="absolute top-3 right-0 z-10">
+        <button
+          class="w-9 h-9 flex items-center justify-center rounded-full shadow-lg transition-all duration-300 backdrop-blur-sm cursor-pointer hover:scale-110"
+          [ngClass]="
+            isFavorite
+              ? 'bg-pink-100 hover:bg-pink-200 text-pink-600'
+              : 'bg-white/80 hover:bg-white text-gray-500 hover:text-pink-600'
+          "
+          (click)="toggleFavorite($event)"
+          [pTooltip]="isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+          tooltipPosition="top"
+          [ariaLabel]="isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+        >
+          <i
+            class="pi"
+            [ngClass]="isFavorite ? 'pi-heart-fill' : 'pi-heart'"
+            style="font-size: 1.2rem; line-height: 1"
+          ></i>
+        </button>
+      </div>
+      }
+    </div>
   </ng-template>
 
   <div class="space-y-3">
