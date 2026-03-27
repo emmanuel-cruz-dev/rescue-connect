@@ -34,8 +34,9 @@ export class Sidebar {
 
   userNavItems: NavItem[] = [
     { label: 'Mi Perfil', icon: 'pi pi-user', route: '/profile/me' },
-    { label: 'Mis Solicitudes', icon: 'pi pi-inbox', route: '/profile/my-requests' },
-    { label: 'Mis Adopciones', icon: 'custom__adoption-icon', route: '/profile/adoptions' },
+    { label: 'Solicitudes', icon: 'pi pi-inbox', route: '/profile/my-requests' },
+    { label: 'Adopciones', icon: 'custom__adoption-icon', route: '/profile/adoptions' },
+    { label: 'Favoritos', icon: 'pi pi-heart', route: '/profile/my-favorites' },
     { label: 'Seguridad', icon: 'pi pi-lock', route: '/profile/change-password' },
   ];
 
