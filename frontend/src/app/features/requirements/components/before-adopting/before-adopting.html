@@ -35,14 +35,15 @@
         </li>
       </ul>
     </div>
-    <div
-      pAnimateOnScroll
-      once="true"
-      enterClass="animate-enter fade-in-10 slide-in-from-b-12 animate-duration-1000"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 pt-8"
-    >
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 pt-8">
       @for (stage of stages; track stage.key) {
-      <app-age-info-card [stage]="stage" />
+      <div
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-b-12 animate-duration-1000"
+      >
+        <app-age-info-card [stage]="stage" />
+      </div>
       }
     </div>
   </div>
