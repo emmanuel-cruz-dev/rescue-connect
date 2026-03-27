@@ -171,15 +171,35 @@
         </div>
 
         @if (canAdopt) {
-        <p-button
-          styleClass="w-full bg-pink-600! hover:bg-pink-700! border-0! text-white! py-3! text-base! font-semibold! rounded-xl!"
-          (onClick)="onAdopt()"
-        >
-          <ng-template pTemplate="content">
-            <lucide-angular [img]="PawPrintIcon" size="20" />
-            <span class="ml-2">Quiero adoptar a {{ pet()!.name }}</span>
-          </ng-template>
-        </p-button>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <p-button
+            styleClass="w-full bg-pink-600! hover:bg-pink-700! border-0! text-white! py-3! text-base! font-semibold! rounded-xl!"
+            (onClick)="onAdopt()"
+          >
+            <ng-template pTemplate="content">
+              <div class="flex items-center justify-center gap-2">
+                <lucide-angular [img]="PawPrintIcon" size="20" />
+                <span>Quiero adoptar a {{ pet()!.name }}</span>
+              </div>
+            </ng-template>
+          </p-button>
+          <p-button
+            styleClass="w-full bg-pink-600! hover:bg-pink-700! border-0! text-white! py-3! text-base! font-semibold! rounded-xl!"
+            (onClick)="toggleFavorite($event)"
+            [ariaLabel]="isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'"
+          >
+            <ng-template pTemplate="content">
+              <div class="flex items-center justify-center gap-2">
+                <i
+                  class="pi"
+                  [ngClass]="isFavorite ? 'pi-heart-fill' : 'pi-heart'"
+                  style="font-size: 1.15rem"
+                ></i>
+                <span>{{ isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos' }}</span>
+              </div>
+            </ng-template>
+          </p-button>
+        </div>
         } @else if (pet()!.adopted) {
         <div
           class="w-full text-center py-3 px-4 rounded-xl bg-gray-100 dark:bg-slate-800 text-gray-500 dark:text-gray-400 font-medium border border-gray-200 dark:border-gray-700"
