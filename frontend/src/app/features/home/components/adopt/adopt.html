@@ -2,14 +2,19 @@
   class="py-16 bg-linear-to-b from white to-pink-50/90 dark:bg-slate-900 dark:bg-linear-to-b dark:from-slate-900 dark:to-pink-950/30"
 >
   <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row gap-12 items-center">
-    <p-avatar
+    <figure
       pAnimateOnScroll
       once="true"
       enterClass="animate-enter fade-in-10 slide-in-from-l-12 animate-duration-1000 animate-delay-400"
-      image="assets/images/adopt/adopt.webp"
-      shape="circle"
-      class="w-68 h-68 lg:w-80 lg:h-80 shrink-0 border-4 border-pink-500 shadow-xl"
-    />
+      class="w-68 h-68 lg:w-72 lg:h-72 xl:w-80 xl:h-80 shrink-0 border-4 border-pink-500 shadow-xl rounded-full overflow-hidden"
+    >
+      <img
+        src="assets/images/adopt/adopt.webp"
+        alt="Cachorro de color canela con hocico oscuro descansando en los brazos de una persona"
+        class="w-full h-full object-cover"
+        loading="lazy"
+      />
+    </figure>
     <div
       pAnimateOnScroll
       once="true"
