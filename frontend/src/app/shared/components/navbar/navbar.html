@@ -43,11 +43,13 @@
             type="button"
             (click)="userMenu.toggle($event)"
             class="relative flex items-center justify-center p-0 border-none bg-transparent cursor-pointer group"
+            aria-label="Abrir menú de usuario"
+            aria-haspopup="true"
           >
             <p-avatar
               [label]="userInitials"
               shape="circle"
-              class="font-medium bg-pink-500 text-white w-[2.3rem] h-[2.3rem] shadow-sm"
+              class="font-medium bg-pink-600 text-white w-[2.3rem] h-[2.3rem] shadow-sm"
             ></p-avatar>
             <div
               class="absolute -bottom-1.25 -right-2 flex items-center justify-center w-5 h-5 bg-slate-200 dark:bg-slate-800 rounded-full border-2 border-white dark:border-slate-900 shadow-sm group-hover:bg-slate-200 dark:group-hover:bg-slate-700 transition-colors"
@@ -66,7 +68,9 @@
             [icon]="themeService.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
             class="bg-gray-200/40 dark:bg-slate-800 rounded-full"
             severity="secondary"
-            aria-label="Cambiar tema"
+            role="switch"
+            [ariaLabel]="themeService.darkMode() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'"
+            [attr.aria-checked]="themeService.darkMode()"
           />
         </div>
       </ng-template>
