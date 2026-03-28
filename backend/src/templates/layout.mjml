@@ -24,7 +24,7 @@
     <mj-section padding="24px 0">
       <mj-column>
         <mj-image
-          src="https://rescue-connect-rs.vercel.app/assets/images/logos/logo.png"
+          src="https://rescue-connect-rs.vercel.app/assets/images/logos/logo.avif"
           alt="Rescue Connect"
           width="160px"
           padding="10px 0"
