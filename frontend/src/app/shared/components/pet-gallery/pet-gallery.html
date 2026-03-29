@@ -7,11 +7,13 @@
   [showThumbnails]="showThumbnails"
   [showIndicators]="false"
   [containerStyle]="{ 'max-width': '100%' }"
+  [ariaLabel]="'Galería de imágenes de mascotas'"
 >
   <ng-template #item let-item>
     <img
       [src]="item.itemImageSrc"
       [alt]="item.alt"
+      [attr.alt]="item.alt || 'Imagen de mascota en adopción'"
       class="w-full h-auto object-cover"
       [style.height.px]="imageHeight"
       style="max-width: 100%"

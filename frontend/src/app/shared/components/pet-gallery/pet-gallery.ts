@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+
 import { PRIMENG_IMPORTS } from '../../../shared/primeng/primeng.imports';
 
 export interface GalleryImage {
