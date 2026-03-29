@@ -18,6 +18,8 @@
         { breakpoint: '1024px', numVisible: 2, numScroll: 1 },
         { breakpoint: '768px', numVisible: 1, numScroll: 1 }
       ]"
+      [prevButtonProps]="{ ariaLabel: 'Anterior' }"
+      [nextButtonProps]="{ ariaLabel: 'Siguiente' }"
     >
       <ng-template let-testimonial #item>
         <div class="px-1 pb-5 sm:px-3 h-full">
