@@ -7,9 +7,11 @@
         <a routerLink="/" class="flex items-center gap-2">
           <figure class="flex items-center justify-center w-9 h-9">
             <img
-              src="/assets/images/logos/logo.png"
+              src="/assets/images/logos/logo.avif"
               alt="Rescue Connect logo"
               class="w-full object-cover"
+              width="200"
+              height="200"
             />
           </figure>
           <span class="sm:text-lg font-semibold text-surface-900 dark:text-surface-0">
@@ -37,26 +39,75 @@
       <ng-template #end>
         <div class="flex items-center gap-3">
           @if (authService.isAuthenticated()) {
-          <p-menu #userMenu [model]="userMenuItems" [popup]="true"></p-menu>
-
-          <button
-            type="button"
-            (click)="userMenu.toggle($event)"
-            class="relative flex items-center justify-center p-0 border-none bg-transparent cursor-pointer group"
-            aria-label="Abrir menú de usuario"
-            aria-haspopup="true"
-          >
-            <p-avatar
-              [label]="userInitials"
-              shape="circle"
-              class="font-medium bg-pink-600 text-white w-[2.3rem] h-[2.3rem] shadow-sm"
-            ></p-avatar>
-            <div
-              class="absolute -bottom-1.25 -right-2 flex items-center justify-center w-5 h-5 bg-slate-200 dark:bg-slate-800 rounded-full border-2 border-white dark:border-slate-900 shadow-sm group-hover:bg-slate-200 dark:group-hover:bg-slate-700 transition-colors"
+          <div class="relative">
+            <button
+              type="button"
+              (click)="isMenuOpen = !isMenuOpen"
+              class="relative flex items-center justify-center p-0 border-none bg-transparent cursor-pointer group z-51"
+              aria-label="Abrir menú de usuario"
+              aria-haspopup="true"
             >
-              <i class="pi pi-chevron-down text-[9px] pt-0.5 text-surface-700 dark:text-white!"></i>
-            </div>
-          </button>
+              <p-avatar
+                [label]="userInitials"
+                shape="circle"
+                class="font-medium bg-pink-600 text-white w-[2.3rem] h-[2.3rem] shadow-sm"
+              ></p-avatar>
+              <div
+                class="absolute -bottom-1.25 -right-2 flex items-center justify-center w-5 h-5 bg-slate-200 dark:bg-slate-800 rounded-full border-2 border-gray-300 dark:border-slate-900 shadow-sm group-hover:bg-slate-300 dark:group-hover:bg-slate-700 transition-colors"
+                [class.bg-slate-300]="isMenuOpen"
+              >
+                <i
+                  class="pi pi-chevron-down text-[9px] pt-0.5 text-surface-700 dark:text-white!"
+                ></i>
+              </div>
+            </button>
+
+            @if (isMenuOpen) {
+            <div class="fixed inset-0 z-40 h-screen w-screen" (click)="isMenuOpen = false"></div>
+
+            <article
+              class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-900 rounded-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-100 dark:border-slate-700/50 py-1.5 origin-top-right z-50 overflow-hidden animate-fadein animate-duration-150"
+            >
+              <ul class="list-none p-0 m-0">
+                @for (item of userMenuItems; track item.label) { @if (item.visible !== false) { @if
+                (item.separator) {
+                <li class="h-px bg-slate-200 dark:bg-slate-700/50 my-1 mx-2"></li>
+                } @else {
+                <li>
+                  @if (item.routerLink) {
+                  <a
+                    [routerLink]="item.routerLink"
+                    (click)="isMenuOpen = false"
+                    class="flex items-center gap-3 px-4 mx-2 rounded-sm py-1.5 text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer no-underline group focus:outline-none focus:bg-slate-50 dark:focus:bg-slate-700/50"
+                  >
+                    @if (item.icon) {
+                    <i
+                      [class]="item.icon"
+                      class="text-slate-400 dark:text-slate-400 text-base group-hover:text-primary transition-colors"
+                    ></i>
+                    }
+                    <span class="group-hover:text-primary transition-colors">{{ item.label }}</span>
+                  </a>
+                  } @else if (item.command) {
+                  <a
+                    (click)="item.command({}); isMenuOpen = false"
+                    class="flex items-center gap-3 px-4 py-1.5 text-sm mx-2 rounded-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer no-underline group focus:outline-none focus:bg-slate-50 dark:focus:bg-slate-700/50"
+                  >
+                    @if (item.icon) {
+                    <i
+                      [class]="item.icon"
+                      class="text-slate-400 dark:text-slate-400 text-base group-hover:text-primary transition-colors"
+                    ></i>
+                    }
+                    <span class="group-hover:text-primary transition-colors">{{ item.label }}</span>
+                  </a>
+                  }
+                </li>
+                } } }
+              </ul>
+            </article>
+            }
+          </div>
           } @else {
           <app-nav-button label="Ingresar" icon="pi pi-sign-in" routerLink="/auth/login" />
           }
