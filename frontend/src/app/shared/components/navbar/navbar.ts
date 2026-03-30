@@ -17,6 +17,7 @@ export class Navbar implements OnInit {
 
   items: MenuItem[] = [];
   userMenuItems: MenuItem[] = [];
+  isMenuOpen = false;
 
   get userInitials(): string {
     const user = this.authService.getCurrentUser();
