@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 
 import { FavoritesService } from '../../../../core/services';
 import { PetCard } from '../../../pets/components/pet-card/pet-card';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 @Component({
   selector: 'app-my-favorites',

@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
-import { IAdoptionRequest, StatusSeverity } from '../../../../core/models';
+import { PRIMENG_IMPORTS } from '../../../shared';
+import { IAdoptionRequest, StatusSeverity } from '../../../core/models';
 
 @Component({
   selector: 'app-request-card',

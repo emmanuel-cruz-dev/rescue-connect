@@ -3,8 +3,8 @@ import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
-import { RequestCard } from '../../../profile/components/request-card/request-card';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { RequestCard } from '../../../profile/components/request-card';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import { IAdoptionRequest, AdoptionStatus } from '../../../../core/models';
 
 @Component({
