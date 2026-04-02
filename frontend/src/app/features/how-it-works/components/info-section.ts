@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { SectionHeader, PRIMENG_IMPORTS } from '../../../../shared';
+import { SectionHeader, PRIMENG_IMPORTS } from '../../../shared';
 
 interface HowItWorksStep {
   title: string;

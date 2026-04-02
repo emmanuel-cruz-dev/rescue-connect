@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { InfoSection } from '../components/info-section/info-section';
+import { InfoSection } from '../components/info-section';
 
 @Component({
   selector: 'app-how-it-works',
