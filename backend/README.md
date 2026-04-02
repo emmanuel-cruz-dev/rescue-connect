@@ -337,7 +337,6 @@ backend/
 | GET    | `/profile`         | Obtener perfil del usuario | Sí   | user/admin |
 | PUT    | `/profile`         | Actualizar perfil          | Sí   | user/admin |
 | POST   | `/change-password` | Cambiar contraseña         | Sí   | user/admin |
-| POST   | `/logout`          | Cerrar sesión              | Sí   | user/admin |
 | GET    | `/my-pets`         | Obtener mascotas adoptadas | Sí   | user/admin |
 
 ### Mascotas (`/api/v1/pets`)
