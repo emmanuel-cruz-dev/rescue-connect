@@ -6,7 +6,7 @@ import { PawPrintIcon, LucideAngularModule } from 'lucide-angular';
 import { AuthService } from '../../../../core/services';
 import { AdminService } from '../../services/admin.service';
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import { AdoptionStatus, StatusSeverity } from '../../../../core/models';
 
 @Component({

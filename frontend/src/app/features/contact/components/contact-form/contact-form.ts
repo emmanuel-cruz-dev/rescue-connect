@@ -4,7 +4,7 @@ import { MessageService } from 'primeng/api';
 import emailjs from '@emailjs/browser';
 
 import { environment } from '../../../../../environments/environment';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 const RATE_LIMIT_KEY = 'contact-form-submissions';
 const MAX_SUBMISSIONS_PER_DAY = 3;

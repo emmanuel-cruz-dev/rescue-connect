@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { HowItWorks } from './pages/how-it-works/how-it-works';
+import { HowItWorks } from './pages/how-it-works';
 
 export const HOW_IT_WORKS_ROUTES: Routes = [
   {

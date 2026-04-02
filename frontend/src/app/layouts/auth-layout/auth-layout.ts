@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { Navbar } from '../../shared/components/navbar/navbar';
-import { Footer } from '../../shared/components/footer/footer';
-import { PRIMENG_IMPORTS } from '../../shared/primeng/primeng.imports';
+import { Navbar, Footer, PRIMENG_IMPORTS } from '../../shared';
 
 @Component({
   selector: 'app-auth-layout',

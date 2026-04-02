@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MessageService } from 'primeng/api';
 
 import { AdminService } from '../../services/admin.service';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 @Component({
   selector: 'app-user-form',

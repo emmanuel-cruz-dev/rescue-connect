@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthService } from '../../../../core/services';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 @Component({
   selector: 'app-forgot-password',

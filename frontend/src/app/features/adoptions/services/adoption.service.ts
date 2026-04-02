@@ -1,5 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap, catchError, throwError } from 'rxjs';
+
 import { ApiService } from '../../../core/services';
 import {
   ApiResponse,
@@ -191,9 +192,7 @@ export class AdoptionService {
           const updated = (response as any)?.data?.request ?? response?.data;
           if (updated?.status) {
             const updater = (requests: IAdoptionRequest[]) =>
-              requests.map((r) =>
-                r._id === requestId ? { ...r, status: updated.status } : r
-              );
+              requests.map((r) => (r._id === requestId ? { ...r, status: updated.status } : r));
 
             this.requests.update(updater);
             this.myRequests.update(updater);

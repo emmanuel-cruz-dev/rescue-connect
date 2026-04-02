@@ -3,11 +3,11 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { switchMap } from 'rxjs';
+
 import { PetService } from '../../services/pet.service';
 import { PetCard } from '../../components/pet-card/pet-card';
 import { PetFilters } from '../../components/pet-filters/pet-filters';
-import { PetCardSkeleton } from '../../../../shared/components/pet-card-skeleton/pet-card-skeleton';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PetCardSkeleton, PRIMENG_IMPORTS } from '../../../../shared';
 import { PetFilters as PetFiltersModel } from '../../../../core/models';
 
 @Component({

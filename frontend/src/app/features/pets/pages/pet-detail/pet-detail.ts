@@ -5,8 +5,7 @@ import { LucideAngularModule, PawPrintIcon } from 'lucide-angular';
 import { AuthService, FavoritesService } from '../../../../core/services';
 import { PetService } from '../../services/pet.service';
 import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
-import { PetGallery, GalleryImage } from '../../../../shared/components/pet-gallery/pet-gallery';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PetGallery, GalleryImage, PRIMENG_IMPORTS } from '../../../../shared';
 import { PetSize } from '../../../../core/enums/pet-type.enum';
 
 @Component({

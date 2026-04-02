@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
+
 import { AdminService } from '../../services/admin.service';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import { IUser, UserFilters } from '../../../../core/models';
 
 @Component({

@@ -5,7 +5,7 @@ import { MessageService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 
 import { PetService } from '../../../pets/services/pet.service';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import { IPetImage } from '../../../../core/models';
 
 @Component({

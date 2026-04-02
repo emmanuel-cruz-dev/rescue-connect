@@ -3,7 +3,8 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, FishIcon, BoneIcon } from 'lucide-angular';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import { PetFilters as PetFiltersModel } from '../../../../core/models';
 
 @Component({

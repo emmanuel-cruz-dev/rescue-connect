@@ -14,8 +14,7 @@ import { routes } from './app.routes';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { AppTitleStrategy } from './core/strategies/title.strategy';
-import { MyPreset } from './shared/primeng/my-preset';
-import { PRIME_NG_LOCALE_ES } from './shared/primeng/locale-es';
+import { MyPreset, PRIME_NG_LOCALE_ES } from './shared';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { AgeInfoCard } from '../age-info-card/age-info-card';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 @Component({
   selector: 'app-before-adopting',

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { LucideAngularModule, ShieldAlertIcon } from 'lucide-angular';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 @Component({
   selector: 'app-forbidden',

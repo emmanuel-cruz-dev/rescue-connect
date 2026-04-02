@@ -5,8 +5,9 @@ import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { LucideAngularModule, FishIcon, BoneIcon } from 'lucide-angular';
+
 import { PetService } from '../../../pets/services/pet.service';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import { IPet, PetFilters } from '../../../../core/models';
 
 type SizeSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';

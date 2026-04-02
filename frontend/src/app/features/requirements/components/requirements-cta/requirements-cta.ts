@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { CtaBanner } from '../../../../shared/components/cta-banner/cta-banner';
+import { CtaBanner } from '../../../../shared';
 
 @Component({
   selector: 'app-requirements-cta',

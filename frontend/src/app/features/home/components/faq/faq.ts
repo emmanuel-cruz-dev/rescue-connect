@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SectionHeader } from '../../../../shared/components/section-header/section-header';
-import { PetGallery, GalleryImage } from '../../../../shared/components/pet-gallery/pet-gallery';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { SectionHeader, PetGallery, GalleryImage, PRIMENG_IMPORTS } from '../../../../shared';
 
 interface FaqItem {
   value: string;
@@ -12,7 +10,7 @@ interface FaqItem {
 
 @Component({
   selector: 'app-faq',
-  imports: [PRIMENG_IMPORTS, SectionHeader, PetGallery],
+  imports: [SectionHeader, PetGallery, PRIMENG_IMPORTS],
   templateUrl: './faq.html',
 })
 export class Faq implements OnInit {

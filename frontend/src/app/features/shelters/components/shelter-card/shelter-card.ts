@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 interface Shelter {
   id: number;

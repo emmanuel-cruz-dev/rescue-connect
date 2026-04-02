@@ -5,7 +5,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import {
   IAdoptionRequest,
   AdoptionRequestFilters,

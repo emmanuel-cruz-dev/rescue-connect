@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 
 import { AuthService } from '../../../../core/services';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
   const password = control.get('newPassword');

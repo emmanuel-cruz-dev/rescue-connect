@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LucideAngularModule, HeartHandshakeIcon, PawPrintIcon } from 'lucide-angular';
 
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 
 @Component({
   selector: 'app-mission-vision',

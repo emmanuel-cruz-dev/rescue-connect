@@ -11,7 +11,7 @@ import {
 
 import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
 import { FavoritesService } from '../../../../core/services';
-import { PRIMENG_IMPORTS } from '../../../../shared/primeng/primeng.imports';
+import { PRIMENG_IMPORTS } from '../../../../shared';
 import { IPet } from '../../../../core/models';
 import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
 

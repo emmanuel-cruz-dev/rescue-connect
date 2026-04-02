@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ShelterList } from '../../components/shelter-list/shelter-list';
+import { ShelterList } from '../components/shelter-list/shelter-list';
 
 @Component({
   selector: 'app-shelters',

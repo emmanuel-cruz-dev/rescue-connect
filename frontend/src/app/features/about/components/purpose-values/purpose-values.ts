@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { ShieldCheckIcon, ClockIcon, UsersIcon } from 'lucide-angular';
 
-import {
-  InfoCardsSection,
-  InfoCard,
-  InfoCardsSectionConfig,
-} from '../../../../shared/components/info-cards-section/info-cards-section';
+import { InfoCardsSection, InfoCard, InfoCardsSectionConfig } from '../../../../shared';
 
 @Component({
   selector: 'app-purpose-values',

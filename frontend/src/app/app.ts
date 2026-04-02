@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Toast } from 'primeng/toast';
-import { ScrollToTop } from './shared/components/scroll-to-top/scroll-to-top';
+
+import { ScrollToTop } from './shared';
 
 @Component({
   selector: 'app-root',
