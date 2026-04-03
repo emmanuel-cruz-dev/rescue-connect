@@ -5,12 +5,26 @@ import { LucideAngularModule, PawPrintIcon } from 'lucide-angular';
 import { AuthService, FavoritesService } from '../../../../core/services';
 import { PetService } from '../../services/pet.service';
 import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
-import { PetGallery, GalleryImage, PRIMENG_IMPORTS } from '../../../../shared';
-import { PetSize } from '../../../../core/enums/pet-type.enum';
+import {
+  PetGallery,
+  GalleryImage,
+  PetAgePipe,
+  PetSizeLabelPipe,
+  PetTypeLabelPipe,
+  PRIMENG_IMPORTS,
+} from '../../../../shared';
 
 @Component({
   selector: 'app-pet-detail',
-  imports: [RouterModule, LucideAngularModule, PetGallery, PRIMENG_IMPORTS],
+  imports: [
+    RouterModule,
+    LucideAngularModule,
+    PetGallery,
+    PetAgePipe,
+    PetSizeLabelPipe,
+    PetTypeLabelPipe,
+    PRIMENG_IMPORTS,
+  ],
   templateUrl: './pet-detail.html',
 })
 export class PetDetail implements OnInit {
@@ -68,34 +82,6 @@ export class PetDetail implements OnInit {
     return type === 'gato'
       ? '/assets/images/pets/placeholder-cat.webp'
       : '/assets/images/pets/placeholder-dog.webp';
-  }
-
-  getAgeLabel(): string {
-    const birthDate = this.pet()?.birthDate;
-    if (!birthDate) return 'Edad desconocida';
-
-    const birth = new Date(birthDate);
-    const today = new Date();
-    const totalMonths = Math.floor(
-      (today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24 * 30.44)
-    );
-    const years = Math.floor(totalMonths / 12);
-    const months = totalMonths % 12;
-
-    if (years === 0) return months === 1 ? '1 mes' : `${months} meses`;
-    if (months === 0) return years === 1 ? '1 año' : `${years} años`;
-
-    return `${years} ${years === 1 ? 'año' : 'años'} y ${months} ${months === 1 ? 'mes' : 'meses'}`;
-  }
-
-  getSizeLabel(): string {
-    const labels: Record<PetSize, string> = {
-      pequeño: 'Pequeño',
-      mediano: 'Mediano',
-      grande: 'Grande',
-      'extra grande': 'Extra grande',
-    };
-    return labels[this.pet()?.size as PetSize] ?? '';
   }
 
   galleryImages = computed<GalleryImage[]>(() => {
