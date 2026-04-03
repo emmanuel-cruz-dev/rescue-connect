@@ -75,6 +75,6 @@ export class Navbar implements OnInit {
   }
 
   logout() {
-    this.authService.logout().subscribe();
+    this.authService.logout();
   }
 }
