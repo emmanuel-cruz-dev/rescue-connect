@@ -7,14 +7,19 @@ import { Table, TableLazyLoadEvent } from 'primeng/table';
 import { LucideAngularModule, FishIcon, BoneIcon } from 'lucide-angular';
 
 import { PetService } from '../../../pets/services/pet.service';
-import { PRIMENG_IMPORTS } from '../../../../shared';
-import { IPet, PetFilters } from '../../../../core/models';
-
-type SizeSeverity = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
+import { PetAgePipe, PetTypeLabelPipe, PRIMENG_IMPORTS } from '../../../../shared';
+import { IPet, PetFilters, StatusSeverity } from '../../../../core/models';
 
 @Component({
   selector: 'app-pets-management',
-  imports: [RouterModule, FormsModule, LucideAngularModule, PRIMENG_IMPORTS],
+  imports: [
+    RouterModule,
+    FormsModule,
+    LucideAngularModule,
+    PetAgePipe,
+    PetTypeLabelPipe,
+    PRIMENG_IMPORTS,
+  ],
   providers: [ConfirmationService],
   templateUrl: './pets-management.html',
 })
@@ -160,22 +165,12 @@ export class PetsManagement implements OnInit, OnDestroy {
     });
   }
 
-  getAgeFromBirthDate(birthDate: Date | string): string {
-    const birth = new Date(birthDate);
-    const now = new Date();
-    const months =
-      (now.getFullYear() - birth.getFullYear()) * 12 + (now.getMonth() - birth.getMonth());
-    if (months < 12) return `${months} mes${months !== 1 ? 'es' : ''}`;
-    const years = Math.floor(months / 12);
-    return `${years} año${years !== 1 ? 's' : ''}`;
-  }
-
   getPetTypeIcon(type: string) {
     return type === 'perro' ? this.Bone : this.Fish;
   }
 
-  getSizeSeverity(size: string): SizeSeverity {
-    const map: Record<string, SizeSeverity> = {
+  getSizeSeverity(size: string): StatusSeverity {
+    const map: Record<string, StatusSeverity> = {
       pequeño: 'success',
       mediano: 'info',
       grande: 'warn',
