@@ -5,7 +5,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 
 import { AdoptionService } from '../../../adoptions/services/adoption.service';
-import { PRIMENG_IMPORTS } from '../../../../shared';
+import { AdoptionStatusLabelPipe, DefaultValuePipe, PRIMENG_IMPORTS } from '../../../../shared';
 import {
   IAdoptionRequest,
   AdoptionRequestFilters,
@@ -15,7 +15,7 @@ import {
 
 @Component({
   selector: 'app-adoptions-management',
-  imports: [RouterModule, FormsModule, PRIMENG_IMPORTS],
+  imports: [RouterModule, FormsModule, AdoptionStatusLabelPipe, DefaultValuePipe, PRIMENG_IMPORTS],
   providers: [ConfirmationService],
   templateUrl: './adoptions-management.html',
 })
@@ -208,16 +208,6 @@ export class AdoptionsManagement implements OnInit {
       approved: 'success',
       rejected: 'danger',
       cancelled: 'secondary',
-    };
-    return map[status];
-  }
-
-  getStatusLabel(status: AdoptionStatus): string {
-    const map: Record<AdoptionStatus, string> = {
-      pending: 'Pendiente',
-      approved: 'Aprobada',
-      rejected: 'Rechazada',
-      cancelled: 'Cancelada',
     };
     return map[status];
   }

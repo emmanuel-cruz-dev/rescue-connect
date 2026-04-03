@@ -91,7 +91,7 @@
               </figure>
               <div class="flex flex-col">
                 <span class="font-semibold text-gray-800 dark:text-white text-sm">
-                  {{ req.petId?.name ?? '—' }}
+                  {{ req.petId?.name | defaultValue }}
                 </span>
                 <span class="text-xs text-gray-400 capitalize">{{ req.petId?.type }}</span>
               </div>
@@ -113,7 +113,7 @@
 
           <td>
             <p-tag
-              [value]="getStatusLabel(req.status)"
+              [value]="req.status | adoptionStatusLabel"
               [severity]="getStatusSeverity(req.status)"
               class="text-xs"
             />
@@ -240,7 +240,7 @@
         <p class="text-xs text-gray-400 capitalize">{{ req.petId.type }}</p>
       </div>
       <p-tag
-        [value]="getStatusLabel(selectedRequest()!.status)"
+        [value]="selectedRequest()!.status | adoptionStatusLabel"
         [severity]="getStatusSeverity(selectedRequest()!.status)"
         class="shrink-0 text-xs"
       />
