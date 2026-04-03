@@ -27,6 +27,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { MenuModule } from 'primeng/menu';
 import { MessageModule } from 'primeng/message';
 import { PaginatorModule } from 'primeng/paginator';
+import { PanelModule } from 'primeng/panel';
 import { PasswordModule } from 'primeng/password';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RippleModule } from 'primeng/ripple';
@@ -70,6 +71,7 @@ export const PRIMENG_IMPORTS = [
   MenuModule,
   MessageModule,
   PaginatorModule,
+  PanelModule,
   PasswordModule,
   ProgressSpinnerModule,
   RippleModule,
