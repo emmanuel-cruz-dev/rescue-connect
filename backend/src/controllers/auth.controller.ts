@@ -232,18 +232,6 @@ class AuthController {
     }
   }
 
-  // TODO: remove function when implementing it on the client
-  async logout(req: Request, res: Response, next: NextFunction) {
-    try {
-      res.status(200).json({
-        status: "success",
-        message: "Logout exitoso",
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
-
   async getMyPets(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.user) {
