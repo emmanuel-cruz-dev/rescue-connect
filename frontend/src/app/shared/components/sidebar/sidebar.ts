@@ -1,5 +1,6 @@
 import { Component, inject, input, output } from '@angular/core';
 import { RouterModule, RouterLinkActive } from '@angular/router';
+
 import { AuthService, ThemeService } from '../../../core/services';
 import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
 
@@ -53,6 +54,6 @@ export class Sidebar {
   }
 
   logout(): void {
-    this.authService.logout().subscribe();
+    this.authService.logout();
   }
 }
