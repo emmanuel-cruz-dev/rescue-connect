@@ -6,12 +6,12 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 import { Table, TableLazyLoadEvent } from 'primeng/table';
 
 import { AdminService } from '../../services/admin.service';
-import { PRIMENG_IMPORTS } from '../../../../shared';
+import { DefaultValuePipe, PRIMENG_IMPORTS } from '../../../../shared';
 import { IUser, UserFilters } from '../../../../core/models';
 
 @Component({
   selector: 'app-users-management',
-  imports: [RouterModule, FormsModule, PRIMENG_IMPORTS],
+  imports: [RouterModule, FormsModule, DefaultValuePipe, PRIMENG_IMPORTS],
   providers: [ConfirmationService],
   templateUrl: './users-management.html',
 })

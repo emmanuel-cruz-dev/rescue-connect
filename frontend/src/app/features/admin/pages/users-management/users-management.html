@@ -121,7 +121,7 @@
 
           <td>
             <span class="text-sm text-gray-600 dark:text-gray-300">
-              {{ user.phone || '—' }}
+              {{ user.phone | defaultValue }}
             </span>
           </td>
 
