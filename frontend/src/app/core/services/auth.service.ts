@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
+
 import { StorageService } from './storage.service';
 import { ApiService } from './api.service';
 import {
@@ -102,20 +103,6 @@ export class AuthService {
     return this.apiService.post('/api/v1/auth/change-password', data);
   }
 
-  logout(): Observable<ApiResponse<any>> {
-    return this.apiService.post<ApiResponse<any>>('/api/v1/auth/logout', {}).pipe(
-      tap(() => {
-        this.clearSession();
-        this.router.navigate(['/auth/login']);
-      }),
-      catchError((error) => {
-        this.clearSession();
-        this.router.navigate(['/auth/login']);
-        return throwError(() => error);
-      })
-    );
-  }
-
   forgotPassword(email: string): Observable<{ status: string; message: string }> {
     return this.apiService.post('/api/v1/auth/forgot-password', { email });
   }
@@ -127,7 +114,7 @@ export class AuthService {
     return this.apiService.post(`/api/v1/auth/reset-password/${token}`, { newPassword });
   }
 
-  logoutLocal(): void {
+  logout(): void {
     this.clearSession();
     this.router.navigate(['/auth/login']);
   }
