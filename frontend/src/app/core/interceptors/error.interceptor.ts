@@ -36,7 +36,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
             case 401:
               errorMessage = 'No autorizado. Por favor inicia sesión nuevamente';
-              this.authService.logoutLocal();
+              this.authService.logout();
               break;
             case 403:
               errorMessage = error.error?.message || 'No tienes permisos para realizar esta acción';
