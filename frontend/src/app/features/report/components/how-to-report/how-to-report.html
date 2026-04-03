@@ -1,8 +1,40 @@
-<img
-  src="assets/images/report/gatos-jaula.webp"
-  alt="Dos gatitos rescatados esperando adopción en una jaula; uno tiene pelaje tricolor (calicó) y el otro es gris con blanco"
-  class="w-full h-full object-cover"
-  width="730"
-  height="500"
-  loading="lazy"
-/>
+<section
+  class="py-16 bg-linear-to-b from-white to-pink-50/90 dark:bg-slate-900 dark:bg-linear-to-b dark:from-slate-900 dark:to-pink-950/30"
+>
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center">
+    <div
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-l-12 animate-duration-1000 animate-delay-400"
+    >
+      <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6 leading-snug">
+        Juntos podemos <span class="text-pink-600">cambiar su realidad</span>
+      </h2>
+      <p class="text-lg">
+        El maltrato animal es un delito penado por
+        <strong>Ley 14.346, incorporada al Código Penal</strong>. Denunciar es fundamental para
+        proteger a los animales, generar conciencia y garantizar
+        <strong>que los culpables enfrenten las consecuencias</strong>.
+      </p>
+    </div>
+    <div
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-r-12 animate-duration-1000 animate-delay-400"
+    >
+      <ul
+        class="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed [&>li]:flex [&>li]:items-center [&>li]:gap-5"
+      >
+        @for (step of reportSteps; track step.title) {
+        <li>
+          <i [class]="'pi ' + step.icon + ' text-3xl text-pink-600'"></i>
+          <div>
+            <p class="font-semibold text-2xl sm:text-3xl mb-1">{{ step.title }}</p>
+            <p>{{ step.description }}</p>
+          </div>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>
