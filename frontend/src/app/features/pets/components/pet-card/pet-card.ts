@@ -11,13 +11,29 @@ import {
 
 import { AdoptionFlowService } from '../../../adoptions/services/adoption-flow.service';
 import { FavoritesService } from '../../../../core/services';
-import { PRIMENG_IMPORTS } from '../../../../shared';
+import {
+  PetAgePipe,
+  PetSizeLabelPipe,
+  PetTypeLabelPipe,
+  ImageFallbackDirective,
+  ClickStopPropagationDirective,
+  PRIMENG_IMPORTS,
+} from '../../../../shared';
 import { IPet } from '../../../../core/models';
-import { PetType, PetSize } from '../../../../core/enums/pet-type.enum';
+import { PetType } from '../../../../core/enums/pet-type.enum';
 
 @Component({
   selector: 'app-pet-card',
-  imports: [NgOptimizedImage, LucideAngularModule, PRIMENG_IMPORTS],
+  imports: [
+    NgOptimizedImage,
+    LucideAngularModule,
+    PetAgePipe,
+    PetSizeLabelPipe,
+    PetTypeLabelPipe,
+    ImageFallbackDirective,
+    ClickStopPropagationDirective,
+    PRIMENG_IMPORTS,
+  ],
   templateUrl: './pet-card.html',
 })
 export class PetCard {
@@ -60,53 +76,12 @@ export class PetCard {
     return placeholders[this.pet.type] ?? placeholders['perro'];
   }
 
-  getAgeLabel(): string {
-    if (!this.pet.birthDate) return '';
-
-    const birthDate = new Date(this.pet.birthDate);
-    const today = new Date();
-
-    const diffInMs = today.getTime() - birthDate.getTime();
-    const totalMonths = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 30.44));
-
-    const years = Math.floor(totalMonths / 12);
-    const months = totalMonths % 12;
-
-    if (years === 0) {
-      return months === 1 ? '1 mes' : `${months} meses`;
-    }
-
-    if (months === 0) {
-      return years === 1 ? '1 año' : `${years} años`;
-    }
-
-    const yearLabel = years === 1 ? 'año' : 'años';
-    const monthLabel = months === 1 ? 'mes' : 'meses';
-
-    return `${years} ${yearLabel} y ${months} ${monthLabel}`;
-  }
-
-  getSizeLabel(): string {
-    const labels: Record<PetSize, string> = {
-      pequeño: 'Pequeño',
-      mediano: 'Mediano',
-      grande: 'Grande',
-      'extra grande': 'Extra grande',
-    };
-    return labels[this.pet.size];
-  }
-
   viewDetails(): void {
     this.router.navigate(['/pets', this.pet._id]);
   }
 
   onAdopt() {
     this.adoptionFlow.openDialog(this.pet);
-  }
-
-  onImageError(event: Event) {
-    const img = event.target as HTMLImageElement;
-    img.src = '/assets/images/pets/placeholder-dog.webp';
   }
 
   getCloudinaryPath(url: string) {
