@@ -1,1 +1,81 @@
-<p>steps-to-report works!</p>
+<section
+  class="pt-22 pb-16 bg-linear-to-b from-pink-50/90 to-white dark:bg-slate-900 dark:bg-linear-to-b dark:from-pink-950/30 dark:to-slate-900"
+>
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <div class="grid grid-cols-2 gap-12 items-center">
+      <figure class="w-64 h-64 overflow-hidden">
+        <img
+          src="assets/images/report/tres-perros-jaula.webp"
+          alt="Tres perros de raza pequeña, incluyendo un Bulldog Francés y un Boston Terrier, dentro de una jaula de transporte metálica con un cuenco de agua azul al frente"
+          class="w-full h-full object-cover"
+          width="670"
+          height="702"
+          loading="lazy"
+        />
+      </figure>
+      <figure class="w-64 h-64 overflow-hidden">
+        <img
+          src="assets/images/report/caniche-rescatado.webp"
+          alt="Un perro pequeño tipo caniche o terrier rescatado, con el pelo descuidado y mojado, sostenido por una persona con guantes protectores en un entorno de atención médica animal"
+          class="w-full h-full object-cover"
+          width="670"
+          height="702"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+    <div class="grid grid-cols-1 gap-3 items-center">
+      <p>Pasos para denunciar el maltrato animal</p>
+      <p-panel header="¿Dónde denunciar?" [toggleable]="true">
+        <ul class="m-0">
+          <li>
+            <strong>En Provincia: </strong>
+            Comisaría local o, mejor aún en la Unidad Fiscal de Instrucción (UFI) del domicilio
+            donde presuntivamente ocurrió el hecho.
+          </li>
+          <li>
+            <strong>En Capital Federal: </strong>
+            <a href="https://mpfciudad.gob.ar/denuncias" target="_blank" rel="noopener noreferrer">
+              https://mpfciudad.gob.ar/denuncias
+            </a>
+          </li>
+        </ul>
+      </p-panel>
+      <p-panel header="Prepará los datos clave" [toggleable]="true" [collapsed]="true">
+        <ul class="m-0">
+          <li>Fecha y hora del incidente.</li>
+          <li>Lugar donde ocurrió el hecho.</li>
+          <li>Datos del culpable como nombre o dirección (si se conocen).</li>
+          <li>Fotos o videos que prueben el maltrato (con fecha visible).</li>
+          <li>Testimonios de testigos, si los hay.</li>
+        </ul>
+      </p-panel>
+      <p-panel header="Hacé la denuncia por escrito" [toggleable]="true" [collapsed]="true">
+        <ul class="m-0">
+          <li>La denuncia debe ser firmada y sellada por el funcionario que la reciba.</li>
+          <li>Pedí el número de expediente para darle seguimiento.</li>
+        </ul>
+      </p-panel>
+      <p-panel header="En casos graves" [toggleable]="true" [collapsed]="true">
+        <p class="m-0">
+          En caso de muerte del animal, deberá colocar el cuerpo en la heladera hasta que un
+          veterinario verifique la muerte y expida un certificado para que se practique una
+          necropsia. La necropsia debe realizarla un organismo oficial para que el certificado tenga
+          validez legal (ej: Facultad de veterinaria en Capital Federal, 4524-8400). Luego, agregar
+          los resultados al expediente y seguir la causa.
+        </p>
+      </p-panel>
+      <p-panel header="Consejos extra" [toggleable]="true" [collapsed]="true">
+        <ul class="m-0">
+          <li>Asegurate de llevar una copia de la Ley 14.346.</li>
+          <li>Las denuncias son personales, debe efectuarlas la persona que presencia el hecho.</li>
+          <li>
+            A la hora de denunciar vas a necesitar acreditar tu identidad con Documento Nacional de
+            Identidad, Libreta de Enrolamiento o Cívica. Si es extranjero y no posee DNI, por medio
+            de su Cédula de Identidad.
+          </li>
+        </ul>
+      </p-panel>
+    </div>
+  </div>
+</section>
