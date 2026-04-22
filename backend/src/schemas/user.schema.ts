@@ -79,6 +79,10 @@ const userSchema = new Schema<IUserDocument>(
     resetPasswordExpires: {
       type: Date,
     },
+    emailNotifications: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
