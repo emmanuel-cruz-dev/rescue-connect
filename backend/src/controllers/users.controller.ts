@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+
 import { userModel } from "../models";
 import { IUserQueryParams } from "../types";
 
@@ -116,6 +117,35 @@ class UsersController {
         status: "success",
         message: "Usuario eliminado exitosamente",
       });
+    } catch (err) {
+      next(err);
+    }
+  }
+  async updateNotificationPreference(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { id } = req.params;
+      const { emailNotifications } = req.body;
+
+      if (req.user?.userId !== id && req.user?.role !== "admin") {
+        return res.status(403).json({
+          status: "error",
+          message: "No tienes permiso para modificar esta preferencia",
+        });
+      }
+
+      if (typeof emailNotifications !== "boolean") {
+        return res.status(400).json({
+          status: "error",
+          message: "emailNotifications debe ser un valor booleano",
+        });
+      }
+
+      const user = await userModel.update(id, { emailNotifications } as any);
+      res.status(200).json({ status: "success", data: { user } });
     } catch (err) {
       next(err);
     }
