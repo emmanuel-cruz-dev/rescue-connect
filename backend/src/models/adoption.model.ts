@@ -1,7 +1,9 @@
 import { Types } from "mongoose";
+
 import adoptionRequestModel from "../schemas/adoption.schema";
 import petModel from "../schemas/pets.schema";
 import userModel from "../schemas/user.schema";
+import notificationService from "../services/notification.service";
 import {
   AdoptionStatus,
   IAdoptionQueryParams,
@@ -206,11 +208,23 @@ class AdoptionModel {
       }
     );
 
-    return await request.populate([
+    const populated = await request.populate([
       { path: "petId", select: "name type breed images" },
       { path: "userId", select: "name email" },
       { path: "reviewedBy", select: "name email" },
     ]);
+
+    notificationService
+      .notify({
+        userId: request.userId.toString(),
+        type: "adoption_approved",
+        petName: (populated.petId as any)?.name ?? "la mascota",
+        requestId: requestId.toString(),
+        adminNotes,
+      })
+      .catch((err) => console.error("Notification error:", err));
+
+    return populated;
   }
 
   async rejectRequest(
@@ -236,11 +250,23 @@ class AdoptionModel {
     }
     await request.save();
 
-    return await request.populate([
+    const populated = await request.populate([
       { path: "petId", select: "name type breed images" },
       { path: "userId", select: "name email" },
       { path: "reviewedBy", select: "name email" },
     ]);
+
+    notificationService
+      .notify({
+        userId: request.userId.toString(),
+        type: "adoption_rejected",
+        petName: (populated.petId as any)?.name ?? "la mascota",
+        requestId: requestId.toString(),
+        adminNotes,
+      })
+      .catch((err) => console.error("Notification error:", err));
+
+    return populated;
   }
 
   async cancelRequest(
@@ -264,10 +290,21 @@ class AdoptionModel {
     request.status = "cancelled";
     await request.save();
 
-    return await request.populate([
+    const populated = await request.populate([
       { path: "petId", select: "name type breed images" },
       { path: "userId", select: "name email" },
     ]);
+
+    notificationService
+      .notify({
+        userId: request.userId.toString(),
+        type: "adoption_cancelled",
+        petName: (populated.petId as any)?.name ?? "la mascota",
+        requestId: requestId.toString(),
+      })
+      .catch((err) => console.error("Notification error:", err));
+
+    return populated;
   }
 
   async getMonthlyStats(year?: number) {
