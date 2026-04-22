@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import usersController from "../controllers/users.controller";
 import { validate } from "../middlewares/validate.middleware";
 import { authenticate, authorize } from "../middlewares/auth.middleware";
@@ -65,6 +66,12 @@ router.delete(
   authorize("admin"),
   validate(userIdSchema),
   usersController.delete
+);
+
+router.patch(
+  "/:id/notifications",
+  authenticate,
+  usersController.updateNotificationPreference
 );
 
 export default router;
