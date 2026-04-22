@@ -1,0 +1,39 @@
+<mj-text font-size="22px" font-weight="700" color="#111827" padding-bottom="8px">
+  {{statusIcon}} {{title}}
+</mj-text>
+
+<mj-text color="#6b7280" font-size="14px" padding-bottom="20px">
+  {{date}}
+</mj-text>
+
+<mj-text>
+  Hola <strong>{{userName}}</strong>,
+</mj-text>
+
+<mj-text>
+  {{bodyText}}
+</mj-text>
+
+<mj-section padding="16px 0" css-class="status-section">
+  <mj-column background-color="{{statusBg}}" border-radius="8px" padding="16px">
+    <mj-text align="center" font-weight="700" color="{{statusColor}}" font-size="15px">
+      Estado: {{statusLabel}}
+    </mj-text>
+  </mj-column>
+</mj-section>
+
+<mj-text color="#374151" padding-top="10px">
+  <strong>Mascota:</strong> {{petName}}
+</mj-text>
+
+<mj-text color="#6b7280" font-size="14px" padding-bottom="24px">
+  {{adminNotes}}
+</mj-text>
+
+<mj-button href="{{adoptionsUrl}}">
+  Ver mis solicitudes
+</mj-button>
+
+<mj-text font-size="13px" color="#9ca3af" padding-top="20px">
+  Si no realizaste esta solicitud, podés ignorar este correo.
+</mj-text>
