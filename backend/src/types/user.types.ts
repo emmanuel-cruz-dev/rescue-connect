@@ -11,6 +11,7 @@ export interface IUser {
   address?: string;
   role: UserRole;
   isActive: boolean;
+  emailNotifications?: boolean;
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
 }
@@ -27,6 +28,7 @@ export interface IUserResponse extends Omit<IUser, "password"> {
   _id: string;
   createdAt: Date;
   updatedAt: Date;
+  emailNotifications?: boolean;
 }
 
 export interface IAuthTokens {
