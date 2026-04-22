@@ -20,3 +20,11 @@ export interface INotificationDocument extends INotification, Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface NotifyOptions {
+  userId: string;
+  type: NotificationType;
+  petName: string;
+  requestId?: string;
+  adminNotes?: string;
+}
