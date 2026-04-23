@@ -1,1 +1,78 @@
-<p>why-adopt works!</p>
+<section
+  class="flex items-center py-16 bg-linear-to-b from-white to-pink-50/90 dark:bg-slate-900 dark:bg-linear-to-b dark:from-slate-900 dark:to-pink-950/30"
+>
+  <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 items-center">
+    <figure
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-1000 animate-delay-200"
+      class="overflow-hidden"
+    >
+      <img
+        src="assets/images/adopt/izq.png"
+        class="w-full h-full object-cover drop-shadow-lg"
+        width="800"
+        height="800"
+        loading="lazy"
+      />
+    </figure>
+
+    <div class="flex flex-col items-center text-center gap-6">
+      <h2
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 zoom-in-90 animate-duration-1000"
+        class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white leading-tight"
+      >
+        ¿Por qué <span class="text-pink-600">adoptar</span> en vez de comprar?
+      </h2>
+
+      <div
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-0 zoom-in-90 animate-duration-1000 animate-delay-300"
+        class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4"
+      >
+        <p>
+          Cuando adoptás, le das una
+          <strong class="text-gray-800 dark:text-white">segunda oportunidad</strong>
+          a un ser lleno de amor. Cada mascota ha superado grandes desafíos y está lista para
+          encontrar una familia que la valore.
+        </p>
+        <p>
+          Adoptar es mucho más que llevar una mascota a casa: es
+          <strong class="text-gray-800 dark:text-white">salvar una vida</strong> y liberar un
+          espacio en el refugio para que otra mascota pueda ser rescatada. Es un acto de
+          <strong class="text-gray-800 dark:text-white">amor, responsabilidad y compromiso</strong>
+          que cambia la vida del animal que adoptás y la tuya.
+        </p>
+      </div>
+
+      <p-button
+        pAnimateOnScroll
+        once="true"
+        enterClass="animate-enter fade-in-10 slide-in-from-b-8 animate-duration-1000 animate-delay-500"
+        label="Adoptá ahora"
+        icon="custom__pet-icon"
+        [routerLink]="['/pets']"
+        size="large"
+        styleClass="mt-2 bg-pink-600! hover:bg-pink-700! border-pink-600! text-white! px-10!"
+      />
+    </div>
+
+    <figure
+      pAnimateOnScroll
+      once="true"
+      enterClass="animate-enter fade-in-10 slide-in-from-t-8 animate-duration-1000 animate-delay-200"
+      class="overflow-hidden"
+    >
+      <img
+        src="assets/images/adopt/der.png"
+        class="w-full h-full object-cover drop-shadow-lg"
+        width="800"
+        height="800"
+        loading="lazy"
+      />
+    </figure>
+  </div>
+</section>
