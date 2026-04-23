@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { JWTUtils } from "../utils/jwt.utils";
+
+import { JWTUtils } from "../utils";
 import { IJWTPayload } from "../types";
 
 declare global {

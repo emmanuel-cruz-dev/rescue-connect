@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-import { renderTemplate } from "../utils/renderTemplate";
+import { renderTemplate } from "../utils";
 
 class EmailService {
   private transporter: nodemailer.Transporter;
