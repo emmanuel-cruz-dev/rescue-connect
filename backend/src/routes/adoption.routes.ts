@@ -1,7 +1,7 @@
 import { Router } from "express";
+
 import adoptionController from "../controllers/adoption.controller";
-import { authenticate, authorize } from "../middlewares/auth.middleware";
-import { validate } from "../middlewares/validate.middleware";
+import { authenticate, authorize, validate } from "../middlewares";
 import {
   createAdoptionRequestSchema,
   reviewAdoptionRequestSchema,

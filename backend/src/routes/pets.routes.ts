@@ -1,8 +1,7 @@
 import { Router } from "express";
+
 import petsController from "../controllers/pets.controller";
-import { validate } from "../middlewares/validate.middleware";
-import { authenticate, authorize } from "../middlewares/auth.middleware";
-import { upload } from "../middlewares/upload.middleware";
+import { validate, authenticate, authorize, upload } from "../middlewares";
 import {
   createPetSchema,
   updatePetSchema,
