@@ -9,3 +9,4 @@ export * from './scroll-to-top/scroll-to-top';
 export * from './section-header/section-header';
 export * from './sidebar/sidebar';
 export * from './social-links-item/social-links-item';
+export * from './why-adopt/why-adopt';
