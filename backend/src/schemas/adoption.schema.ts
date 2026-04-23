@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { IAdoptionRequestDocument } from "../types";
 
 const adoptionRequestSchema = new mongoose.Schema<IAdoptionRequestDocument>(
