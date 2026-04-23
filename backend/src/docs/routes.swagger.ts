@@ -27,6 +27,7 @@ import {
   GetAdoptionRequestsQuerySchema,
   MonthlyStatsQuerySchema,
 } from "../validators/adoption.validator";
+import { MongoIdSchema } from "../validators/shared.validator";
 
 /* ========= SYSTEM ========= */
 
@@ -1018,5 +1019,82 @@ registry.registerPath({
     },
     401: { description: "No autenticado" },
     403: { description: "No autorizado (requiere rol admin)" },
+  },
+});
+
+/* ========= NOTIFICATIONS ========= */
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/notifications",
+  tags: ["Notifications"],
+  summary: "Obtener notificaciones",
+  description: "Obtiene todas las notificaciones del usuario autenticado",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: { description: "Notificaciones obtenidas exitosamente" },
+    401: { description: "No autenticado" },
+  },
+});
+
+registry.registerPath({
+  method: "get",
+  path: "/api/v1/notifications/unread-count",
+  tags: ["Notifications"],
+  summary: "Obtener conteo de no leídas",
+  description: "Obtiene la cantidad de notificaciones no leídas del usuario autenticado",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: { description: "Conteo obtenido exitosamente" },
+    401: { description: "No autenticado" },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/api/v1/notifications/read-all",
+  tags: ["Notifications"],
+  summary: "Marcar todas como leídas",
+  description: "Marca todas las notificaciones del usuario como leídas",
+  security: [{ bearerAuth: [] }],
+  responses: {
+    200: { description: "Notificaciones marcadas como leídas" },
+    401: { description: "No autenticado" },
+  },
+});
+
+registry.registerPath({
+  method: "patch",
+  path: "/api/v1/notifications/{id}/read",
+  tags: ["Notifications"],
+  summary: "Marcar notificación como leída",
+  description: "Marca una notificación específica como leída",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: MongoIdSchema,
+  },
+  responses: {
+    200: { description: "Notificación marcada como leída" },
+    400: { description: "ID inválido" },
+    401: { description: "No autenticado" },
+    404: { description: "Notificación no encontrada" },
+  },
+});
+
+registry.registerPath({
+  method: "delete",
+  path: "/api/v1/notifications/{id}",
+  tags: ["Notifications"],
+  summary: "Eliminar notificación",
+  description: "Elimina una notificación específica",
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: MongoIdSchema,
+  },
+  responses: {
+    200: { description: "Notificación eliminada exitosamente" },
+    400: { description: "ID inválido" },
+    401: { description: "No autenticado" },
+    404: { description: "Notificación no encontrada" },
   },
 });
