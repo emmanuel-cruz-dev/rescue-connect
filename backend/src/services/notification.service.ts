@@ -1,7 +1,7 @@
 import userSchema from "../schemas/user.schema";
 import notificationModel from "../models/notification.model";
-import socketService from "../services/socket.service";
-import emailService from "../services/email.service";
+import socketService from "./socket.service";
+import emailService from "./email.service";
 import { NotifyOptions, NotificationType } from "../types";
 
 const notificationTitles: Record<NotificationType, string> = {
