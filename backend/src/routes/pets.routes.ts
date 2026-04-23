@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import petsController from "../controllers/pets.controller";
+import { petsController } from "../controllers";
 import { validate, authenticate, authorize, upload } from "../middlewares";
 import {
   createPetSchema,
