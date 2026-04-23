@@ -13,12 +13,12 @@ export class Footer {
   footerLinks = {
     adoption: [
       { label: 'Cómo adoptar', url: '/how-it-works' },
+      { label: 'Sobre el proyecto', url: '/about' },
       { label: 'Requisitos de adopción', url: '/requirements' },
-      { label: 'Ver mascotas disponibles', url: '/pets' },
     ],
     organization: [
       { label: 'Salvá vidas', url: '/save-lives' },
-      { label: 'Sobre el proyecto', url: '/about' },
+      { label: 'Denuncia el maltrato', url: '/report' },
       { label: 'Refugios recomendados', url: '/shelters' },
     ],
     help: [
