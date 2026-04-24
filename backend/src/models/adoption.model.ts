@@ -1,8 +1,6 @@
 import { Types } from "mongoose";
 
-import adoptionRequestModel from "../schemas/adoption.schema";
-import petModel from "../schemas/pets.schema";
-import userModel from "../schemas/user.schema";
+import { adoptionRequestModel, petModel, userModel } from "../schemas";
 import notificationService from "../services/notification.service";
 import {
   AdoptionStatus,

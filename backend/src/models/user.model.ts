@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import userModel from "../schemas/user.schema";
+
+import { userModel, adoptionRequestModel, petModel } from "../schemas";
 import authModel from "./auth.model";
-import adoptionRequestModel from "../schemas/adoption.schema";
 import {
   IUser,
   IUserQueryParams,
@@ -9,7 +9,6 @@ import {
   IUserResponse,
   IPaginatedResponse,
 } from "../types";
-import petsModel from "../schemas/pets.schema";
 
 const PUBLIC_FIELDS = "-password";
 
@@ -127,10 +126,7 @@ class UsersModel {
       { $set: { userId: null } }
     );
 
-    await petsModel.updateMany(
-      { adoptedBy: id },
-      { $set: { adoptedBy: null } }
-    );
+    await petModel.updateMany({ adoptedBy: id }, { $set: { adoptedBy: null } });
 
     const user = await userModel
       .findByIdAndDelete({ _id: id })

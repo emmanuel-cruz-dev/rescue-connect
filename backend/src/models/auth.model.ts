@@ -1,6 +1,4 @@
-import userModel from "../schemas/user.schema";
-import petModel from "../schemas/pets.schema";
-import adoptionRequestModel from "../schemas/adoption.schema";
+import { userModel, petModel, adoptionRequestModel } from "../schemas";
 import { IUser, IUserDocument } from "../types";
 
 class AuthModel {

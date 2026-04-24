@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
-import petModel from "../schemas/pets.schema";
+
+import { petModel } from "../schemas";
 import cloudinaryService from "../services/cloudinary.service";
 import {
   IPet,

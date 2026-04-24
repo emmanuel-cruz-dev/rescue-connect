@@ -1,12 +1,10 @@
 import { Types } from "mongoose";
 
-import notificationModel from "../schemas/notification.schema";
+import { notificationModel } from "../schemas";
 import { INotificationDocument, INotification } from "../types";
 
 class NotificationModel {
-  async create(
-    data: INotification
-  ): Promise<INotificationDocument> {
+  async create(data: INotification): Promise<INotificationDocument> {
     return notificationModel.create(data);
   }
 
