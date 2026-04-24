@@ -13,6 +13,7 @@ export interface IUser {
   updatedAt?: string;
   resetPasswordToken?: string;
   resetPasswordExpires?: Date;
+  emailNotifications?: boolean;
 }
 
 export interface UserFilters {
