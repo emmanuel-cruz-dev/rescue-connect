@@ -1,5 +1,5 @@
 import userSchema from "../schemas/user.schema";
-import notificationModel from "../models/notification.model";
+import { notificationModel } from "../models";
 import socketService from "./socket.service";
 import emailService from "./email.service";
 import { NotifyOptions, NotificationType } from "../types";

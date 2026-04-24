@@ -3,7 +3,8 @@ import "./docs/routes.swagger";
 
 import express from "express";
 import cors from "cors";
-import { errorHandler } from "./middlewares/error.middleware";
+
+import { errorHandler } from "./middlewares";
 import apiRouter from "./routes";
 
 const app = express();
