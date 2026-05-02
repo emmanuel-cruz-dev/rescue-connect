@@ -11,6 +11,7 @@ import { PetFilters as PetFiltersModel } from '../../../../core/models';
   selector: 'app-pet-filters',
   imports: [CommonModule, FormsModule, LucideAngularModule, PRIMENG_IMPORTS],
   templateUrl: './pet-filters.html',
+  styleUrls: ['./pet-filters.css'],
 })
 export class PetFilters implements OnDestroy {
   readonly Fish = FishIcon;
