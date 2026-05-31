@@ -18,7 +18,7 @@ import {
   ImageFallbackDirective,
   ClickStopPropagationDirective,
   PRIMENG_IMPORTS,
-} from '../../../../shared';
+} from '@shared';
 import { IPet } from '../../../../core/models';
 import { PetType } from '../../../../core/enums/pet-type.enum';
 
