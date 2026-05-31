@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AdoptionFlowService } from '../../features/adoptions/services/adoption-flow.service';
-import { Navbar, Footer, AdoptionDialog } from '../../shared';
+import { Navbar, Footer, AdoptionDialog } from '@shared';
 
 @Component({
   selector: 'app-main-layout',
