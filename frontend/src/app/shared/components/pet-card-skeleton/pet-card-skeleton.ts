@@ -8,7 +8,7 @@ import { PRIMENG_IMPORTS } from '../../primeng/primeng.imports';
   host: { class: 'contents' },
 })
 export class PetCardSkeleton {
-  @Input() count = 6;
+  @Input() count = 1;
   skeletons = Array(this.count).fill(0);
 
   ngOnChanges(): void {
