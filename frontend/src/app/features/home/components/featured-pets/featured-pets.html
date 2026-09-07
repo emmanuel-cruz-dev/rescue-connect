@@ -10,7 +10,9 @@
 
     @if (loading()) {
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-      <app-pet-card-skeleton [count]="3" />
+      <app-pet-card-skeleton />
+      <app-pet-card-skeleton class="hidden sm:block" />
+      <app-pet-card-skeleton class="hidden xl:block" />
     </div>
     } @else {
     <div
